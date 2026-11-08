@@ -1,0 +1,32 @@
+# /etc/netplan/50-lab.yaml  -  srv01.corp.lab (Ubuntu 22.04)
+# enp0s3 : VirtualBox NAT, temporary internet access for apt (guide section 6)
+# enp0s8 : lab NIC, VLAN 50 access port on HQ-SW1. It is a member of bridge
+#          br-vlan50 so that the namespace emulation (testing/emulation) can
+#          attach the HQ switch to the same L2 segment.
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: true
+      dhcp4-overrides:
+        use-dns: false        # use the lab DNS (BIND9 on this host) instead
+        route-metric: 200
+    enp0s8:
+      dhcp4: false
+  bridges:
+    br-vlan50:
+      interfaces: [enp0s8]
+      addresses: [192.168.50.10/24]
+      parameters:
+        stp: false
+        forward-delay: 0
+      routes:
+        # all internal lab networks are reached through HQ-R1 (VLAN 50 gateway)
+        - to: 192.168.0.0/16
+          via: 192.168.50.1
+        - to: 10.0.12.0/30
+          via: 192.168.50.1
+      nameservers:
+        addresses: [127.0.0.1]
+        search: [corp.lab]

@@ -1,0 +1,11 @@
+// /etc/bind/named.conf.local  -  private lab zones
+zone "corp.lab" {
+    type primary;
+    file "/etc/bind/zones/db.corp.lab";
+};
+
+// One reverse zone covers every 192.168.x.y lab address
+zone "168.192.in-addr.arpa" {
+    type primary;
+    file "/etc/bind/zones/db.192.168";
+};

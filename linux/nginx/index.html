@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CORP Intranet</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 42rem; margin: 3rem auto; padding: 0 1rem; color: #1f2933; }
+  h1 { font-size: 1.6rem; margin-bottom: .25rem; }
+  p.sub { color: #52606d; margin-top: 0; }
+  table { border-collapse: collapse; width: 100%; margin-top: 1.5rem; }
+  th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid #d9e2ec; }
+</style>
+</head>
+<body>
+  <h1>CORP Intranet &mdash; srv01.corp.lab</h1>
+  <p class="sub">Served by Nginx on 192.168.50.10 (HQ VLAN 50, Servers)</p>
+  <table>
+    <tr><th>Service</th><th>Address</th></tr>
+    <tr><td>Web (this page)</td><td>http://192.168.50.10 / http://www.corp.lab</td></tr>
+    <tr><td>DNS (BIND9, zone corp.lab)</td><td>192.168.50.10 udp/tcp 53</td></tr>
+    <tr><td>DHCP (Kea, relayed)</td><td>192.168.50.10 udp 67</td></tr>
+    <tr><td>Syslog (rsyslog)</td><td>192.168.50.10 udp/tcp 514</td></tr>
+    <tr><td>SNMPv3 agent</td><td>192.168.50.10 udp 161</td></tr>
+  </table>
+</body>
+</html>

@@ -1,0 +1,24 @@
+// /etc/bind/named.conf.options  -  BIND9 on srv01.corp.lab (192.168.50.10)
+acl "lab-nets" {
+    127.0.0.0/8;
+    192.168.0.0/16;     // every lab VLAN (10,20,30,40,50,60,99,199)
+    10.0.12.0/30;       // WAN
+    10.0.2.0/24;        // VirtualBox NAT (Windows host test access)
+};
+
+options {
+    directory "/var/cache/bind";
+
+    recursion yes;
+    allow-recursion { lab-nets; };
+    allow-query { lab-nets; };
+    allow-transfer { none; };
+
+    forwarders { 1.1.1.1; 9.9.9.9; };
+    forward only;
+    dnssec-validation auto;
+
+    listen-on { 127.0.0.1; 192.168.50.10; 10.0.2.15; };
+    listen-on-v6 { none; };
+    version "not disclosed";
+};

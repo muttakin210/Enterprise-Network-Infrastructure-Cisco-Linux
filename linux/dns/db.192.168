@@ -1,0 +1,17 @@
+; /etc/bind/zones/db.192.168  -  reverse zone 168.192.in-addr.arpa
+; Record names are "<host>.<third octet>" (e.g. 10.50 = 192.168.50.10)
+$TTL 3600
+@       IN  SOA ns1.corp.lab. hostmaster.corp.lab. (
+            2026110901 3600 900 604800 300 )
+        IN  NS  ns1.corp.lab.
+
+10.50   IN  PTR srv01.corp.lab.
+1.50    IN  PTR gw-servers.corp.lab.
+1.99    IN  PTR hq-r1.corp.lab.
+2.99    IN  PTR hq-sw1.corp.lab.
+1.199   IN  PTR br-r2.corp.lab.
+2.199   IN  PTR br-sw1.corp.lab.
+1.10    IN  PTR gw-admin.corp.lab.
+1.20    IN  PTR gw-it.corp.lab.
+1.30    IN  PTR gw-hr.corp.lab.
+1.40    IN  PTR gw-finance.corp.lab.

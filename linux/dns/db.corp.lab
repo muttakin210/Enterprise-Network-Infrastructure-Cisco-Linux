@@ -1,0 +1,30 @@
+; /etc/bind/zones/db.corp.lab
+$TTL 3600
+@       IN  SOA ns1.corp.lab. hostmaster.corp.lab. (
+            2026110901 ; serial (YYYYMMDDnn)
+            3600       ; refresh
+            900        ; retry
+            604800     ; expire
+            300 )      ; negative cache TTL
+        IN  NS  ns1.corp.lab.
+
+; --- servers (VLAN 50) ---
+ns1         IN  A       192.168.50.10
+srv01       IN  A       192.168.50.10
+www         IN  CNAME   srv01
+intranet    IN  CNAME   srv01
+syslog      IN  CNAME   srv01
+nms         IN  CNAME   srv01
+
+; --- network devices (management addresses) ---
+hq-r1       IN  A       192.168.99.1
+hq-sw1      IN  A       192.168.99.2
+br-r2       IN  A       192.168.199.1
+br-sw1      IN  A       192.168.199.2
+
+; --- gateways ---
+gw-admin    IN  A       192.168.10.1
+gw-it       IN  A       192.168.20.1
+gw-servers  IN  A       192.168.50.1
+gw-hr       IN  A       192.168.30.1
+gw-finance  IN  A       192.168.40.1
