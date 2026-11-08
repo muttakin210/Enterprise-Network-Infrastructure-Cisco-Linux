@@ -1,0 +1,7 @@
+ansible_connection: ansible.netcommon.network_cli
+ansible_network_os: cisco.ios.ios
+ansible_user: netadmin
+ansible_password: "{{ vault_password }}"
+ansible_become: true
+ansible_become_method: enable
+ansible_become_password: "{{ vault_enable_password }}"

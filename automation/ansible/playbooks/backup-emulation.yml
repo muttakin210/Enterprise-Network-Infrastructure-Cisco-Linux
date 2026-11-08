@@ -1,0 +1,51 @@
+---
+# Same workflow as backup.yml, against the namespace emulation:
+#   ansible-playbook -i inventory/emulation.yml playbooks/backup-emulation.yml
+- name: Back up emulated router configurations (FRR)
+  hosts: emulated_routers
+  gather_facts: false
+  vars:
+    backup_dir: "{{ playbook_dir }}/../backups"
+  tasks:
+    - name: Read running configuration
+      ansible.builtin.command: vtysh -N {{ frr_ns }} -c "show running-config"
+      register: running
+      changed_when: false
+
+    - name: Read OSPF neighbors
+      ansible.builtin.command: vtysh -N {{ frr_ns }} -c "show ip ospf neighbor"
+      register: ospf
+      changed_when: false
+
+    - name: OSPF adjacency must be Full
+      ansible.builtin.assert:
+        that: "'Full' in ospf.stdout"
+        fail_msg: "{{ inventory_hostname }}: OSPF neighbor not Full"
+
+    - name: Save raw backup on the controller
+      ansible.builtin.copy:
+        dest: "{{ backup_dir }}/raw/{{ inventory_hostname }}.cfg"
+        content: "{{ running.stdout }}\n"
+        mode: "0600"
+      delegate_to: localhost
+
+    - name: Write sanitized copy
+      ansible.builtin.include_tasks: tasks/sanitize.yml
+
+- name: Back up emulated switch VLAN tables
+  hosts: emulated_switches
+  gather_facts: false
+  vars:
+    backup_dir: "{{ playbook_dir }}/../backups"
+  tasks:
+    - name: Read VLAN membership
+      ansible.builtin.command: bridge vlan show
+      register: vlans
+      changed_when: false
+
+    - name: Save VLAN table
+      ansible.builtin.copy:
+        dest: "{{ backup_dir }}/sanitized/{{ inventory_hostname }}-vlans.txt"
+        content: "{{ vlans.stdout }}\n"
+        mode: "0644"
+      delegate_to: localhost

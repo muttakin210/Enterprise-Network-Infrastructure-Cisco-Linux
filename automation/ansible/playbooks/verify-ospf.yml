@@ -1,0 +1,28 @@
+---
+# Assert that the WAN OSPF adjacency is FULL and remote LANs are learned.
+- name: Verify OSPF on Cisco routers
+  hosts: cisco_routers
+  gather_facts: false
+  tasks:
+    - name: OSPF neighbor must be FULL
+      cisco.ios.ios_command:
+        commands: show ip ospf neighbor
+        wait_for: result[0] contains FULL
+        retries: 5
+        interval: 5
+      register: nbr
+
+    - name: Collect OSPF routes
+      cisco.ios.ios_command:
+        commands: show ip route ospf
+      register: routes
+
+    - name: Remote site subnets are present
+      ansible.builtin.assert:
+        that: item in routes.stdout[0]
+        fail_msg: "{{ item }} missing from {{ inventory_hostname }} routing table"
+      loop: "{{ expected_remote_subnets[inventory_hostname] }}"
+  vars:
+    expected_remote_subnets:
+      HQ-R1: [192.168.30.0, 192.168.40.0, 192.168.199.0]
+      BR-R2: [192.168.10.0, 192.168.20.0, 192.168.50.0, 192.168.99.0]

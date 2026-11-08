@@ -1,0 +1,18 @@
+# Cisco devices (guide section 7). Credentials come from Ansible Vault
+# (group_vars/cisco_ios/vault.yml, encrypted, never committed in clear text).
+all:
+  children:
+    cisco_ios:
+      children:
+        cisco_routers:
+          hosts:
+            HQ-R1:
+              ansible_host: 192.168.99.1
+            BR-R2:
+              ansible_host: 192.168.199.1
+        cisco_switches:
+          hosts:
+            HQ-SW1:
+              ansible_host: 192.168.99.2
+            BR-SW1:
+              ansible_host: 192.168.199.2

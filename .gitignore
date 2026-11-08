@@ -1,2 +1,6 @@
 .lab-local/
 *.pdf
+automation/ansible/backups/raw/
+automation/ansible/inventory/group_vars/*/vault.yml
+__pycache__/
+*.retry

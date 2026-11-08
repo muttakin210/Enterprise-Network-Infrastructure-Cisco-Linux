@@ -1,0 +1,19 @@
+---
+# Back up Cisco running configurations (guide section 7), then write a
+# sanitized copy that is safe to publish (secrets replaced by placeholders).
+#   ansible-playbook playbooks/backup.yml --ask-vault-pass
+- name: Back up Cisco running configurations
+  hosts: cisco_ios
+  gather_facts: false
+  vars:
+    backup_dir: "{{ playbook_dir }}/../backups"
+  tasks:
+    - name: Save running configuration backup
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          dir_path: "{{ backup_dir }}/raw"
+          filename: "{{ inventory_hostname }}.cfg"
+
+    - name: Write sanitized copy
+      ansible.builtin.include_tasks: tasks/sanitize.yml

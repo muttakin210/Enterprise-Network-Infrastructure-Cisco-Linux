@@ -1,0 +1,19 @@
+# Namespace emulation (testing/emulation/netns-lab.sh): the same device names
+# and management addresses, reached over SSH with the netadmin key.
+all:
+  children:
+    emulated:
+      vars:
+        ansible_connection: ssh
+        ansible_user: netadmin
+        ansible_ssh_private_key_file: ~/.ssh/id_ed25519
+        ansible_python_interpreter: /usr/bin/python3
+      children:
+        emulated_routers:
+          hosts:
+            HQ-R1: { ansible_host: 192.168.99.1,  frr_ns: hq-r1 }
+            BR-R2: { ansible_host: 192.168.199.1, frr_ns: br-r2 }
+        emulated_switches:
+          hosts:
+            HQ-SW1: { ansible_host: 192.168.99.2,  bridge_ns: hq-sw1 }
+            BR-SW1: { ansible_host: 192.168.199.2, bridge_ns: br-sw1 }

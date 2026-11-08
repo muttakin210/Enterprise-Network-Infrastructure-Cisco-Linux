@@ -1,0 +1,23 @@
+---
+# Replace secrets in a raw backup and store it under backups/sanitized/.
+# Expects: backup_dir, inventory_hostname. Runs on the controller.
+- name: Read raw backup
+  ansible.builtin.slurp:
+    src: "{{ backup_dir }}/raw/{{ inventory_hostname }}.cfg"
+  register: raw_cfg
+  delegate_to: localhost
+
+- name: Store sanitized backup
+  ansible.builtin.copy:
+    dest: "{{ backup_dir }}/sanitized/{{ inventory_hostname }}.cfg"
+    mode: "0644"
+    content: >-
+      {{ raw_cfg.content | b64decode
+         | regex_replace('(?m)^(enable secret|enable password)\s.*$', '\1 <REMOVED>')
+         | regex_replace('(?m)^(username \S+ .*(?:secret|password))\s.*$', '\1 <REMOVED>')
+         | regex_replace('(?m)^(snmp-server user \S+ \S+ v3).*$', '\1 auth sha <REMOVED> priv aes 128 <REMOVED>')
+         | regex_replace('(?m)^(snmp-server community)\s.*$', '\1 <REMOVED>')
+         | regex_replace('(?m)^( ?(?:password|key-string|ip ospf message-digest-key \d+ md5))\s.*$', '\1 <REMOVED>')
+         | regex_replace('(?m)^(\s*password\s+\d?\s*).*$', '\1<REMOVED>')
+         | regex_replace('(?ms)^crypto pki certificate chain.*?^!$', 'crypto pki certificate chain <REMOVED>\n!') }}
+  delegate_to: localhost

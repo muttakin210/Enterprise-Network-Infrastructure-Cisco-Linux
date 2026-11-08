@@ -1,0 +1,7 @@
+name,ip,site,role
+HQ-R1,192.168.99.1,HQ,router
+HQ-SW1,192.168.99.2,HQ,switch
+BR-R2,192.168.199.1,Branch,router
+BR-SW1,192.168.199.2,Branch,switch
+GW-SERVERS,192.168.50.1,HQ,gateway
+SRV01,192.168.50.10,HQ,server
