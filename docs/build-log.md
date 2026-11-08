@@ -15,6 +15,7 @@ are the most useful part of a lab write-up.
 | Namespace emulation of the topology (FRR OSPF, dhcrelay, nftables ACLs, sshd, snmpd) | ✅ OSPF Full |
 | Test plan `run-tests.sh` | first run 9/15 → after the fixes below, **15/15** |
 | Troubleshooting challenges `run-challenges.sh` | **10/10** faults diagnosed and fixed |
+| Packet Tracer 9.0 build ([enterprise-lab.pkt](../cisco/packet-tracer/enterprise-lab.pkt)): 9 devices, generated configs, SRV01 services | ✅ DHCP relay, OSPF, ACLs, DNS, web, Syslog verified ([results](../cisco/packet-tracer/README.md#build-result-2026-11-09)) |
 
 ## Problems found and fixed
 
@@ -30,8 +31,9 @@ are the most useful part of a lab write-up.
 | 8 | Ansible backup failed: "Destination directory … does not exist" (T12) | The playbook assumed `backups/raw` existed | Added a task that creates `raw/` and `sanitized/` on the controller. |
 | 9 | Checks failed although the output looked right (T14) | `set -o pipefail` plus `cmd \| grep -q`: grep exits at the first match, cmd gets SIGPIPE, and the pipeline returns non-zero | Removed `pipefail` from the test scripts. |
 
+| 10 | Packet Tracer rejected lines of the pasted configs (`... log` on ACL entries, `logging trap`, `logging buffered`); the ACLs ended up without their final `deny` | PT's IOS parser lacks these keywords, and a rejected line is skipped silently in a paste | `make_pt_configs.py` drops or rewrites them; `show access-lists` is checked after every paste. |
+| 11 | "Invalid DNS entered" on SRV01 | An earlier keystroke batch had already typed into the field, so the address was entered twice | Clear the field fully, then enter the address once. |
+
 ## Not done
 
-- Driving Packet Tracer's GUI: automated control was not granted in this session. The topology,
-  generated configs and verification checklist are ready in [cisco/packet-tracer](../cisco/packet-tracer/).
 - LibreNMS dashboard (documented extension), WireGuard (optional in the guide).

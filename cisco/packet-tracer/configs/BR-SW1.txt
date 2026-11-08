@@ -87,6 +87,5 @@ line vty 0 4
  exec-timeout 15 0
 !
 logging host 192.168.50.10
-logging trap informational
 end
 write memory

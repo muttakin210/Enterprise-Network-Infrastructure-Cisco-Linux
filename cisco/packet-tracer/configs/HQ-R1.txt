@@ -71,7 +71,7 @@ ip access-list extended MGMT-PROTECT
  permit ip 192.168.10.0 0.0.0.255 192.168.99.0 0.0.0.255
  permit ip host 192.168.50.10 192.168.99.0 0.0.0.255
  permit ip 192.168.199.0 0.0.0.255 192.168.99.0 0.0.0.255
- deny   ip any any log
+ deny   ip any any
 !
 ip access-list standard VTY-ADMIN
  remark Who may open SSH to this router
@@ -79,7 +79,7 @@ ip access-list standard VTY-ADMIN
  permit 192.168.99.0 0.0.0.255
  permit 192.168.199.0 0.0.0.255
  permit host 192.168.50.10
- deny   any log
+ deny   any
 !
 ! ---------- SSH v2 only ----------
 crypto key generate rsa general-keys modulus 2048
@@ -99,8 +99,6 @@ line vty 0 4
 !
 ! ---------- Syslog ----------
 logging host 192.168.50.10
-logging trap informational
-logging buffered informational
 !
 ! ---------- SNMPv3 (authPriv) ----------
 !

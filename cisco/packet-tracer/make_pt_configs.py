@@ -7,7 +7,8 @@ Changes applied (and why):
   * unused-port range rewritten for the 2960
   * 'switchport trunk encapsulation dot1q' removed (2960 is dot1q-only)
   * SNMPv3 lines removed (Packet Tracer has no SNMPv3 agent; SNMP is tested on Ubuntu)
-  * 'logging source-interface' and buffered size removed (not in PT's parser)
+  * 'logging source-interface', 'logging trap', 'logging buffered' removed (not in PT's parser)
+  * ' log' removed from ACL deny entries (PT does not support ACL logging)
   * 'crypto key generate rsa modulus N' -> PT form 'crypto key generate rsa general-keys modulus N'
 Placeholders (<ENABLE_SECRET> etc.) are kept; substitute lab-only values when pasting.
 """
@@ -32,6 +33,8 @@ DROP = [
     r"^\s*snmp-server .*$",
     r"^ip access-list standard SNMP-NMS\s*$",
     r"^\s*logging source-interface .*$",
+    r"^\s*logging trap .*$",          # PT rejects it; IOS default trap level is informational
+    r"^\s*logging buffered .*$",
 ]
 
 
@@ -47,7 +50,7 @@ def convert(text: str, name: str, is_switch: bool) -> str:
             continue
         if any(re.match(p, line) for p in DROP):
             continue
-        line = re.sub(r"^logging buffered \d+ (\w+)", r"logging buffered \1", line)
+        line = re.sub(r"^(\s*deny\s.*?)\s+log$", r"\1", line)   # PT ACLs have no 'log' keyword
         line = re.sub(r"crypto key generate rsa modulus (\d+)",
                       r"crypto key generate rsa general-keys modulus \1", line)
         if is_switch:

@@ -67,7 +67,8 @@ cisco/
   switches/      HQ-SW1.cfg, BR-SW1.cfg     (IOSvL2, sanitized)
   ospf/          OSPF design, expected output, WAN-failure procedure
   security/      control matrix, optional guest VLAN 60 + GUEST-FILTER
-  packet-tracer/ PT 2911/2960 variants (generated), build guide and checklist
+  packet-tracer/ enterprise-lab.pkt, PT 2911/2960 configs (generated), build guide + results
+screenshots/     Packet Tracer verification evidence
 linux/
   setup-server.sh  one idempotent script that builds srv01 from this repo
   netplan/ dns/ dhcp/ nginx/ firewall/ syslog/ snmp/
@@ -88,7 +89,7 @@ docs/            build log, limitations, CV entry
 | Layer | Tooling on this PC (Windows 11, 16 GB) |
 |---|---|
 | Linux server | VirtualBox 7.2 VM `ENL-Ubuntu-Server` — Ubuntu Server 22.04.5, 2 vCPU / 2 GB / 30 GB dynamic disk, unattended install |
-| Cisco IOS configs | Written for IOSv/IOSvL2. Packet Tracer 9.0 (ISR 2911 + Catalyst 2960) variants are generated, with a build checklist — [cisco/packet-tracer](cisco/packet-tracer/) |
+| Cisco IOS configs | Written for IOSv/IOSvL2. Packet Tracer 9.0 (ISR 2911 + Catalyst 2960) variants are generated and built in [`enterprise-lab.pkt`](cisco/packet-tracer/enterprise-lab.pkt): DHCP relay, OSPF, ACLs, DNS, web and Syslog verified, with [screenshots](screenshots/packet-tracer/) — [cisco/packet-tracer](cisco/packet-tracer/) |
 | End-to-end routed tests | Namespace emulation on the VM: VLAN-aware bridges, 802.1Q subinterfaces, FRR OSPF, `dhcrelay`, nftables ACLs — [testing/emulation](testing/emulation/) |
 
 **Why emulation as well as Packet Tracer:** GNS3 needs licensed Cisco images, which this
@@ -124,15 +125,15 @@ with raw command output for every test, and
 
 ## Build log
 
-[docs/build-log.md](docs/build-log.md) records how the lab was built and nine real problems hit
+[docs/build-log.md](docs/build-log.md) records how the lab was built and eleven real problems hit
 along the way, each with its root cause and fix (for example, why branch DHCP failed until UFW
 allowed relayed requests from the WAN address).
 
 ## Known limitations
 
-See [docs/limitations.md](docs/limitations.md). In short: no licensed IOS images, so routed
-tests run on the Linux emulation and the IOS configs are checked in Packet Tracer (which has no
-SNMPv3). Packet Tracer cannot attach to the VM. LibreNMS is documented as an extension, and the
+See [docs/limitations.md](docs/limitations.md). In short: no licensed IOS images, so the full
+test plan runs on the Linux emulation, and the IOS configs are built and verified in Packet Tracer
+(which has no SNMPv3). Packet Tracer cannot attach to the VM. LibreNMS is documented as an extension, and the
 SNMPv3 polling it relies on is tested directly.
 
 ## Security of this repository
