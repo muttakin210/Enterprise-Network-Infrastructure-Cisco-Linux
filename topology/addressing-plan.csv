@@ -1,0 +1,11 @@
+Site,VLAN,Name,Purpose,Subnet,Gateway,Gateway device,Notes
+HQ,10,ADMIN,Administration,192.168.10.0/24,192.168.10.1,HQ-R1 G0/0.10,DHCP via relay to 192.168.50.10
+HQ,20,IT,IT department,192.168.20.0/24,192.168.20.1,HQ-R1 G0/0.20,DHCP via relay; blocked from Finance and management
+HQ,50,SERVERS,Servers,192.168.50.0/24,192.168.50.1,HQ-R1 G0/0.50,Ubuntu srv01 = 192.168.50.10 (static)
+HQ,99,MANAGEMENT,Device management,192.168.99.0/24,192.168.99.1,HQ-R1 G0/0.99,HQ-SW1 SVI = 192.168.99.2
+Branch,30,HR,Human resources,192.168.30.0/24,192.168.30.1,BR-R2 G0/0.30,DHCP via relay; blocked from Finance
+Branch,40,FINANCE,Finance,192.168.40.0/24,192.168.40.1,BR-R2 G0/0.40,Protected by FINANCE-PROTECT
+Branch,199,MANAGEMENT,Device management,192.168.199.0/24,192.168.199.1,BR-R2 G0/0.199,BR-SW1 SVI = 192.168.199.2
+WAN,-,R1-R2,Point-to-point link,10.0.12.0/30,-,HQ-R1 G0/1 .1 / BR-R2 G0/1 .2,OSPF area 0 point-to-point
+HQ,60,GUEST,Guest (optional extension),192.168.60.0/24,192.168.60.1,HQ-R1 G0/0.60,Only after VLAN 60 is built
+Both,999,PARKING-UNUSED,Native VLAN / unused ports,-,-,-,No hosts; unused ports shut
