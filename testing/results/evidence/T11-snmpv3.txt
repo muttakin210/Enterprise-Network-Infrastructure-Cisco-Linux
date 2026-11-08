@@ -1,0 +1,51 @@
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
+SNMPv2-MIB::sysName.0 = STRING: HQ-R1
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (14800) 0:02:28.00
+SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ
+
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.199.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
+SNMPv2-MIB::sysName.0 = STRING: BR-R2
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (14801) 0:02:28.01
+SNMPv2-MIB::sysLocation.0 = STRING: CORP-BRANCH
+
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.2 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
+SNMPv2-MIB::sysName.0 = STRING: HQ-SW1
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (14806) 0:02:28.06
+SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ
+
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.199.2 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
+SNMPv2-MIB::sysName.0 = STRING: BR-SW1
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (14808) 0:02:28.08
+SNMPv2-MIB::sysLocation.0 = STRING: CORP-BRANCH
+
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 127.0.0.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
+SNMPv2-MIB::sysName.0 = STRING: srv01.corp.lab
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (16978) 0:02:49.78
+SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ, server room, VLAN 50
+
+$ snmpwalk -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.1 IF-MIB::ifDescr
+IF-MIB::ifDescr.1 = STRING: lo
+IF-MIB::ifDescr.2 = STRING: g0-0
+IF-MIB::ifDescr.3 = STRING: g0-1
+IF-MIB::ifDescr.4 = STRING: g0-0.10
+IF-MIB::ifDescr.5 = STRING: g0-0.20
+IF-MIB::ifDescr.6 = STRING: g0-0.50
+IF-MIB::ifDescr.7 = STRING: g0-0.99
+
+$ snmpwalk -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.1 IF-MIB::ifOperStatus
+IF-MIB::ifOperStatus.1 = INTEGER: up(1)
+IF-MIB::ifOperStatus.2 = INTEGER: up(1)
+IF-MIB::ifOperStatus.3 = INTEGER: up(1)
+IF-MIB::ifOperStatus.4 = INTEGER: up(1)
+IF-MIB::ifOperStatus.5 = INTEGER: up(1)
+IF-MIB::ifOperStatus.6 = INTEGER: up(1)
+IF-MIB::ifOperStatus.7 = INTEGER: up(1)
+
+## negative test: SNMPv2c community 'public' must be refused
+$ snmpget -v2c -c public -t 1 -r 0 192.168.99.1 SNMPv2-MIB::sysName.0
+Timeout: No Response from 192.168.99.1.
+
+## negative test: wrong v3 auth key must fail
+$ snmpget -v3 -l authPriv -u monitor -a SHA -A wrongpassword1 -x AES -X wrongpassword2 -t 1 -r 0 192.168.99.1 SNMPv2-MIB::sysName.0
+snmpget: Authentication failure (incorrect password, community or key)
+

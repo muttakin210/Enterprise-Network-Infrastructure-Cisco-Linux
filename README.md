@@ -67,7 +67,7 @@ cisco/
   switches/      HQ-SW1.cfg, BR-SW1.cfg     (IOSvL2, sanitized)
   ospf/          OSPF design, expected output, WAN-failure procedure
   security/      control matrix, optional guest VLAN 60 + GUEST-FILTER
-  packet-tracer/ PT 2911/2960 variants (generated), .pkt topology, notes
+  packet-tracer/ PT 2911/2960 variants (generated), build guide and checklist
 linux/
   setup-server.sh  one idempotent script that builds srv01 from this repo
   netplan/ dns/ dhcp/ nginx/ firewall/ syslog/ snmp/
@@ -88,11 +88,11 @@ docs/            build log, limitations, CV entry
 | Layer | Tooling on this PC (Windows 11, 16 GB) |
 |---|---|
 | Linux server | VirtualBox 7.2 VM `ENL-Ubuntu-Server` — Ubuntu Server 22.04.5, 2 vCPU / 2 GB / 30 GB dynamic disk, unattended install |
-| Cisco IOS configs | Cisco Packet Tracer 9.0 (ISR 2911 + Catalyst 2960) — [cisco/packet-tracer](cisco/packet-tracer/) |
+| Cisco IOS configs | Written for IOSv/IOSvL2. Packet Tracer 9.0 (ISR 2911 + Catalyst 2960) variants are generated, with a build checklist — [cisco/packet-tracer](cisco/packet-tracer/) |
 | End-to-end routed tests | Namespace emulation on the VM: VLAN-aware bridges, 802.1Q subinterfaces, FRR OSPF, `dhcrelay`, nftables ACLs — [testing/emulation](testing/emulation/) |
 
 **Why emulation as well as Packet Tracer:** GNS3 needs licensed Cisco images, which this
-lab does not have, and the guide forbids unofficial copies. Packet Tracer validates the IOS
+lab does not have, and the guide forbids unofficial copies. Packet Tracer can check the IOS
 syntax and behaviour, but it cannot connect to a real Ubuntu VM. The emulation rebuilds the
 same design (same names, VLAN tags, subnets, router IDs and ACL logic) in Linux, so the real
 Ubuntu services can be tested against routed, relayed, filtered traffic.
@@ -121,6 +121,12 @@ ansible-playbook playbooks/verify-ospf.yml --ask-vault-pass
 See **[testing/results/test-report.md](testing/results/test-report.md)** for the latest run,
 with raw command output for every test, and
 [testing/troubleshooting](testing/troubleshooting/) for the 10 troubleshooting challenges.
+
+## Build log
+
+[docs/build-log.md](docs/build-log.md) records how the lab was built and nine real problems hit
+along the way, each with its root cause and fix (for example, why branch DHCP failed until UFW
+allowed relayed requests from the WAN address).
 
 ## Known limitations
 

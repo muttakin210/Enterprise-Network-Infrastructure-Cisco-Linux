@@ -1,0 +1,9 @@
+port              vlan-id  
+g0-0              10
+                  20
+                  50
+                  99
+g0-1              10 PVID Egress Untagged
+g0-2              20 PVID Egress Untagged
+g0-3              50 PVID Egress Untagged
+sw                99

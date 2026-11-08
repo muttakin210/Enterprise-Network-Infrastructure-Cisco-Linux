@@ -1,0 +1,13 @@
+timestamp,name,ip,site,role,status,rtt_ms,tcp_22
+2026-11-08T21:52:44+00:00,HQ-R1,192.168.99.1,HQ,router,reachable,0.13,open
+2026-11-08T21:52:44+00:00,HQ-SW1,192.168.99.2,HQ,switch,reachable,0.21,open
+2026-11-08T21:52:44+00:00,BR-R2,192.168.199.1,Branch,router,reachable,0.14,open
+2026-11-08T21:52:44+00:00,BR-SW1,192.168.199.2,Branch,switch,reachable,0.17,open
+2026-11-08T21:52:44+00:00,GW-SERVERS,192.168.50.1,HQ,gateway,reachable,0.30,closed
+2026-11-08T21:52:44+00:00,SRV01,192.168.50.10,HQ,server,reachable,0.16,open
+2026-11-08T21:58:10+00:00,HQ-R1,192.168.99.1,HQ,router,reachable,0.08,open
+2026-11-08T21:58:10+00:00,HQ-SW1,192.168.99.2,HQ,switch,reachable,0.13,open
+2026-11-08T21:58:10+00:00,BR-R2,192.168.199.1,Branch,router,reachable,0.11,open
+2026-11-08T21:58:10+00:00,BR-SW1,192.168.199.2,Branch,switch,reachable,0.11,open
+2026-11-08T21:58:10+00:00,GW-SERVERS,192.168.50.1,HQ,gateway,reachable,0.09,closed
+2026-11-08T21:58:10+00:00,SRV01,192.168.50.10,HQ,server,reachable,0.07,open

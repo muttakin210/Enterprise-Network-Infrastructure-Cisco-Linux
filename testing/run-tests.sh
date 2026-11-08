@@ -2,7 +2,7 @@
 # run-tests.sh  -  guide section 10 test plan, executed against the namespace
 # emulation on srv01. Every command's real output is saved as evidence.
 #   sudo ./testing/run-tests.sh            (emulation must be up: netns-lab.sh up)
-set -uo pipefail
+set -u   # no pipefail: "cmd | grep -q" would fail on SIGPIPE
 REPO="$(cd "$(dirname "$0")/.." && pwd)"
 OUT="$REPO/testing/results"
 EVID="$OUT/evidence"
@@ -71,12 +71,12 @@ record T03 "OSPF" "show ip ospf neighbor / show ip route ospf" "Neighbor Full; r
 # ---------------------------------------------------------------- T04
 f=$(ev T04-inter-vlan-and-wan.txt); ok=PASS
 capture "$f" ip netns exec admin-pc ping -c 2 -W 1 192.168.20.1
-capture "$f" ip netns exec it-pc traceroute -n -w 1 -q 1 192.168.50.10
-capture "$f" ip netns exec hr-pc traceroute -n -w 1 -q 1 192.168.50.10
+capture "$f" ip netns exec it-pc traceroute -I -n -w 1 -q 1 -m 5 192.168.50.10
+capture "$f" ip netns exec hr-pc traceroute -I -n -w 1 -q 1 -m 5 192.168.50.10
 can_ping admin-pc "$(n it-pc ip -4 -br addr show eth0 | awk '{print $3}' | cut -d/ -f1)" || ok=FAIL
 can_ping hr-pc 192.168.50.10 || ok=FAIL
 can_ping it-pc 192.168.30.1 || ok=FAIL
-n hr-pc traceroute -n -w 1 -q 1 192.168.50.10 | grep -q "10.0.12.1" || ok=FAIL
+n hr-pc traceroute -I -n -w 1 -q 1 -m 5 192.168.50.10 | grep -q "10.0.12.1" || ok=FAIL
 record T04 "Inter-VLAN and inter-site routing" "Admin->IT, HR->server across the WAN, traceroute" "Permitted flows pass; path is BR-R2 -> 10.0.12.1 -> server" $ok T04-inter-vlan-and-wan.txt
 
 # ---------------------------------------------------------------- T05
@@ -212,7 +212,7 @@ record T15 "Linux services" "systemctl status of all server services" "All activ
 {
   echo "# Test report"
   echo
-  echo "Run: $(date -u '+%Y-%m-%d %H:%M UTC') on $(hostname -f) — Ubuntu $(lsb_release -rs), FRR $(vtysh -c 'show version' 2>/dev/null | awk '/FRRouting/{print $2; exit}' || true)"
+  echo "Run: $(date -u '+%Y-%m-%d %H:%M UTC') on $(hostname -f) — Ubuntu $(lsb_release -rs), FRR $(vtysh -N hq-r1 -c 'show version' 2>/dev/null | awk '/FRRouting/{print $2; exit}' || true)"
   echo
   echo "Environment: namespace emulation of the guide topology (see [testing/emulation](../emulation/))."
   echo
@@ -222,6 +222,8 @@ record T15 "Linux services" "systemctl status of all server services" "All activ
   echo "|---|---|---|---|---|---|"
   printf '%s\n' "${rows[@]}"
 } >"$REPORT"
+# never publish lab secrets: redact SNMP keys from all evidence
+sed -i "s/$SNMP_AUTH/<SNMP_AUTH>/g; s/$SNMP_PRIV/<SNMP_PRIV>/g" "$EVID"/*.txt
 chown -R netadmin:netadmin "$OUT" "$REPO/automation" 2>/dev/null || true
 echo
 echo "$pass passed, $fail failed  ->  $REPORT"

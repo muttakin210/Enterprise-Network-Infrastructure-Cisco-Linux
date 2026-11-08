@@ -1,0 +1,17 @@
+$ ip netns exec fin-pc dig +noall +answer srv01.corp.lab
+srv01.corp.lab.		3600	IN	A	192.168.50.10
+
+$ ip netns exec fin-pc dig +noall +answer hq-r1.corp.lab br-sw1.corp.lab www.corp.lab
+hq-r1.corp.lab.		3600	IN	A	192.168.99.1
+br-sw1.corp.lab.	3600	IN	A	192.168.199.2
+www.corp.lab.		3600	IN	CNAME	srv01.corp.lab.
+srv01.corp.lab.		3600	IN	A	192.168.50.10
+
+$ ip netns exec hr-pc dig +noall +answer -x 192.168.50.10
+10.50.168.192.in-addr.arpa. 3600 IN	PTR	srv01.corp.lab.
+
+$ ip netns exec it-pc dig +short ubuntu.com
+185.125.190.20
+185.125.190.21
+185.125.190.29
+

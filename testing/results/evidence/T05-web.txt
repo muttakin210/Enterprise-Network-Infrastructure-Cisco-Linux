@@ -1,0 +1,27 @@
+$ ip netns exec admin-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
+200 192.168.50.10 0.005360s
+
+$ ip netns exec it-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
+200 192.168.50.10 0.003545s
+
+$ ip netns exec hr-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
+200 192.168.50.10 0.003673s
+
+$ ip netns exec fin-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
+200 192.168.50.10 0.005976s
+
+$ curl -sI http://127.0.0.1/
+HTTP/1.1 200 OK
+Server: nginx
+Date: Sun, 08 Nov 2026 21:56:56 GMT
+Content-Type: text/html
+Content-Length: 1150
+Last-Modified: Sun, 08 Nov 2026 21:54:47 GMT
+Connection: keep-alive
+ETag: "6af0efa7-47e"
+X-Content-Type-Options: nosniff
+X-Frame-Options: DENY
+Referrer-Policy: no-referrer
+Accept-Ranges: bytes
+
+

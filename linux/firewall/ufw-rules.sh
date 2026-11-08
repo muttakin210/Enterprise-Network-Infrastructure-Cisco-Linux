@@ -26,6 +26,8 @@ done
 
 # DHCP: relayed requests arrive unicast from router interfaces
 ufw allow from "$LAB" to any port 67 proto udp comment 'DHCP relay'
+# BR-R2 relays from its upstream (WAN) interface, so requests arrive from 10.0.12.2
+ufw allow from 10.0.12.0/30 to any port 67 proto udp comment 'DHCP relay via WAN'
 
 # Syslog and SNMP traps: only from network devices
 for src in "${DEVICES[@]}"; do

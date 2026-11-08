@@ -4,7 +4,7 @@
 # symptom and the diagnostic commands, applies the fix and verifies recovery.
 # Output: testing/troubleshooting/TS-01.md ... TS-10.md and README.md (index)
 #   sudo ./testing/troubleshooting/run-challenges.sh   (emulation must be up)
-set -uo pipefail
+set -u   # no pipefail: "cmd | grep -q" would fail on SIGPIPE
 REPO="$(cd "$(dirname "$0")/../.." && pwd)"
 DIR="$REPO/testing/troubleshooting"
 # shellcheck disable=SC1091
@@ -24,7 +24,7 @@ finish() {  # finish PASS|FAIL "root cause"
   printf '%s %-5s %s\n' "$ID" "$1" "$TITLE"
 }
 ping_ok() { n "$1" ping -c 2 -W 1 -q "$2" >/dev/null 2>&1; }
-verdict() { if "$@"; then echo PASS; else echo FAIL; fi; }
+verdict() { if "$@" >/dev/null 2>&1; then echo PASS; else echo FAIL; fi; }
 
 # ------------------------------------------------------------------ TS-01
 start TS-01 "PC cannot reach its default gateway"
@@ -117,10 +117,10 @@ start TS-07 "DHCP clients do not receive leases"
 para "**Fault injected:** DHCP relay on BR-R2 stopped (equivalent to a missing \`ip helper-address\`); HR-PC releases its lease and asks again."
 kill "$(cat /run/lab-dhcrelay-br-r2.pid)"; rm -f /run/lab-dhcrelay-br-r2.pid
 n hr-pc dhclient -r -pf /run/dhclient-hr-pc.pid -lf /var/lib/dhcp/dhclient-hr-pc.leases eth0 2>/dev/null
-sect "Symptom"; run ip netns exec hr-pc dhclient -4 -1 -v -timeout 8 -pf /run/dhclient-hr-pc.pid -lf /var/lib/dhcp/dhclient-hr-pc.leases eth0
+sect "Symptom"; run ip netns exec hr-pc timeout 12 dhclient -4 -1 -v -pf /run/dhclient-hr-pc.pid -lf /var/lib/dhcp/dhclient-hr-pc.leases eth0
 sect "Diagnosis"
 run bash -c "pgrep -af 'dhcrelay.*br-r2' || echo 'no dhcrelay process for BR-R2'"
-run bash -c "timeout 6 ip netns exec br-r2 tcpdump -ni g0-0.30 -c 2 udp port 67 2>&1 & sleep 1; ip netns exec hr-pc dhclient -4 -1 -timeout 4 -pf /run/dhclient-hr-pc.pid -lf /var/lib/dhcp/dhclient-hr-pc.leases eth0 >/dev/null 2>&1; wait"
+run bash -c "timeout 6 ip netns exec br-r2 tcpdump -ni g0-0.30 -c 2 udp port 67 2>&1 & sleep 1; timeout 6 ip netns exec hr-pc dhclient -4 -1 -pf /run/dhclient-hr-pc.pid -lf /var/lib/dhcp/dhclient-hr-pc.leases eth0 >/dev/null 2>&1; wait"
 para "DHCPDISCOVER broadcasts arrive on G0/0.30 but routers do not forward broadcasts. With no relay (helper) nothing reaches Kea on 192.168.50.10."
 sect "Fix"
 ip netns exec br-r2 dhcrelay -4 -pf /run/lab-dhcrelay-br-r2.pid -id g0-0.30 -id g0-0.40 -iu g0-1 192.168.50.10

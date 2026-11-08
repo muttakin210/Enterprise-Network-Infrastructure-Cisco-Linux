@@ -1,0 +1,79 @@
+$ systemctl --no-pager --lines=0 status ssh
+● ssh.service - OpenBSD Secure Shell server
+     Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:42:32 UTC; 15min ago
+       Docs: man:sshd(8)
+             man:sshd_config(5)
+    Process: 13461 ExecReload=/usr/sbin/sshd -t (code=exited, status=0/SUCCESS)
+    Process: 13462 ExecReload=/bin/kill -HUP $MAINPID (code=exited, status=0/SUCCESS)
+   Main PID: 2427 (sshd)
+      Tasks: 1 (limit: 2215)
+     Memory: 4.1M
+        CPU: 1.702s
+     CGroup: /system.slice/ssh.service
+             └─2427 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups"
+
+$ systemctl --no-pager --lines=0 status nginx
+● nginx.service - A high performance web server and a reverse proxy server
+     Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:47:05 UTC; 11min ago
+       Docs: man:nginx(8)
+   Main PID: 5999 (nginx)
+      Tasks: 3 (limit: 2215)
+     Memory: 5.2M
+        CPU: 255ms
+     CGroup: /system.slice/nginx.service
+             ├─ 5999 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─13089 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
+             └─13090 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
+
+$ systemctl --no-pager --lines=0 status named
+● named.service - BIND Domain Name Server
+     Loaded: loaded (/lib/systemd/system/named.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:54:53 UTC; 3min 18s ago
+       Docs: man:named(8)
+   Main PID: 13207 (named)
+      Tasks: 8 (limit: 2215)
+     Memory: 22.8M
+        CPU: 203ms
+     CGroup: /system.slice/named.service
+             └─13207 /usr/sbin/named -u bind
+
+$ systemctl --no-pager --lines=0 status kea-dhcp4-server
+● kea-dhcp4-server.service - Kea IPv4 DHCP daemon
+     Loaded: loaded (/lib/systemd/system/kea-dhcp4-server.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:54:56 UTC; 3min 15s ago
+       Docs: man:kea-dhcp4(8)
+   Main PID: 13330 (kea-dhcp4)
+      Tasks: 5 (limit: 2215)
+     Memory: 2.7M
+        CPU: 110ms
+     CGroup: /system.slice/kea-dhcp4-server.service
+             └─13330 /usr/sbin/kea-dhcp4 -c /etc/kea/kea-dhcp4.conf
+
+$ systemctl --no-pager --lines=0 status rsyslog
+● rsyslog.service - System Logging Service
+     Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:54:56 UTC; 3min 15s ago
+TriggeredBy: ● syslog.socket
+       Docs: man:rsyslogd(8)
+             man:rsyslog.conf(5)
+             https://www.rsyslog.com/doc/
+   Main PID: 13339 (rsyslogd)
+      Tasks: 10 (limit: 2215)
+     Memory: 1.7M
+        CPU: 91ms
+     CGroup: /system.slice/rsyslog.service
+             └─13339 /usr/sbin/rsyslogd -n -iNONE
+
+$ systemctl --no-pager --lines=0 status snmpd
+● snmpd.service - Simple Network Management Protocol (SNMP) Daemon.
+     Loaded: loaded (/lib/systemd/system/snmpd.service; enabled; vendor preset: enabled)
+     Active: active (running) since Sun 2026-11-08 21:55:00 UTC; 3min 12s ago
+   Main PID: 13457 (snmpd)
+      Tasks: 1 (limit: 2215)
+     Memory: 4.7M
+        CPU: 207ms
+     CGroup: /system.slice/snmpd.service
+             └─13457 /usr/sbin/snmpd -LOw -u Debian-snmp -g Debian-snmp -I -smux mteTrigger mteTriggerConf -f
+

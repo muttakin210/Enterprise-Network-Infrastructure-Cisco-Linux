@@ -115,6 +115,14 @@ client_dhcp() {  # client_dhcp NS
      >"/etc/netns/$ns/dhcp/dhclient.conf"
   nsx "$ns" dhclient -4 -1 -v -pf "/run/dhclient-$ns.pid" -lf "/var/lib/dhcp/dhclient-$ns.leases" eth0 \
      2>&1 | grep -E 'DHCPOFFER|DHCPACK|bound to' || true
+  # Ubuntu's dhclient-script hands DNS to systemd-resolved, which is not running in the
+  # namespace, so write the leased DNS server and domain into the namespace resolv.conf.
+  local lf="/var/lib/dhcp/dhclient-$ns.leases" dns dom
+  dns=$(grep 'domain-name-servers' "$lf" 2>/dev/null | tail -1 | sed 's/.*servers //; s/;//; s/,/ /g')
+  dom=$(grep 'option domain-name ' "$lf" 2>/dev/null | tail -1 | sed 's/.*domain-name //; s/[";]//g')
+  if [[ -n $dns ]]; then
+    { for d in $dns; do echo "nameserver $d"; done; echo "search ${dom:-corp.lab}"; } >"/etc/netns/$ns/resolv.conf"
+  fi
 }
 
 acl_hq_r1() {
