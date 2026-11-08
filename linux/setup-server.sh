@@ -15,7 +15,9 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -q
 apt-get install -y -q openssh-server nginx bind9 bind9-utils dnsutils \
   kea-dhcp4-server tcpdump snmp snmpd libsnmp-dev rsyslog python3 python3-pip python3-venv \
-  git curl traceroute nftables frr isc-dhcp-relay isc-dhcp-client ansible sshpass jq
+  git curl traceroute nftables frr isc-dhcp-relay isc-dhcp-client ansible sshpass jq bc
+# FRR and dhcrelay run only inside the emulated routers (testing/emulation), not on the server
+systemctl disable --now frr isc-dhcp-relay 2>/dev/null || true
 
 log "Lab secrets"
 if [[ ! -f $SECRETS ]]; then
@@ -111,6 +113,17 @@ net.ipv4.conf.all.accept_redirects = 0
 net.ipv4.conf.all.send_redirects = 0
 EOF
 sysctl --system >/dev/null
+
+log "Automation account (Ansible / health checks)"
+usermod -aG frrvty netadmin
+if [[ ! -f /home/netadmin/.ssh/id_ed25519 ]]; then
+  sudo -u netadmin ssh-keygen -q -t ed25519 -N "" -C "netadmin@srv01-automation" -f /home/netadmin/.ssh/id_ed25519
+fi
+grep -qF "$(cat /home/netadmin/.ssh/id_ed25519.pub)" /home/netadmin/.ssh/authorized_keys 2>/dev/null \
+  || cat /home/netadmin/.ssh/id_ed25519.pub >>/home/netadmin/.ssh/authorized_keys
+chown netadmin:netadmin /home/netadmin/.ssh/authorized_keys; chmod 600 /home/netadmin/.ssh/authorized_keys
+# bridged frames must not traverse iptables/UFW (would drop VLAN 50 traffic to the emulation)
+sysctl -qw net.bridge.bridge-nf-call-iptables=0 2>/dev/null || true
 
 log "UFW"
 bash "$L/firewall/ufw-rules.sh"

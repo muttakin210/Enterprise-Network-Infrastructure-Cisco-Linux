@@ -88,6 +88,25 @@ sshd_start() {  # sshd_start NS LISTEN_IP   (management SSH for Ansible / health
      -o AllowUsers=netadmin -o PasswordAuthentication=no
 }
 
+snmpd_start() {  # snmpd_start NS LISTEN_IP SYSNAME   (SNMPv3 authPriv agent, like the IOS snmp-server config)
+  local ns=$1 ip=$2 name=$3 conf="/etc/snmp/lab-$1.conf"
+  # shellcheck disable=SC1091
+  source /root/lab-secrets.env
+  install -d -m 700 "/var/lib/snmp/lab-$ns"
+  umask 077
+  cat >"$conf" <<EOF
+[snmp] persistentDir /var/lib/snmp/lab-$ns
+agentAddress udp:$ip:161
+sysName $name
+sysLocation $( [[ $ns == br-* ]] && echo CORP-BRANCH || echo CORP-HQ )
+sysContact netadmin@corp.lab
+createUser monitor SHA "$SNMP_AUTH" AES "$SNMP_PRIV"
+rouser monitor priv
+EOF
+  umask 022
+  nsx "$ns" /usr/sbin/snmpd -LS0-5d -Lf /dev/null -C -c "$conf" -p "/run/lab-snmpd-$ns.pid"
+}
+
 client_dhcp() {  # client_dhcp NS
   local ns=$1
   install -d "/etc/netns/$ns/dhcp"
@@ -206,6 +225,10 @@ up() {
   sshd_start br-r2 192.168.199.1
   sshd_start hq-sw1 192.168.99.2
   sshd_start br-sw1 192.168.199.2
+  snmpd_start hq-r1 192.168.99.1 HQ-R1
+  snmpd_start br-r2 192.168.199.1 BR-R2
+  snmpd_start hq-sw1 192.168.99.2 HQ-SW1
+  snmpd_start br-sw1 192.168.199.2 BR-SW1
 
   echo "Waiting for OSPF adjacency..."
   for _ in $(seq 1 30); do
