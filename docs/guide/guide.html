@@ -1,0 +1,1037 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Enterprise Network Lab: Complete Guide and Interview Prep</title>
+<style>
+  @page { size: A4; margin: 16mm 15mm 18mm 15mm; }
+  :root { --ink:#1b2430; --muted:#5b6675; --accent:#0b5cad; --accent2:#0a7d5a; --line:#d9dee5; --bg:#f4f6f9; --code:#0f1720; --warn:#a15c00; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); font-size: 10.2pt; line-height: 1.45; margin: 0; }
+  h1 { font-size: 22pt; margin: 0 0 6px; color: var(--accent); }
+  h2 { font-size: 15.5pt; color: var(--accent); border-bottom: 2px solid var(--accent); padding-bottom: 4px; margin: 0 0 10px; }
+  h3 { font-size: 12pt; margin: 16px 0 6px; color: #12324f; }
+  h4 { font-size: 10.6pt; margin: 12px 0 4px; color: #12324f; }
+  p { margin: 5px 0 7px; }
+  ul, ol { margin: 4px 0 8px 18px; padding: 0; }
+  li { margin: 2px 0; }
+  a { color: var(--accent); text-decoration: none; }
+  code { font-family: Consolas, "Courier New", monospace; font-size: 9pt; background: #eef1f5; padding: 0 3px; border-radius: 3px; }
+  pre { font-family: Consolas, "Courier New", monospace; font-size: 8.4pt; line-height: 1.38; background: var(--code); color: #e6edf3; padding: 8px 10px; border-radius: 5px; white-space: pre-wrap; word-break: break-word; margin: 6px 0 10px; page-break-inside: avoid; }
+  pre .c { color: #8b98a8; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 10px; font-size: 9pt; page-break-inside: auto; }
+  tr { page-break-inside: avoid; }
+  th { background: #e7eef7; text-align: left; padding: 4px 6px; border: 1px solid var(--line); color: #12324f; }
+  td { padding: 4px 6px; border: 1px solid var(--line); vertical-align: top; }
+  .section { page-break-before: always; }
+  .box { border: 1px solid var(--line); background: var(--bg); border-radius: 6px; padding: 8px 10px; margin: 8px 0; page-break-inside: avoid; }
+  .box.tip { border-left: 4px solid var(--accent2); }
+  .box.warn { border-left: 4px solid var(--warn); }
+  .box.key { border-left: 4px solid var(--accent); }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tool { border: 1px solid var(--line); border-radius: 6px; padding: 7px 10px 4px; margin: 0 0 10px; page-break-inside: avoid; }
+  .tool h4 { margin: 0 0 4px; font-size: 11pt; color: var(--accent); }
+  .tag { display: inline-block; font-size: 8pt; background: #e7eef7; color: #12324f; border-radius: 10px; padding: 0 7px; margin-left: 4px; vertical-align: middle; }
+  .lbl { font-weight: 600; color: #12324f; }
+  .muted { color: var(--muted); }
+  img.fig { width: 100%; border: 1px solid var(--line); border-radius: 4px; margin: 6px 0; }
+  .cap { font-size: 8.6pt; color: var(--muted); margin-top: -2px; }
+  .cover { height: 255mm; display: flex; flex-direction: column; justify-content: space-between; }
+  .cover .band { background: linear-gradient(135deg,#0b5cad,#0a7d5a); color: #fff; padding: 26px 26px 22px; border-radius: 10px; }
+  .cover .band h1 { color: #fff; font-size: 26pt; line-height: 1.15; }
+  .cover .band p { font-size: 11.5pt; opacity: .95; }
+  .stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 14px; }
+  .stat { border: 1px solid var(--line); border-radius: 8px; padding: 8px; text-align: center; }
+  .stat b { display: block; font-size: 17pt; color: var(--accent); }
+  .toc ol { columns: 2; column-gap: 24px; font-size: 10pt; }
+  .step { border-left: 3px solid var(--accent); padding: 2px 0 2px 10px; margin: 10px 0 12px; }
+  .step h3 { margin-top: 0; }
+  .qa { margin: 0 0 8px; page-break-inside: avoid; }
+  .qa .q { font-weight: 600; color: #12324f; }
+  .qa .a { margin: 2px 0 0 0; }
+  .small { font-size: 8.8pt; }
+</style>
+</head>
+<body>
+
+<!-- ============================== COVER ============================== -->
+<div class="cover">
+  <div>
+    <div class="band">
+      <div style="font-size:10pt;letter-spacing:2px;opacity:.85">PORTFOLIO PROJECT · COMPLETE GUIDE</div>
+      <h1>Enterprise Network Infrastructure<br>with Cisco &amp; Linux</h1>
+      <p>Design, build, secure, automate, monitor and verify a two-site enterprise network.
+      This guide covers every step in order, every tool and what it is for, the exact commands,
+      the results, the problems solved, and a full interview-preparation section.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b>22 / 22</b>automated tests pass</div>
+      <div class="stat"><b>10 / 10</b>troubleshooting challenges</div>
+      <div class="stat"><b>23</b>real problems solved</div>
+      <div class="stat"><b>30+</b>tools &amp; technologies</div>
+    </div>
+    <div class="box key" style="margin-top:16px">
+      <span class="lbl">Repository:</span> github.com/muttakin210/Enterprise-Network-Infrastructure-Cisco-Linux<br>
+      <span class="lbl">Author:</span> muttakin210 &nbsp;·&nbsp; <span class="lbl">Built:</span> 9 November 2026 &nbsp;·&nbsp;
+      <span class="lbl">Host:</span> Windows 11 PC (16 GB), VirtualBox 7.2, Cisco Packet Tracer 9.0
+    </div>
+  </div>
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li>Project at a glance</li>
+      <li>Network design (topology, addressing, policy)</li>
+      <li>Build order: what was done, step by step</li>
+      <li>Tool reference: what each tool is and does</li>
+      <li>Command cheat sheet</li>
+      <li>Rebuild the lab from zero</li>
+      <li>Test results and troubleshooting challenges</li>
+      <li>Problems hit and how they were solved</li>
+      <li>Security decisions</li>
+      <li>Limitations and honest scope</li>
+      <li>Interview preparation</li>
+      <li>Glossary</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================== 1 ============================== -->
+<div class="section">
+<h2>1. Project at a glance</h2>
+<p><b>Scenario.</b> A company has a <b>Head Office (HQ)</b> and one <b>Branch</b>. HQ hosts a shared Linux
+server. Departments are separated by VLANs. The two sites are joined by a point-to-point WAN link running OSPF.
+The job is to design, build, secure, automate, monitor and <i>prove</i> the whole network with test evidence.</p>
+
+<table>
+<tr><th style="width:24%">Area</th><th>What was delivered</th></tr>
+<tr><td>Cisco routing &amp; switching</td><td>Sanitized IOS configs for 2 routers and 2 switches: 7 VLANs, 802.1Q trunks, router-on-a-stick, OSPF area 0, DHCP relay, SSH-only management, ACLs, port security, DHCP snooping, BPDU Guard, Rapid-PVST, SNMPv3 and Syslog. Built and verified in <b>Cisco Packet Tracer 9.0</b>.</td></tr>
+<tr><td>Linux services (srv01)</td><td>Ubuntu Server 22.04 VM: <b>BIND9</b> DNS, <b>Kea</b> DHCP, <b>Nginx</b> intranet, <b>rsyslog</b> central logging, <b>Net-SNMP</b> v3 agent, <b>UFW</b> firewall, SSH hardening, all built by one idempotent script.</td></tr>
+<tr><td>End-to-end emulation</td><td>The whole topology rebuilt on the VM with Linux network namespaces, VLAN-aware bridges, <b>FRR</b> (OSPF), <b>dhcrelay</b> and <b>nftables</b> ACLs, so that real routed tests can run without licensed Cisco images.</td></tr>
+<tr><td>Automation</td><td><b>Ansible</b> backs up and sanitizes device configs and checks OSPF. A <b>Python</b> health check (ping and TCP/22 → CSV log) comes with unit tests.</td></tr>
+<tr><td>Monitoring</td><td><b>LibreNMS</b> and <b>Zabbix</b> poll every device over SNMPv3 authPriv. One <b>Grafana</b> dashboard combines both. Syslog captures link and OSPF events.</td></tr>
+<tr><td>Remote access</td><td><b>WireGuard</b> VPN on the HQ edge. Admins reach only servers and management networks, and a router-side filter blocks Finance.</td></tr>
+<tr><td>Documentation &amp; audit</td><td><b>NetBox</b> is the source of truth, loaded by API. An <b>Nmap</b> audit compares the live network with NetBox and checks the firewall and ACL policy.</td></tr>
+<tr><td>Verification</td><td>22 automated tests with saved raw evidence, 10 troubleshooting challenges, and <b>tcpdump/tshark/Wireshark</b> captures of OSPF, DHCP relay, SNMPv3, WireGuard and Syslog.</td></tr>
+</table>
+
+<h3>Final results</h3>
+<div class="grid2">
+<div class="box tip"><b>Tests:</b> T01–T22 all <b>PASS</b>. Reachability, DHCP relay, OSPF, inter-VLAN and WAN routing, web, DNS, both ACLs, WAN failure, Syslog, SNMPv3, Ansible, Python, hardening, services, WireGuard, LibreNMS, Zabbix, NetBox, Grafana, Nmap and packet analysis.</div>
+<div class="box tip"><b>Troubleshooting:</b> 10/10 injected faults found and fixed: wrong VLAN, shut subinterface, missing OSPF network, hello/dead mismatch, pruned VLAN, firewall block, missing helper-address, wrong ACL order, SSH blocked, SNMP key mismatch.</div>
+</div>
+<div class="box key"><b>OSPF re-convergence</b> after a WAN failure was measured at <b>11.0 s</b>. The Syslog server recorded
+<code>Full → Deleted</code> and then <code>Loading → Full</code> for the neighbor 2.2.2.2.</div>
+
+<h3>Repository layout</h3>
+<pre>cisco/        routers/ switches/ (IOS configs) · ospf/ · security/ · packet-tracer/ (.pkt + generated configs)
+linux/        setup-server.sh · netplan/ dns/ dhcp/ nginx/ firewall/ syslog/ snmp/ · wireguard/
+automation/   ansible/ (inventory, vault example, backup + verify-ospf playbooks) · python/ (health_check.py + tests)
+monitoring/   snmp/ syslog/ · librenms/ · zabbix/ · grafana/ (provisioned)
+ipam/netbox/  install + API import of the addressing plan
+testing/      emulation/ (netns-lab.sh, wireguard-lab.sh) · run-tests.sh · results/ · troubleshooting/
+              nmap/ · capture/ · screenshots/
+topology/     addressing-plan.csv/.xlsx · enterprise-topology.png
+docs/         build-log.md · limitations.md · cv-entry.md · this guide</pre>
+</div>
+
+<!-- ============================== 2 ============================== -->
+<div class="section">
+<h2>2. Network design</h2>
+<img class="fig" src="../../topology/enterprise-topology.png" style="max-height:105mm;object-fit:contain">
+<div class="cap">Figure 1. Two-site topology: HQ-R1 and BR-R2 joined by a /30 WAN (OSPF area 0), each with an access switch carrying department VLANs.</div>
+
+<h3>Addressing plan</h3>
+<table>
+<tr><th>Site</th><th>VLAN</th><th>Name</th><th>Subnet</th><th>Gateway</th><th>Notes</th></tr>
+<tr><td>HQ</td><td>10</td><td>ADMIN</td><td>192.168.10.0/24</td><td>192.168.10.1 (HQ-R1 G0/0.10)</td><td>DHCP via relay; full access</td></tr>
+<tr><td>HQ</td><td>20</td><td>IT</td><td>192.168.20.0/24</td><td>192.168.20.1 (HQ-R1 G0/0.20)</td><td>DHCP via relay; blocked from Finance and management</td></tr>
+<tr><td>HQ</td><td>50</td><td>SERVERS</td><td>192.168.50.0/24</td><td>192.168.50.1 (HQ-R1 G0/0.50)</td><td>srv01 = 192.168.50.10 (static)</td></tr>
+<tr><td>HQ</td><td>99</td><td>MANAGEMENT</td><td>192.168.99.0/24</td><td>192.168.99.1 (HQ-R1 G0/0.99)</td><td>HQ-SW1 SVI = 192.168.99.2</td></tr>
+<tr><td>Branch</td><td>30</td><td>HR</td><td>192.168.30.0/24</td><td>192.168.30.1 (BR-R2 G0/0.30)</td><td>DHCP via relay; blocked from Finance</td></tr>
+<tr><td>Branch</td><td>40</td><td>FINANCE</td><td>192.168.40.0/24</td><td>192.168.40.1 (BR-R2 G0/0.40)</td><td>Protected by FINANCE-PROTECT</td></tr>
+<tr><td>Branch</td><td>199</td><td>MANAGEMENT</td><td>192.168.199.0/24</td><td>192.168.199.1 (BR-R2 G0/0.199)</td><td>BR-SW1 SVI = 192.168.199.2</td></tr>
+<tr><td>WAN</td><td>–</td><td>R1–R2</td><td>10.0.12.0/30</td><td>HQ-R1 .1 / BR-R2 .2</td><td>OSPF point-to-point</td></tr>
+<tr><td>Both</td><td>999</td><td>PARKING</td><td>–</td><td>–</td><td>Native VLAN of trunks and unused ports (shut)</td></tr>
+<tr><td>VPN</td><td>–</td><td>WireGuard</td><td>10.99.0.0/24</td><td>HQ-R1 wg0 10.99.0.1</td><td>Remote admins, advertised in OSPF</td></tr>
+</table>
+<p class="small muted">DHCP pools are .100–.199 in each client VLAN. Router IDs: HQ-R1 1.1.1.1, BR-R2 2.2.2.2. The internet link used by the VPN test is 203.0.113.0/30 (TEST-NET-3).</p>
+
+<h3>Access policy</h3>
+<table>
+<tr><th>From \ To</th><th>Admin 10</th><th>IT 20</th><th>Servers 50</th><th>Mgmt 99/199</th><th>HR 30</th><th>Finance 40</th></tr>
+<tr><td>Admin 10</td><td>–</td><td>✔</td><td>✔</td><td>✔</td><td>✔</td><td>✔</td></tr>
+<tr><td>IT 20</td><td>✔</td><td>–</td><td>✔</td><td>✘ MGMT-PROTECT</td><td>✔</td><td>✘ FINANCE-PROTECT</td></tr>
+<tr><td>HR 30</td><td>✔</td><td>✔</td><td>✔</td><td>✘ MGMT-PROTECT</td><td>–</td><td>✘ FINANCE-PROTECT</td></tr>
+<tr><td>srv01</td><td>✔</td><td>✔</td><td>–</td><td>✔</td><td>✔</td><td>✔</td></tr>
+<tr><td>VPN admins</td><td>✘</td><td>✘</td><td>✔</td><td>✔</td><td>✘</td><td>✘ VPN-FILTER</td></tr>
+</table>
+<div class="box key"><b>Design decisions.</b>
+<ul>
+<li><b>Router-on-a-stick:</b> one trunk carries all VLANs to the router, which routes between subinterfaces. It is simple, cheap and fine for a small site.</li>
+<li><b>Point-to-point OSPF</b> on the /30 WAN: no DR/BDR election and faster adjacency. <b>passive-interface default</b> keeps hellos off the LANs.</li>
+<li><b>Central DHCP</b> on srv01 with <code>ip helper-address</code>: one Kea server for every VLAN. Kea picks the pool from the relay address (giaddr).</li>
+<li><b>Native VLAN 999</b> carries no hosts. This removes VLAN hopping through native-VLAN double tagging.</li>
+<li><b>Outbound ACLs on the protected subinterface</b>, close to the destination, so one ACL protects the whole VLAN.</li>
+</ul></div>
+</div>
+
+<!-- ============================== 3 ============================== -->
+<div class="section">
+<h2>3. Build order: what was done, step by step</h2>
+<p>Steps are listed in the order they were done. Each step says what was done, which tools were used,
+why, and the key commands. Work was committed to GitHub in stages.</p>
+
+<table class="small">
+<tr><th>Commit</th><th>Time</th><th>Stage</th></tr>
+<tr><td>f905f7e</td><td>03:13</td><td>Cisco configs, security controls, OSPF design, addressing plan</td></tr>
+<tr><td>89c0be1</td><td>03:17</td><td>Ubuntu server configs (netplan, BIND9, Kea, Nginx, UFW, rsyslog, SNMPv3) and setup script</td></tr>
+<tr><td>b726a3b</td><td>03:20</td><td>Ansible playbooks, Python health check with tests, Packet Tracer configs</td></tr>
+<tr><td>68d0bf5 · 2e95835</td><td>03:23–03:25</td><td>Test runner, SNMPv3 agents, troubleshooting runner, topology diagram, workbook</td></tr>
+<tr><td>0b01bb0 · d8328d7</td><td>03:30–03:49</td><td>Packet Tracer build guide, monitoring docs, limitations, CV entry</td></tr>
+<tr><td>eeaca00</td><td>04:04</td><td>Full test plan 15/15, troubleshooting 10/10, fixes</td></tr>
+<tr><td>c9843bd</td><td>04:33</td><td>Topology built and verified in Packet Tracer 9.0</td></tr>
+<tr><td>9f8a988</td><td>17:23</td><td>LibreNMS (SNMPv3) and WireGuard VPN, 17/17</td></tr>
+<tr><td>3b6c0cb</td><td>18:34</td><td>Zabbix, NetBox, Grafana, Nmap audit, packet analysis, 22/22</td></tr>
+</table>
+
+<div class="step">
+<h3>Step 1: Read the guide and plan the repository</h3>
+<p>The 14-page lab guide was read and mapped to a repository layout (guide section 12): a folder for each layer,
+evidence next to each claim, and no secrets in Git. Tools: <b>Git</b>, <b>GitHub CLI</b>.</p>
+<pre>git init &amp;&amp; git branch -M main
+gh repo create muttakin210/Enterprise-Network-Infrastructure-Cisco-Linux --public --source . --push
+<span class="c"># .gitignore keeps out: the PDF guide, .lab-local/ (lab passwords), vault.yml, raw backups, *.bin images</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 2: Addressing plan and topology diagram</h3>
+<p>The VLAN/subnet plan was written as CSV, then turned into an Excel workbook and a PNG diagram by a Python script
+(<code>topology/make_topology_assets.py</code>). Tools: <b>Python</b> (openpyxl, Pillow).</p>
+<pre>python topology/make_topology_assets.py   <span class="c"># -> addressing-plan.xlsx + enterprise-topology.png</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 3: Cisco IOS configurations</h3>
+<p>Configs for <b>HQ-R1, BR-R2</b> (IOSv / ISR) and <b>HQ-SW1, BR-SW1</b> (IOSvL2). Every secret is a
+<code>&lt;PLACEHOLDER&gt;</code>. Main parts of HQ-R1:</p>
+<pre>interface GigabitEthernet0/0.10
+ description VLAN10-ADMIN
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ ip helper-address 192.168.50.10          <span class="c">! DHCP relay to Kea on srv01</span>
+interface GigabitEthernet0/0.99
+ encapsulation dot1Q 99
+ ip address 192.168.99.1 255.255.255.0
+ ip access-group MGMT-PROTECT out          <span class="c">! protect switch management</span>
+interface GigabitEthernet0/1
+ ip address 10.0.12.1 255.255.255.252
+ ip ospf network point-to-point
+router ospf 1
+ router-id 1.1.1.1
+ passive-interface default
+ no passive-interface GigabitEthernet0/1
+ network 10.0.12.0 0.0.0.3 area 0
+ network 192.168.10.0 0.0.0.255 area 0     <span class="c">! ... 20, 50, 99</span>
+ip access-list extended MGMT-PROTECT
+ permit ip 192.168.10.0 0.0.0.255 192.168.99.0 0.0.0.255
+ permit ip host 192.168.50.10 192.168.99.0 0.0.0.255
+ permit ip 192.168.199.0 0.0.0.255 192.168.99.0 0.0.0.255
+ deny   ip any any log
+ip ssh version 2
+line vty 0 4
+ login local
+ transport input ssh
+ access-class VTY-ADMIN in
+logging host 192.168.50.10
+snmp-server group NMS v3 priv access SNMP-NMS
+snmp-server user monitor NMS v3 auth sha &lt;SNMP_AUTH_SECRET&gt; priv aes 128 &lt;SNMP_PRIV_SECRET&gt;</pre>
+<p>Switch hardening (HQ-SW1):</p>
+<pre>vlan 10 / 20 / 50 / 99 / 999
+spanning-tree mode rapid-pvst
+spanning-tree portfast bpduguard default
+ip dhcp snooping vlan 10,20
+interface GigabitEthernet0/0                <span class="c">! uplink trunk</span>
+ switchport mode trunk
+ switchport trunk native vlan 999
+ switchport trunk allowed vlan 10,20,50,99
+ switchport nonegotiate
+ ip dhcp snooping trust
+interface GigabitEthernet0/1                <span class="c">! ADMIN-PC access port</span>
+ switchport mode access
+ switchport access vlan 10
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security violation restrict
+ spanning-tree portfast
+ ip dhcp snooping limit rate 10</pre>
+<p>On BR-R2, <b>FINANCE-PROTECT</b> sits outbound on G0/0.40. It permits Admin and srv01, denies IT and HR, and logs the denies.</p>
+</div>
+
+<div class="step">
+<h3>Step 4: Ubuntu Server VM</h3>
+<p>A VirtualBox VM <code>ENL-Ubuntu-Server</code> was created with an unattended Ubuntu 22.04.5 install (2 vCPU, 2 GB RAM, later 3 GB;
+30 GB disk). Host-only networking was broken on this PC, so <b>NAT port forwards bound to 127.0.0.1</b> are used, plus an internal
+network <code>enl-vlan50</code> for the lab NIC. Tools: <b>VirtualBox / VBoxManage</b>.</p>
+<pre>VBoxManage createvm --name ENL-Ubuntu-Server --ostype Ubuntu_64 --register
+VBoxManage modifyvm ENL-Ubuntu-Server --memory 3072 --cpus 2 --nic1 nat --nic2 intnet --intnet2 enl-vlan50
+VBoxManage modifyvm ENL-Ubuntu-Server --natpf1 "ssh,tcp,127.0.0.1,2222,,22"     <span class="c"># also 8080 http, 8000 LibreNMS,</span>
+                                                                              <span class="c"># 8081 Zabbix, 8082 NetBox, 3000 Grafana</span>
+VBoxManage unattended install ENL-Ubuntu-Server --iso ubuntu-22.04.5-live-server-amd64.iso --user netadmin ...
+ssh -p 2222 netadmin@127.0.0.1</pre>
+</div>
+
+<div class="step">
+<h3>Step 5: Linux network services with one script</h3>
+<p><code>linux/setup-server.sh</code> builds srv01 from the repository and can be re-run safely. In order, it:</p>
+<ol>
+<li>installs the packages;</li>
+<li>generates lab secrets into <code>/root/lab-secrets.env</code> (mode 600);</li>
+<li>applies netplan (bridge <code>br-vlan50</code> 192.168.50.10/24, routes to the lab via 192.168.50.1);</li>
+<li>configures <b>Nginx</b>, <b>BIND9</b> (zone <code>corp.lab</code> and reverse zone, checked with <code>named-checkzone</code>), <b>Kea</b> DHCPv4 (checked with <code>kea-dhcp4 -t</code>), <b>rsyslog</b> (one log file per device) and the <b>SNMPv3</b> agent;</li>
+<li>hardens SSH (no root login, MaxAuthTries 3, AllowUsers netadmin);</li>
+<li>sets kernel options (<code>ip_forward=0</code>, rp_filter);</li>
+<li>creates the automation SSH key;</li>
+<li>applies the <b>UFW</b> policy.</li>
+</ol>
+<pre>sudo ./linux/setup-server.sh
+named-checkzone corp.lab /etc/bind/zones/db.corp.lab
+kea-dhcp4 -t /etc/kea/kea-dhcp4.conf
+dig @127.0.0.1 www.corp.lab +short          <span class="c"># -> srv01 -> 192.168.50.10</span>
+sudo ufw status verbose                     <span class="c"># default deny incoming, per-service allow rules</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 6: Emulating the Cisco topology on Linux</h3>
+<p>Licensed IOSv images were not available, and the guide forbids unofficial ones. So <code>testing/emulation/netns-lab.sh</code>
+rebuilds the same design on the VM:</p>
+<ul>
+<li>each router, switch and PC is a <b>network namespace</b>;</li>
+<li>switches are <b>VLAN-aware Linux bridges</b> with trunk and access ports;</li>
+<li>routers use <b>802.1Q subinterfaces</b>;</li>
+<li>OSPF runs in <b>FRR</b> (Cisco-like <code>vtysh</code>);</li>
+<li>DHCP relay is <b>isc-dhcp-relay</b>;</li>
+<li>the Cisco ACLs are mirrored rule for rule in <b>nftables</b>;</li>
+<li>each device runs <b>sshd</b> and <b>snmpd</b> v3.</li>
+</ul>
+<p>srv01's bridge attaches to HQ-SW1's VLAN 50 port, just as the real server plugs into an access port.</p>
+<pre>sudo ./testing/emulation/netns-lab.sh up       <span class="c"># build everything; 'status' and 'down' also exist</span>
+sudo vtysh -N hq-r1 -c 'show ip ospf neighbor'   <span class="c"># 2.2.2.2  Full</span>
+sudo ip netns exec it-pc ping 192.168.40.100     <span class="c"># blocked by FINANCE-PROTECT (nftables)</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 7: Automation with Ansible and Python</h3>
+<p><b>Ansible</b>: the inventory has a <code>cisco_ios</code> group whose credentials go in an encrypted <code>vault.yml</code> (only an example file is committed).
+<code>backup.yml</code> saves each running config with <code>cisco.ios.ios_config backup: true</code>, then writes a <b>sanitized</b> copy with
+secrets replaced. <code>verify-ospf.yml</code> asserts that the neighbor is Full. An emulation variant runs the same logic against the namespaces.</p>
+<p><b>Python</b>: <code>health_check.py</code> reads <code>devices.csv</code>, pings and checks TCP ports in parallel threads, appends to a CSV log, prints a summary,
+and exits non-zero if anything is down, which makes it usable from cron or CI. <code>test_health_check.py</code> holds the unit tests.</p>
+<pre>ansible-playbook playbooks/backup.yml --ask-vault-pass
+ansible-playbook playbooks/verify-ospf.yml
+python3 automation/python/health_check.py -i devices.csv -o results/health_log.csv --port 22
+python3 -m pytest automation/python -q</pre>
+<pre>DEVICE      IP              STATUS        RTT ms  tcp/22
+HQ-R1       192.168.99.1    reachable       0.10  open
+BR-SW1      192.168.199.2   reachable       0.18  open
+SRV01       192.168.50.10   reachable       0.56  open
+6/6 devices reachable</pre>
+</div>
+
+<div class="step">
+<h3>Step 8: Test plan and troubleshooting challenges</h3>
+<p><code>testing/run-tests.sh</code> runs the guide's section 10 test plan against the emulation. It saves the <b>raw output of every command</b> as evidence,
+writes <code>test-report.md</code> and redacts every lab secret. The first run gave 9/15. The fixes (UFW for relayed DHCP, client DNS, SNMP MIBs, backup folders,
+<code>pipefail</code>) brought it to <b>15/15</b>. <code>run-challenges.sh</code> injects 10 faults, records the diagnosis and verifies each fix.</p>
+<pre>sudo ./testing/run-tests.sh                        <span class="c"># -> testing/results/test-report.md + evidence/T*.txt</span>
+sudo ./testing/troubleshooting/run-challenges.sh   <span class="c"># -> TS-01..TS-10.md</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 9: Packet Tracer build</h3>
+<p><code>make_pt_configs.py</code> converts the IOSv configs to Packet Tracer syntax (2911 / 2960-24TT port names; PT does not support some
+keywords). The topology was built in <b>Packet Tracer 9.0</b>: 9 devices, generated configs pasted in, and SRV01 services (DHCP pools, DNS,
+HTTP, Syslog). Verified there:</p>
+<ul>
+<li>DHCP through the relay;</li>
+<li>OSPF routes and the WAN bounce;</li>
+<li>both ACLs;</li>
+<li>DNS and web;</li>
+<li>Syslog;</li>
+<li>VLANs and trunks;</li>
+<li>port security, DHCP snooping, BPDU Guard and Rapid-PVST on both switches.</li>
+</ul>
+<p>There are 14 screenshots.</p>
+<pre>python cisco/packet-tracer/make_pt_configs.py
+<span class="c">! verification in PT CLI</span>
+show ip ospf neighbor · show ip route ospf · show access-lists · show vlan brief · show interfaces trunk
+show port-security · show ip dhcp snooping · show spanning-tree summary</pre>
+</div>
+</div>
+
+<div class="section">
+<div class="step">
+<h3>Step 10: LibreNMS</h3>
+<p><code>monitoring/librenms/install-librenms.sh</code> follows the official install:</p>
+<ul>
+<li>PHP <b>8.4</b> from ppa:ondrej/php (current LibreNMS requires it);</li>
+<li>MariaDB, Composer and a dedicated PHP-FPM pool;</li>
+<li>Nginx on port 8000;</li>
+<li>generating the app key, migrating the schema and adding the admin user;</li>
+<li>scheduler, cron and UFW rules;</li>
+<li>adding all 5 devices over SNMPv3 authPriv.</li>
+</ul>
+<p>The result: 5/5 up, 31 ports discovered, and a WAN down/up event logged.</p>
+<pre>sudo ./monitoring/librenms/install-librenms.sh
+sudo -u librenms lnms device:add --v3 --security-name=monitor --auth-protocol=SHA --auth-password="$SNMP_AUTH" \
+     --privacy-protocol=AES --privacy-password="$SNMP_PRIV" --port-association-mode=ifName 192.168.99.1
+sudo -u librenms lnms device:poll all
+sudo -u librenms /opt/librenms/validate.php</pre>
+</div>
+
+<div class="step">
+<h3>Step 11: WireGuard remote-admin VPN</h3>
+<p><code>testing/emulation/wireguard-lab.sh</code> adds an internet link (203.0.113.0/30) and a <code>remote-admin</code> laptop namespace, and terminates the tunnel on HQ-R1:</p>
+<ul>
+<li><code>wg0</code> 10.99.0.1/24 on UDP 51820;</li>
+<li>the client's <code>AllowedIPs</code> list only servers and the two management networks;</li>
+<li>on HQ-R1, <b>EDGE-IN</b> accepts only UDP 51820 from the internet, and <b>VPN-FILTER</b> drops anything from the tunnel to other networks, so Finance stays blocked even if the client widens its own <code>AllowedIPs</code>;</li>
+<li>OSPF advertises the VPN pool as a passive network, so BR-R2 can route replies back.</li>
+</ul>
+<pre>sudo ./testing/emulation/wireguard-lab.sh up
+sudo ip netns exec hq-r1 wg show wg0          <span class="c"># latest handshake: 1 second ago</span>
+sudo ip netns exec remote-admin ping 192.168.50.10   <span class="c"># allowed through the tunnel</span>
+sudo ip netns exec remote-admin ping 192.168.40.100  <span class="c"># dropped (not routed / VPN-FILTER)</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 12: Zabbix 8.0 LTS</h3>
+<p><code>install-zabbix.sh</code> installs from the official repository: server, frontend on port 8081, and agent 2. It reuses PHP 8.4 and MariaDB and keeps caches small.
+<code>zabbix-configure.py</code> then configures everything through the JSON-RPC API:</p>
+<ul>
+<li>changes the default Admin password;</li>
+<li>stores the SNMPv3 keys as <b>secret macros</b>;</li>
+<li>creates the host groups;</li>
+<li>adds 4 SNMPv3 hosts (template "Linux by SNMP") and srv01 with the agent;</li>
+<li>runs "check now" on every discovery rule;</li>
+<li>creates a read-only API role and user for Grafana.</li>
+</ul>
+<pre>sudo ./monitoring/zabbix/install-zabbix.sh
+python3 monitoring/zabbix/zabbix-check.py hosts
+python3 monitoring/zabbix/zabbix-check.py poll hq-r1 'g0-1\(.*\): Operational status'
+python3 monitoring/zabbix/zabbix-check.py problem hq-r1 g0-1 --timeout 150   <span class="c"># Link down opens, then resolves</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 13: NetBox 4.7 (source of truth)</h3>
+<p><code>install-netbox.sh</code> installs NetBox 4.7.4 with Python 3.12 (deadsnakes) and PostgreSQL 17 (PGDG), because both are newer than Ubuntu 22.04 ships.
+It also sets up Redis, gunicorn with 2 workers, systemd units and Nginx on port 8082. <code>import-lab.py</code> then loads through the REST API (idempotent):</p>
+<ul>
+<li>sites, VLANs, prefixes and DHCP ranges, from the addressing CSV;</li>
+<li>device types and roles, and the 5 devices;</li>
+<li>21 interfaces, with 802.1Q modes and parent subinterfaces;</li>
+<li>12 IPs, with primary IPs and DNS names;</li>
+<li>4 cables.</li>
+</ul>
+<pre>sudo ./ipam/netbox/install-netbox.sh
+NETBOX_ADMIN_PASS=... python3 ipam/netbox/import-lab.py topology/addressing-plan.csv
+python3 ipam/netbox/nb-expected.py           <span class="c"># documented IPs + DHCP ranges (used by Nmap audit)</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 14: Grafana</h3>
+<p><code>install-grafana.sh</code> installs Grafana OSS and the Zabbix plugin. It provisions two data sources:</p>
+<ul>
+<li><b>Zabbix</b>, through the read-only API user;</li>
+<li><b>LibreNMS</b>, through a MariaDB user with SELECT on three tables only.</li>
+</ul>
+<p>It also provisions the dashboard "ENL Lab overview", disables sign-up and anonymous access, and opens port 3000 only to admins.</p>
+<img class="fig" src="../../screenshots/grafana/01-enl-lab-overview.png" style="max-height:88mm;object-fit:contain">
+<div class="cap">Figure 2. One dashboard. LibreNMS: inventory and interface events. Zabbix: problems, latency, WAN traffic and status. The red bands are the WAN failure tests.</div>
+</div>
+
+<div class="step">
+<h3>Step 15: Nmap audit</h3>
+<p><code>testing/nmap/nmap-audit.sh</code> scans from inside the lab:</p>
+<ol>
+<li>a ping sweep of all 8 subnets, compared with NetBox: 16 live hosts, <b>0 undocumented</b>;</li>
+<li>srv01's ports from Admin vs IT: the management UIs are open only from Admin;</li>
+<li>Finance and switch management from Admin vs IT;</li>
+<li>the internet edge: no open TCP, and SNMP silently dropped;</li>
+<li>the SNMP agents: v3 only, and v2c "public" refused.</li>
+</ol>
+<pre>sudo ip netns exec admin-pc nmap -n -sn 192.168.10.0/24 192.168.20.0/24 ... 10.0.12.0/30
+sudo ip netns exec it-pc nmap -n -Pn -sT -p 22,53,80,3000,8000,8081,8082 192.168.50.10
+sudo ip netns exec remote-admin nmap -n -Pn -sU -p 51820,161,53 203.0.113.1
+sudo ./testing/nmap/nmap-audit.sh            <span class="c"># exit code = failed checks (0)</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 16: Packet analysis with tcpdump, tshark and Wireshark</h3>
+<p><code>testing/capture/capture-lab.sh</code> triggers six real events and captures each where it is visible. It saves a pcap and a tshark summary for each.
+<b>Wireshark</b> on Windows opens the same files.</p>
+<table class="small">
+<tr><th>Capture</th><th>Finding</th></tr>
+<tr><td>OSPF after a WAN flap</td><td>Hello → DB Description → LS Request → <b>LS Update</b> → LS Ack between 1.1.1.1 and 2.2.2.2</td></tr>
+<tr><td>DHCP relay</td><td>unicast from the relay to Kea with <b>giaddr 192.168.20.1</b>, which selects the IT pool</td></tr>
+<tr><td>SNMPv3</td><td>user "monitor" visible, <b>encryptedPDU</b>, no community string; v2c "public" gets no reply</td></tr>
+<tr><td>WireGuard outside</td><td>only UDP 51820 "transport data"; <b>no ICMP visible</b></td></tr>
+<tr><td>WireGuard inside (wg0)</td><td>the admin's ICMP in clear after decryption</td></tr>
+<tr><td>Syslog</td><td>readable on the wire, which is a known weakness (use TLS/RELP or a management VLAN)</td></tr>
+</table>
+<pre>sudo ip netns exec hq-r1 tcpdump -i g0-1 -nn -w ospf.pcap 'proto ospf'
+tshark -r ospf.pcap -T fields -e ip.src -e ospf.msg -e ospf.srcrouter
+tshark -r snmp.pcap -Y 'snmp.msgVersion == 3 &amp;&amp; snmp.encryptedPDU'
+wireshark -r snmp.pcap -Y snmp                 <span class="c"># Windows GUI</span></pre>
+</div>
+
+<div class="step">
+<h3>Step 17: Evidence, screenshots and publishing</h3>
+<ul>
+<li>The UI screenshots are scripted with <b>Playwright</b> (headless Chromium), and the Wireshark ones with PowerShell.</li>
+<li>Before every commit, all staged files (pcaps included) are scanned for every value in the lab secrets file and the WireGuard keys: <b>0 hits</b>.</li>
+<li>Commits carry clear messages.</li>
+</ul>
+<pre>python testing/screenshots/capture-ui.py .lab-local/ui-admin.txt
+powershell -File testing/screenshots/capture-wireshark.ps1
+git add -A &amp;&amp; git diff --cached --name-only | xargs grep -lFf secrets.txt   <span class="c"># must print nothing</span>
+git commit -m "..." &amp;&amp; git push origin main</pre>
+</div>
+</div>
+
+<!-- ============================== 4 ============================== -->
+<div class="section">
+<h2>4. Tool reference: what each tool is and does</h2>
+<p>For every tool: <span class="lbl">What it is</span> · <span class="lbl">What it can do</span> (in general) · <span class="lbl">What I did with it</span> in this project.</p>
+
+<h3>4.1 Cisco and network tools</h3>
+<div class="tool"><h4>Cisco IOS <span class="tag">network OS</span></h4>
+<p><span class="lbl">What it is:</span> the operating system of Cisco routers and switches, configured from a CLI.</p>
+<p><span class="lbl">What it can do:</span>
+<ul>
+<li>routing (static, OSPF, EIGRP, BGP) and switching (VLANs, STP, EtherChannel);</li>
+<li>ACLs, NAT, VPNs, QoS and first-hop redundancy;</li>
+<li>management features: SSH, SNMP, Syslog, NTP.</li>
+</ul></p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>wrote full configs for 2 routers and 2 switches: router-on-a-stick, OSPF, DHCP relay, extended and standard ACLs, SSH v2 only;</li>
+<li>added login blocking, SNMPv3 authPriv, Syslog, port security, DHCP snooping, BPDU Guard and Rapid-PVST;</li>
+<li>replaced every secret with a placeholder.</li>
+</ul></p></div>
+
+<div class="tool"><h4>Cisco Packet Tracer 9.0 <span class="tag">network simulator</span></h4>
+<p><span class="lbl">What it is:</span> Cisco's free network simulator for learning and labs.</p>
+<p><span class="lbl">What it can do:</span> simulate routers, switches, PCs and servers with a real-feeling IOS CLI; step through packets in simulation mode; run DHCP, DNS, HTTP and Syslog services on server icons.</p>
+<p><span class="lbl">What I did:</span> built the full 9-device topology from generated configs and set up the SRV01 services. Then I verified relay DHCP, OSPF, the ACLs, DNS, web, Syslog and the switch security features, with 14 screenshots. Its limits: no SNMPv3, and it cannot connect to real VMs.</p></div>
+
+<div class="tool"><h4>FRR (FRRouting) <span class="tag">routing suite</span></h4>
+<p><span class="lbl">What it is:</span> an open-source routing suite for Linux (OSPF, BGP, IS-IS, …) with a Cisco-like shell, <code>vtysh</code>.</p>
+<p><span class="lbl">What it can do:</span> turn a Linux box into a router; used in data centers, labs and SONiC switches.</p>
+<p><span class="lbl">What I did:</span> ran OSPF area 0 in the HQ-R1 and BR-R2 namespaces (router IDs 1.1.1.1 / 2.2.2.2, point-to-point WAN, passive LANs). I used it to test adjacency, routes, WAN failure (11 s re-convergence) and the troubleshooting faults (hello mismatch, missing network statement).</p></div>
+
+<div class="tool"><h4>Linux network namespaces, bridges and veth <span class="tag">kernel networking</span></h4>
+<p><span class="lbl">What it is:</span> kernel features that give a process its own isolated network stack, plus virtual switches (bridges) and virtual cables (veth pairs).</p>
+<p><span class="lbl">What it can do:</span> they are the building blocks of containers and Kubernetes networking, and they make lightweight network emulators possible.</p>
+<p><span class="lbl">What I did:</span> one namespace per router, switch and PC, VLAN-aware bridges as switches with trunk and access ports, and veth pairs as cables.</p></div>
+
+<div class="tool"><h4>nftables <span class="tag">Linux firewall</span></h4>
+<p><span class="lbl">What it is:</span> the modern Linux packet-filtering framework, the successor to iptables.</p>
+<p><span class="lbl">What it can do:</span> stateful and stateless filtering, NAT, sets and maps, logging and counters.</p>
+<p><span class="lbl">What I did:</span> mirrored the Cisco ACLs rule for rule (MGMT-PROTECT, FINANCE-PROTECT) with counters, and built the WireGuard EDGE-IN and VPN-FILTER policy on HQ-R1.</p></div>
+
+<div class="tool"><h4>isc-dhcp-relay (dhcrelay) <span class="tag">DHCP relay</span></h4>
+<p><span class="lbl">What it is:</span> the Linux equivalent of <code>ip helper-address</code>.</p>
+<p><span class="lbl">What it can do:</span> forward DHCP broadcasts as unicast to a central server, adding the giaddr.</p>
+<p><span class="lbl">What I did:</span> relayed every client VLAN to Kea. This also uncovered a real bug: BR-R2 relays from its WAN address, so UFW had to allow 10.0.12.0/30.</p></div>
+
+<div class="tool"><h4>WireGuard <span class="tag">VPN</span></h4>
+<p><span class="lbl">What it is:</span> a modern, minimal VPN in the Linux kernel. It uses public-key peers, UDP, and ChaCha20-Poly1305 encryption.</p>
+<p><span class="lbl">What it can do:</span> remote-access and site-to-site VPNs with very little configuration and high performance.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>built a remote-admin VPN on HQ-R1 with least-privilege <code>AllowedIPs</code>;</li>
+<li>added an edge filter (only UDP 51820) and a router-side VPN-FILTER;</li>
+<li>advertised the pool in OSPF;</li>
+<li>tested the handshake, the permitted and denied routes, and an attack where the client widens its own AllowedIPs (still blocked).</li>
+</ul></p></div>
+
+<h3>4.2 Linux server tools</h3>
+<div class="tool"><h4>VirtualBox <span class="tag">hypervisor</span></h4>
+<p><span class="lbl">What it is:</span> a free type-2 hypervisor (VMware Workstation is the alternative).</p>
+<p><span class="lbl">What it can do:</span> run VMs with NAT, bridged, host-only and internal networking; snapshots; and full control from the CLI with VBoxManage.</p>
+<p><span class="lbl">What I did:</span> created the Ubuntu VM with an unattended install. When the host-only driver was missing, I worked around it with 127.0.0.1-bound NAT port forwards and an internal network. Later I added forwards for each web UI.</p></div>
+
+<div class="tool"><h4>Ubuntu Server 22.04 + Netplan <span class="tag">OS / network config</span></h4>
+<p><span class="lbl">What it is:</span> a long-term-support Linux server OS. Netplan is its YAML network configuration layer.</p>
+<p><span class="lbl">What it can do:</span> host any service. Netplan declares interfaces, bridges, VLANs, routes and DNS.</p>
+<p><span class="lbl">What I did:</span> a bridge <code>br-vlan50</code> with a static IP 192.168.50.10, lab routes via HQ-R1, and the server resolving through its own BIND.</p></div>
+
+<div class="tool"><h4>BIND9 <span class="tag">DNS</span></h4>
+<p><span class="lbl">What it is:</span> the reference authoritative and recursive DNS server.</p>
+<p><span class="lbl">What it can do:</span> authoritative zones, recursion, views, DNSSEC and zone transfers.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>zone <code>corp.lab</code>: servers, devices and gateways, with CNAMEs www, intranet, syslog and nms;</li>
+<li>the reverse zone <code>168.192.in-addr.arpa</code>;</li>
+<li>recursion only for lab networks;</li>
+<li>validated with <code>named-checkconf</code> and <code>named-checkzone</code>.</li>
+</ul></p></div>
+
+<div class="tool"><h4>Kea DHCPv4 <span class="tag">DHCP</span></h4>
+<p><span class="lbl">What it is:</span> ISC's modern DHCP server, with JSON config and an API. It replaced isc-dhcp-server.</p>
+<p><span class="lbl">What it can do:</span> multiple subnets and pools, reservations, high availability and lease databases.</p>
+<p><span class="lbl">What I did:</span> one subnet per client VLAN (pools .100–.199, router option, DNS 192.168.50.10, domain corp.lab). Kea picks the subnet by the relay giaddr.</p></div>
+
+<div class="tool"><h4>Nginx <span class="tag">web server / reverse proxy</span></h4>
+<p><span class="lbl">What it is:</span> a high-performance web server and reverse proxy.</p>
+<p><span class="lbl">What it can do:</span> static sites, reverse proxying to apps, TLS termination and load balancing.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>the intranet site on port 80 with <code>server_tokens off</code>;</li>
+<li>LibreNMS on 8000 and Zabbix on 8081, both through PHP-FPM;</li>
+<li>a reverse proxy for NetBox on 8082 (to gunicorn).</li>
+</ul></p></div>
+
+<div class="tool"><h4>rsyslog <span class="tag">central logging</span></h4>
+<p><span class="lbl">What it is:</span> the standard Linux syslog daemon.</p>
+<p><span class="lbl">What it can do:</span> receive logs over UDP/TCP/TLS, filter them, write templated files, and forward to a SIEM.</p>
+<p><span class="lbl">What I did:</span> a dedicated "remote" ruleset on UDP and TCP 514 that writes one file per device plus <code>all-devices.log</code>. It recorded the OSPF <code>Full→Deleted→Full</code> sequence during the WAN test.</p></div>
+
+<div class="tool"><h4>Net-SNMP <span class="tag">SNMP agent &amp; tools</span></h4>
+<p><span class="lbl">What it is:</span> SNMP agent (snmpd) and client tools (snmpget, snmpwalk).</p>
+<p><span class="lbl">What it can do:</span> expose and query device metrics: interfaces, CPU, disks, processes.</p>
+<p><span class="lbl">What I did:</span> SNMPv3 user <code>monitor</code> (authPriv, SHA/AES) on srv01 and on every emulated device. Tests prove that v2c and wrong keys are refused.</p></div>
+
+<div class="tool"><h4>UFW and OpenSSH hardening <span class="tag">host security</span></h4>
+<p><span class="lbl">What it is:</span> UFW is a simple front end to the Linux firewall. OpenSSH is the SSH server.</p>
+<p><span class="lbl">What it can do:</span> per-port and per-source allow rules with a default deny; key-based, restricted remote login.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>default deny incoming;</li>
+<li>each service is allowed only from the sources that need it, for example the web UIs only from the Admin VLAN, VPN admins and the host;</li>
+<li>Syslog and traps only from device addresses;</li>
+<li>SSH: no root login, 3 tries, AllowUsers netadmin.</li>
+</ul></p></div>
+
+<h3>4.3 Automation</h3>
+<div class="tool"><h4>Ansible <span class="tag">configuration automation</span></h4>
+<p><span class="lbl">What it is:</span> agentless automation over SSH using YAML playbooks. The <code>cisco.ios</code> collection drives IOS.</p>
+<p><span class="lbl">What it can do:</span> config backups, pushing standard configs, compliance checks, upgrades, and fleet-wide show commands.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>inventory with group_vars, and credentials in Ansible Vault;</li>
+<li><code>backup.yml</code>: config backups with automatic sanitizing;</li>
+<li><code>verify-ospf.yml</code>: asserts the OSPF neighbor is Full;</li>
+<li>an emulation variant that is exercised in T12.</li>
+</ul></p></div>
+
+<div class="tool"><h4>Python <span class="tag">scripting</span></h4>
+<p><span class="lbl">What it is:</span> the main scripting language of network automation (Netmiko, NAPALM, Nornir, requests).</p>
+<p><span class="lbl">What it can do:</span> health checks, API integrations, report generation and data processing.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li><code>health_check.py</code>: threaded ping and TCP checks with a CSV log and unit tests;</li>
+<li>API clients for Zabbix and NetBox (standard library only, idempotent);</li>
+<li>the Packet Tracer config converter;</li>
+<li>topology and workbook generation;</li>
+<li>Playwright screenshots.</li>
+</ul></p></div>
+
+<h3>4.4 Monitoring, IPAM and analysis</h3>
+<div class="tool"><h4>LibreNMS <span class="tag">network monitoring (NMS)</span></h4>
+<p><span class="lbl">What it is:</span> an open-source, auto-discovering network monitoring system (PHP/Laravel, MariaDB, RRD).</p>
+<p><span class="lbl">What it can do:</span> discover devices and ports over SNMP, graph traffic, errors, CPU and memory, keep an event log, send alerts, and run billing and weathermaps.</p>
+<p><span class="lbl">What I did:</span> installed it by script, added all devices over SNMPv3, discovered 31 ports, and logged the WAN <code>ifOperStatus up→down→up</code> event. Its database also feeds Grafana.</p></div>
+
+<div class="tool"><h4>Zabbix <span class="tag">enterprise monitoring</span></h4>
+<p><span class="lbl">What it is:</span> an enterprise monitoring platform: server, agents, SNMP, templates, triggers, actions and an API.</p>
+<p><span class="lbl">What it can do:</span> monitor networks, servers, apps and the cloud; collect with SNMP, agents, HTTP and scripts; fire triggers that escalate and notify; discover with LLD; manage everything through the API.</p>
+<p><span class="lbl">What I did:</span>
+<ul>
+<li>configured it entirely through the API: secret macros for the SNMPv3 keys, host groups, templates, the agent on srv01, and a read-only Grafana role;</li>
+<li>showed that a WAN carrier loss opens a "Link down" problem and resolves it.</li>
+</ul></p></div>
+
+<div class="tool"><h4>Grafana <span class="tag">visualization</span></h4>
+<p><span class="lbl">What it is:</span> a dashboard and visualization platform.</p>
+<p><span class="lbl">What it can do:</span> connect to many data sources (Prometheus, SQL, Zabbix, Loki…), build dashboards and alerts, and provision them as code.</p>
+<p><span class="lbl">What I did:</span> one provisioned dashboard combining Zabbix and LibreNMS, with read-only accounts for both and anonymous access disabled.</p></div>
+
+<div class="tool"><h4>NetBox <span class="tag">IPAM / DCIM source of truth</span></h4>
+<p><span class="lbl">What it is:</span> the standard open-source tool for documenting networks (IP addresses, VLANs, devices, cables, racks), built on Django and PostgreSQL.</p>
+<p><span class="lbl">What it can do:</span> act as the "intended state" that automation reads from; IPAM; cabling and rack documentation; a REST and GraphQL API; webhooks.</p>
+<p><span class="lbl">What I did:</span> loaded the whole design through the API (idempotent), then used it as the reference for the Nmap audit: <i>documentation vs reality</i>.</p></div>
+
+<div class="tool"><h4>Nmap <span class="tag">discovery &amp; security scanning</span></h4>
+<p><span class="lbl">What it is:</span> the standard network scanner.</p>
+<p><span class="lbl">What it can do:</span> host discovery, port scanning (TCP, UDP), service and version detection, OS detection, and NSE scripts.</p>
+<p><span class="lbl">What I did:</span> an audit that proves:
+<ul>
+<li>there are no undocumented hosts;</li>
+<li>UFW shows different ports per VLAN;</li>
+<li>the ACLs work;</li>
+<li>the internet edge exposes nothing;</li>
+<li>the SNMP agents accept only v3.</li>
+</ul></p></div>
+
+<div class="tool"><h4>tcpdump, tshark and Wireshark <span class="tag">packet analysis</span></h4>
+<p><span class="lbl">What they are:</span> tcpdump captures packets on the CLI. tshark is Wireshark's CLI decoder. Wireshark is the GUI analyzer.</p>
+<p><span class="lbl">What they can do:</span> see exactly what is on the wire, troubleshoot protocols, verify encryption, and measure timing.</p>
+<p><span class="lbl">What I did:</span> captured OSPF adjacency building, DHCP relay with giaddr, SNMPv3 encryption, WireGuard inside and outside the tunnel, and plaintext Syslog. The checks were automated with tshark filters and the captures viewed in Wireshark.</p></div>
+
+<h3>4.5 Supporting tools</h3>
+<table class="small">
+<tr><th>Tool</th><th>Used for</th></tr>
+<tr><td>Git / GitHub / gh</td><td>Version control, a public portfolio repo and staged commits</td></tr>
+<tr><td>MariaDB / PostgreSQL / Redis</td><td>Databases for LibreNMS and Zabbix (MariaDB), NetBox (PostgreSQL) and the NetBox task queue and cache (Redis)</td></tr>
+<tr><td>PHP-FPM / gunicorn</td><td>Application servers behind Nginx (PHP apps / Django)</td></tr>
+<tr><td>systemd</td><td>Services and timers (librenms-scheduler, netbox, netbox-rq)</td></tr>
+<tr><td>Playwright</td><td>Scripted, repeatable screenshots of the web UIs</td></tr>
+<tr><td>PowerShell / Bash</td><td>Windows-host automation (VBoxManage, Wireshark capture) and all Linux scripts</td></tr>
+<tr><td>openpyxl / Pillow</td><td>Excel addressing workbook and topology image</td></tr>
+</table>
+</div>
+
+<!-- ============================== 5 ============================== -->
+<div class="section">
+<h2>5. Command cheat sheet</h2>
+<h3>Cisco IOS: configure</h3>
+<pre>configure terminal
+vlan 10 / name ADMIN
+interface g0/0.10 / encapsulation dot1Q 10 / ip address 192.168.10.1 255.255.255.0 / ip helper-address 192.168.50.10
+interface g0/1 / switchport mode trunk / switchport trunk native vlan 999 / switchport trunk allowed vlan 10,20,50,99
+interface f0/1 / switchport mode access / switchport access vlan 10 / switchport port-security / spanning-tree portfast
+router ospf 1 / router-id 1.1.1.1 / passive-interface default / no passive-interface g0/1 / network 10.0.12.0 0.0.0.3 area 0
+ip access-list extended FINANCE-PROTECT / permit ip 192.168.10.0 0.0.0.255 192.168.40.0 0.0.0.255 / deny ip any any log
+crypto key generate rsa modulus 2048 / ip ssh version 2 / line vty 0 4 / transport input ssh / login local
+copy running-config startup-config      (or: write memory)</pre>
+<h3>Cisco IOS: verify and troubleshoot</h3>
+<pre>show ip interface brief          show running-config | section ospf
+show vlan brief                  show interfaces trunk           show interfaces g0/1 switchport
+show ip ospf neighbor            show ip ospf interface brief    show ip route ospf
+show access-lists                show ip dhcp snooping binding   show port-security interface f0/1
+show spanning-tree summary       show logging                    show snmp user
+ping 192.168.50.10 source g0/0.10        traceroute 192.168.40.100        debug ip ospf adj (lab only)</pre>
+<h3>Linux networking</h3>
+<pre>ip -br addr / ip -br link / ip route / ip neigh       ss -tulpn (listening sockets)
+bridge vlan show                                      ip netns list ; ip netns exec it-pc ping 192.168.40.1
+sudo vtysh -N hq-r1 -c 'show ip ospf neighbor'         sudo nft list ruleset
+dig @192.168.50.10 www.corp.lab +short                 dig -x 192.168.50.10
+sudo ufw status numbered                               sudo journalctl -u kea-dhcp4-server -f
+tail -f /var/log/remote/all-devices.log                logger -n 192.168.50.10 -P 514 -d "test"
+snmpwalk -v3 -l authPriv -u monitor -a SHA -A "$SNMP_AUTH" -x AES -X "$SNMP_PRIV" 192.168.99.1 IF-MIB::ifOperStatus</pre>
+<h3>Services and tools</h3>
+<pre>systemctl status nginx named kea-dhcp4-server rsyslog snmpd zabbix-server grafana-server netbox
+sudo -u librenms lnms device:add / device:poll all / ./validate.php
+wg show ; wg-quick up lab
+ansible-playbook playbooks/backup.yml --ask-vault-pass ; ansible-vault create vault.yml
+nmap -sn 192.168.10.0/24 ; nmap -sT -p 22,80 host ; nmap -sU -p 161 host ; nmap -sV host
+tcpdump -i eth0 -nn -w cap.pcap 'udp port 67 or udp port 68'
+tshark -r cap.pcap -Y dhcp -T fields -e dhcp.ip.relay
+curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8081/</pre>
+<h3>Wireshark display filters used</h3>
+<pre>ospf        ospf.msg == 4 (LS Update)        dhcp        dhcp.ip.relay == 192.168.20.1
+snmp        snmp.msgVersion == 3 &amp;&amp; snmp.encryptedPDU          wg       wg.type == 4 (transport data)
+icmp        syslog contains "LINEPROTO"       ip.addr == 192.168.50.10       tcp.port == 22</pre>
+
+<!-- ============================== 6 ============================== -->
+<h2 style="margin-top:18px">6. Rebuild the lab from zero</h2>
+<pre><span class="c"># on Windows (host)</span>
+git clone https://github.com/muttakin210/Enterprise-Network-Infrastructure-Cisco-Linux.git
+<span class="c"># create the Ubuntu 22.04 VM (3 GB RAM, NAT forwards 2222/8080/8000/8081/8082/3000), copy the repo in, then on the VM:</span>
+sudo ./linux/setup-server.sh                       <span class="c"># 1. server services + UFW</span>
+sudo ./testing/emulation/netns-lab.sh up           <span class="c"># 2. emulated Cisco topology (OSPF, VLANs, ACLs)</span>
+sudo ./testing/emulation/wireguard-lab.sh up       <span class="c"># 3. remote-admin VPN</span>
+sudo ./monitoring/librenms/install-librenms.sh     <span class="c"># 4. LibreNMS         http://127.0.0.1:8000</span>
+sudo ./monitoring/zabbix/install-zabbix.sh         <span class="c"># 5. Zabbix           http://127.0.0.1:8081</span>
+sudo ./ipam/netbox/install-netbox.sh               <span class="c"># 6. NetBox           http://127.0.0.1:8082</span>
+sudo ./monitoring/grafana/install-grafana.sh       <span class="c"># 7. Grafana          http://127.0.0.1:3000</span>
+sudo ./testing/run-tests.sh                        <span class="c"># 8. T01-T22 -> testing/results/test-report.md</span>
+sudo ./testing/troubleshooting/run-challenges.sh   <span class="c"># 9. TS-01..TS-10</span>
+<span class="c"># Packet Tracer: open cisco/packet-tracer/enterprise-lab.pkt (or build from configs/ with the README steps)</span></pre>
+<div class="box warn">Every installer is <b>idempotent</b> (safe to re-run) and generates its passwords into <code>/root/lab-secrets.env</code> (mode 600). Nothing secret is ever committed.</div>
+</div>
+
+<!-- ============================== 7 ============================== -->
+<div class="section">
+<h2>7. Test results and troubleshooting challenges</h2>
+<table class="small">
+<tr><th>ID</th><th>Test</th><th>What is checked</th><th>Result</th></tr>
+<tr><td>T01</td><td>Basic reachability</td><td>every client pings its gateway</td><td>PASS</td></tr>
+<tr><td>T02</td><td>DHCP via relay</td><td>clients lease from their own VLAN pool through the relay</td><td>PASS</td></tr>
+<tr><td>T03</td><td>OSPF</td><td>neighbor Full, remote LANs installed</td><td>PASS</td></tr>
+<tr><td>T04</td><td>Inter-VLAN and WAN</td><td>permitted flows pass; traceroute path across the WAN</td><td>PASS</td></tr>
+<tr><td>T05</td><td>Web</td><td>HTTP 200 for www.corp.lab from every VLAN</td><td>PASS</td></tr>
+<tr><td>T06</td><td>DNS</td><td>forward, reverse and recursive answers</td><td>PASS</td></tr>
+<tr><td>T07</td><td>FINANCE-PROTECT</td><td>IT/HR blocked (counters rise), Admin allowed</td><td>PASS</td></tr>
+<tr><td>T08</td><td>MGMT-PROTECT</td><td>only Admin and srv01 reach the management SVIs</td><td>PASS</td></tr>
+<tr><td>T09</td><td>WAN failure</td><td>adjacency drops, Syslog event, re-converges (11 s)</td><td>PASS</td></tr>
+<tr><td>T10</td><td>Central Syslog</td><td>per-device files with source IPs</td><td>PASS</td></tr>
+<tr><td>T11</td><td>SNMPv3</td><td>authPriv answers; v2c and wrong keys refused</td><td>PASS</td></tr>
+<tr><td>T12</td><td>Ansible backup</td><td>backups created, OSPF asserted Full</td><td>PASS</td></tr>
+<tr><td>T13</td><td>Python health check</td><td>all devices reachable, CSV written</td><td>PASS</td></tr>
+<tr><td>T14</td><td>Server hardening</td><td>UFW default deny, root SSH off</td><td>PASS</td></tr>
+<tr><td>T15</td><td>Linux services</td><td>all services active</td><td>PASS</td></tr>
+<tr><td>T16</td><td>WireGuard</td><td>handshake, permitted routes, Finance blocked even with widened AllowedIPs</td><td>PASS</td></tr>
+<tr><td>T17</td><td>LibreNMS</td><td>UI 200, 5 devices up via v3, port events</td><td>PASS</td></tr>
+<tr><td>T18</td><td>Zabbix</td><td>5 hosts available; Link down opens and resolves</td><td>PASS</td></tr>
+<tr><td>T19</td><td>NetBox</td><td>import correct and idempotent</td><td>PASS</td></tr>
+<tr><td>T20</td><td>Grafana</td><td>both data sources OK, dashboard present, anonymous 401</td><td>PASS</td></tr>
+<tr><td>T21</td><td>Nmap audit</td><td>0 undocumented hosts; policy as designed</td><td>PASS</td></tr>
+<tr><td>T22</td><td>Packet analysis</td><td>OSPF LSUs, giaddr, SNMP encrypted, only UDP 51820 outside</td><td>PASS</td></tr>
+</table>
+
+<h3>Troubleshooting challenges (fault injected → diagnosed → fixed)</h3>
+<table class="small">
+<tr><th>ID</th><th>Symptom</th><th>Root cause</th><th>How it was found</th></tr>
+<tr><td>TS-01</td><td>PC cannot reach its gateway</td><td>access port in the wrong VLAN</td><td><code>show vlan brief</code> / <code>bridge vlan show</code></td></tr>
+<tr><td>TS-02</td><td>VLAN 10 ↔ 20 fails</td><td>subinterface shut down</td><td><code>show ip interface brief</code></td></tr>
+<tr><td>TS-03</td><td>Branch cannot reach HQ server</td><td>missing OSPF network statement</td><td><code>show ip route</code> on BR-R2, then the HQ-R1 OSPF config</td></tr>
+<tr><td>TS-04</td><td>OSPF neighbor does not form</td><td>hello/dead interval mismatch</td><td><code>show ip ospf interface</code> on both ends</td></tr>
+<tr><td>TS-05</td><td>VLAN missing across the trunk</td><td>VLAN pruned from the allowed list</td><td><code>show interfaces trunk</code></td></tr>
+<tr><td>TS-06</td><td>DNS unreachable</td><td>no firewall rule for 53</td><td><code>dig</code> timeout → <code>ufw status</code></td></tr>
+<tr><td>TS-07</td><td>No DHCP leases at the branch</td><td>missing ip helper-address / relay</td><td>tcpdump shows broadcasts that never reach Kea</td></tr>
+<tr><td>TS-08</td><td>ACL blocks legitimate traffic</td><td>deny placed above the permit</td><td><code>show access-lists</code> (counters, order)</td></tr>
+<tr><td>TS-09</td><td>Ansible cannot connect</td><td>SSH not allowed on management</td><td><code>nc -zv</code>, VTY ACL / sshd</td></tr>
+<tr><td>TS-10</td><td>SNMP cannot see a device</td><td>SNMPv3 key mismatch</td><td><code>snmpget</code> → "authorizationError / wrong digest"</td></tr>
+</table>
+<div class="box tip"><b>Method used every time:</b> define the symptom → check bottom-up (L1 link → L2 VLAN/trunk → L3 IP/route → L4 ports/firewall → application) → compare with the documented design → change <i>one</i> thing → re-test and record the evidence.</div>
+</div>
+
+<!-- ============================== 8 ============================== -->
+<div class="section">
+<h2>8. Problems hit and how they were solved</h2>
+<p>These are real problems from the build, not invented ones. They make the best interview stories.</p>
+<table class="small">
+<tr><th>#</th><th>Problem</th><th>Root cause</th><th>Fix</th></tr>
+<tr><td>1</td><td>VirtualBox host-only adapter could not be created</td><td>network driver missing on the host</td><td>NAT port forwards on 127.0.0.1 + internal network</td></tr>
+<tr><td>2</td><td>SSH refused after reboot</td><td>the banner came from the installer; openssh-server was not installed</td><td>installed it from the console; the script installs it now</td></tr>
+<tr><td>3</td><td>Branch clients got no DHCP</td><td>relay sends from the WAN IP 10.0.12.2; UFW allowed only 192.168.0.0/16</td><td>UFW rule for udp/67 from 10.0.12.0/30</td></tr>
+<tr><td>4</td><td>Clients could not resolve names</td><td>dhclient handed DNS to systemd-resolved, which does not run in the namespace</td><td>write the leased DNS into the namespace's resolv.conf</td></tr>
+<tr><td>5</td><td>Traceroute showed only *</td><td>UDP probes hit the UFW default deny</td><td>use ICMP traceroute (-I)</td></tr>
+<tr><td>6</td><td>snmpget "Unknown Object Identifier"</td><td>Ubuntu ships without MIB files</td><td>snmp-mibs-downloader + enable MIBs</td></tr>
+<tr><td>7</td><td>SNMP keys appeared in evidence</td><td>the test log echoed full command lines</td><td>redaction + a pre-commit scan for every secret</td></tr>
+<tr><td>8</td><td>Ansible "destination does not exist"</td><td>backup folders were assumed to exist</td><td>task creates raw/ and sanitized/</td></tr>
+<tr><td>9</td><td>Checks failed although the output looked right</td><td><code>pipefail</code> + <code>grep -q</code> → SIGPIPE</td><td>removed pipefail from the test scripts</td></tr>
+<tr><td>10</td><td>PT rejected config lines and ACLs lost their deny</td><td>PT's parser lacks some keywords; a rejected paste line is skipped silently</td><td>converter rewrites them; <code>show access-lists</code> after every paste</td></tr>
+<tr><td>11</td><td>"Invalid DNS" in PT</td><td>value typed twice</td><td>clear the field, enter it once</td></tr>
+<tr><td>12</td><td>LibreNMS composer: lock file incompatible</td><td>current LibreNMS needs PHP ≥ 8.4</td><td>PHP 8.4 from ppa:ondrej/php</td></tr>
+<tr><td>13</td><td>"No application encryption key"</td><td>the web installer normally creates APP_KEY</td><td><code>php artisan key:generate</code> in the script</td></tr>
+<tr><td>14</td><td><code>--seclevel</code> option does not exist</td><td>LibreNMS renamed the SNMPv3 flags</td><td>new flag names, found with <code>--help</code></td></tr>
+<tr><td>15</td><td>Unknown column 'snmpver'</td><td>credentials moved to an encrypted secrets table</td><td>test joins the new tables</td></tr>
+<tr><td>16</td><td>Zabbix refused MariaDB 10.6</td><td>Zabbix 8.0 requires ≥ 10.11</td><td>documented <code>AllowUnsupportedDBVersions=1</code> (shared DB)</td></tr>
+<tr><td>17</td><td>hostinterface.update unknown</td><td>not in the Zabbix 8.0 API</td><td><code>host.update</code> with interfaceid</td></tr>
+<tr><td>18</td><td>Grafana: no permission for hostgroup.get</td><td>Zabbix 8.0 disables API access in its default roles</td><td>dedicated read-only role (<code>*.get</code> only)</td></tr>
+<tr><td>19</td><td>NetBox would not install on 22.04</td><td>needs Python ≥ 3.12 and PostgreSQL ≥ 15</td><td>deadsnakes Python 3.12 + PGDG PostgreSQL 17</td></tr>
+<tr><td>20</td><td>Zabbix missed the WAN failure</td><td>admin shutdown made LLD treat the port as lost and disable its items; interface items are dependent items</td><td>simulate a far-end (carrier) failure; poll the master walk item</td></tr>
+<tr><td>21</td><td>Nmap said <code>open|filtered</code></td><td>UDP + silent drop gives no reply</td><td>corrected the expectation (that result <i>is</i> the drop)</td></tr>
+<tr><td>22</td><td>Grafana problems panel empty</td><td>wrong panel id / query field in plugin 6.x</td><td>fixed the panel type and query</td></tr>
+<tr><td>23</td><td>Events 6 h in the future</td><td>local time stored, Grafana assumed UTC</td><td>format the time as text in SQL</td></tr>
+</table>
+
+<!-- ============================== 9 ============================== -->
+<h2 style="margin-top:16px">9. Security decisions</h2>
+<ul>
+<li><b>Management plane:</b>
+<ul>
+<li>SSH v2 only, with a local user and an enable secret;</li>
+<li>a VTY ACL (Admin VLAN, the management VLANs and srv01);</li>
+<li>login blocking, exec timeouts and a banner.</li>
+</ul></li>
+<li><b>Segmentation:</b> VLANs per department; FINANCE-PROTECT and MGMT-PROTECT applied outbound on the protected subinterface, with deny logging.</li>
+<li><b>Layer 2:</b>
+<ul>
+<li>unused ports shut and placed in VLAN 999;</li>
+<li>native VLAN 999 and DTP off (<code>nonegotiate</code>);</li>
+<li>port security (sticky, max 2, restrict);</li>
+<li>DHCP snooping (trust only the uplink, rate-limit clients), which stops rogue DHCP servers;</li>
+<li>BPDU Guard plus PortFast, which stops rogue switches and loops.</li>
+</ul></li>
+<li><b>Monitoring:</b>
+<ul>
+<li>SNMPv3 authPriv only, with an ACL to the NMS;</li>
+<li>keys stored as Zabbix secret macros and as encrypted secrets in LibreNMS;</li>
+<li>Grafana uses read-only accounts.</li>
+</ul></li>
+<li><b>Server:</b>
+<ul>
+<li>UFW default deny with per-source rules;</li>
+<li>no root SSH and AllowUsers;</li>
+<li><code>ip_forward=0</code>;</li>
+<li><code>server_tokens off</code>.</li>
+</ul></li>
+<li><b>Remote access:</b>
+<ul>
+<li>WireGuard on the edge router, with least-privilege AllowedIPs;</li>
+<li>a router-side filter so the client cannot grant itself access;</li>
+<li>the internet edge exposes only UDP 51820, which Nmap confirmed.</li>
+</ul></li>
+<li><b>Repository:</b> no IOS images, passwords, keys, SNMP secrets or public IPs; placeholders, Ansible Vault and a pre-commit secret scan.</li>
+<li><b>Known weakness, documented:</b> Syslog over UDP is plaintext. Fix with TLS/RELP or by keeping it on the management VLAN.</li>
+</ul>
+
+<!-- ============================== 10 ============================== -->
+<h2 style="margin-top:16px">10. Limitations and honest scope</h2>
+<table class="small">
+<tr><th>Area</th><th>Limitation</th><th>How it is handled</th></tr>
+<tr><td>Cisco images</td><td>no licensed IOSv/IOSvL2, so no GNS3 with real IOS</td><td>IOS configs verified in Packet Tracer; end-to-end tests on a Linux emulation of the same design</td></tr>
+<tr><td>Packet Tracer</td><td>no SNMPv3; cannot connect to VMs</td><td>SNMPv3 and monitoring tested in the emulation</td></tr>
+<tr><td>Emulation</td><td>FRR/nftables behave like IOS but are not IOS; port security and DHCP snooping cannot be emulated</td><td>those were verified in Packet Tracer</td></tr>
+<tr><td>Zabbix DB</td><td>MariaDB 10.6 below the 8.0 minimum</td><td>documented override; Ubuntu 24.04 for production</td></tr>
+<tr><td>Memory</td><td>4 web platforms on a 3 GB VM</td><td>swap, small caches, 2 NetBox workers</td></tr>
+</table>
+<div class="box warn"><b>In an interview, say this clearly:</b> "Configs are real IOS and were verified in Packet Tracer. Because I had no licensed images, I emulated the same design on Linux (FRR and nftables) to run automated end-to-end tests and monitoring." Honesty about scope builds trust.</div>
+</div>
+
+<!-- ============================== 11 ============================== -->
+<div class="section">
+<h2>11. Interview preparation</h2>
+
+<h3>11.1 Elevator pitch (30 seconds)</h3>
+<div class="box key">"I designed and built a two-site enterprise network lab. Cisco routers and switches use VLANs, router-on-a-stick and OSPF, secured with ACLs, SSH-only management, port security, DHCP snooping and SNMPv3. An Ubuntu server provides DNS, DHCP through relays, web, central Syslog and monitoring with LibreNMS, Zabbix and Grafana. NetBox is the source of truth. I automated backups with Ansible and health checks with Python. Then I proved everything with 22 automated tests, 10 troubleshooting scenarios and packet captures. I documented 23 real problems I solved along the way."</div>
+
+<h3>11.2 Two-minute walkthrough (structure)</h3>
+<ol>
+<li><b>Goal:</b> a realistic small enterprise with HQ and a branch, built like a real job: design, build, secure, automate, monitor, prove.</li>
+<li><b>Design:</b> 7 VLANs, a /30 WAN, point-to-point OSPF, central DHCP and DNS on Linux, an access policy matrix.</li>
+<li><b>Security:</b> layered: management plane, segmentation ACLs, Layer-2 protections, SNMPv3, host firewall, a least-privilege VPN.</li>
+<li><b>Operations:</b> Ansible backups (sanitized), a Python health check, Syslog, two NMSs, a Grafana dashboard, NetBox, and an Nmap audit against NetBox.</li>
+<li><b>Proof:</b> 22 tests with raw evidence, a measured 11-second OSPF failover, Wireshark showing SNMPv3 and WireGuard encryption.</li>
+<li><b>Learning:</b> pick one story from section 8 (for example the DHCP relay from the WAN IP, or Zabbix losing the shut interface).</li>
+</ol>
+
+<h3>11.3 STAR stories (use these for behavioral questions)</h3>
+<div class="box"><b>Story 1: Branch DHCP failing (troubleshooting).</b><br>
+<b>S:</b> HQ clients got addresses but branch clients didn't. <b>T:</b> find out why before the test run.<br>
+<b>A:</b> I checked bottom-up. The relay was configured and Kea was running. tcpdump on the server showed <i>nothing</i> arriving from the branch.
+The relay forwards from its upstream interface, so the source was 10.0.12.2, and UFW only allowed udp/67 from 192.168.0.0/16.<br>
+<b>R:</b> One precise rule for 10.0.12.0/30 fixed it, and the lesson is in the build log: <i>check the source address a relay actually uses.</i></div>
+<div class="box"><b>Story 2: Monitoring that went blind (deep root cause).</b><br>
+<b>S:</b> The Zabbix WAN-failure test timed out, and Grafana showed "No data" for the WAN. <b>T:</b> make the alert reliable.<br>
+<b>A:</b> I found the interface items were <i>disabled</i>. Shutting the port set ifAdminStatus down, the discovery filter dropped it, and Zabbix 8 disables "lost" items.
+The interface items were also dependent items, so "check now" had to target the master SNMP walk.<br>
+<b>R:</b> The test now simulates a far-end carrier failure, which is more realistic. It polls the master item, and the problem opens in about 5 s and resolves on recovery.
+<i>Lesson: an admin shutdown and a real failure look different to monitoring.</i></div>
+<div class="box"><b>Story 3: Security that cannot be bypassed by the client (design).</b><br>
+<b>S:</b> Remote admins needed VPN access. <b>T:</b> least privilege. <b>A:</b> AllowedIPs limited to servers and management, <i>plus</i> a router-side
+VPN-FILTER and an edge filter allowing only UDP 51820. I then tested an attacker-style change: the client added Finance to its own AllowedIPs.
+<b>R:</b> It was still dropped at HQ-R1, which shows defense in depth works.</div>
+<div class="box"><b>Story 4: Version drift (adaptability).</b> LibreNMS needed PHP 8.4, NetBox needed Python 3.12 and PostgreSQL 15+, and Zabbix needed newer MariaDB.
+I read the official requirements, used the vendors' own repositories (ondrej PPA, deadsnakes, PGDG) and documented one consciously accepted trade-off
+(the Zabbix DB override) instead of breaking LibreNMS.</div>
+
+<h3>11.4 Technical questions and answers</h3>
+<h4>Switching and VLANs</h4>
+<div class="qa"><div class="q">Q: What is a VLAN and why use it?</div><div class="a">A: A logical Layer-2 broadcast domain. It separates departments for security and less broadcast traffic, and traffic between VLANs must go through a router or firewall, where policy is applied.</div></div>
+<div class="qa"><div class="q">Q: Access port vs trunk port?</div><div class="a">A: An access port carries one VLAN untagged (for end devices). A trunk carries many VLANs with 802.1Q tags (switch to switch or router). I limit trunks with <code>allowed vlan</code> and use an unused native VLAN 999.</div></div>
+<div class="qa"><div class="q">Q: What is the native VLAN and why change it?</div><div class="a">A: Frames on the native VLAN cross a trunk untagged. Leaving it as VLAN 1 with users on it allows VLAN-hopping by double tagging. I set it to an unused VLAN 999 and turned DTP off.</div></div>
+<div class="qa"><div class="q">Q: What does DHCP snooping do?</div><div class="a">A: It trusts DHCP server replies only on trusted ports (the uplink) and drops them elsewhere. That stops rogue DHCP servers. It also builds a binding table used by DAI and IP Source Guard. I rate-limited client ports.</div></div>
+<div class="qa"><div class="q">Q: Port security: what and how?</div><div class="a">A: It limits which and how many MACs can use a port. I used a maximum of 2, sticky learning and violation <i>restrict</i>: drop and log, without err-disabling the port.</div></div>
+<div class="qa"><div class="q">Q: PortFast and BPDU Guard?</div><div class="a">A: PortFast moves edge ports straight to forwarding. BPDU Guard err-disables a PortFast port if a BPDU arrives, which stops someone plugging in a switch or creating a loop.</div></div>
+<div class="qa"><div class="q">Q: Why Rapid-PVST?</div><div class="a">A: 802.1w converges in about a second instead of 30–50 s with classic STP, and it runs per VLAN.</div></div>
+
+<h4>Routing and OSPF</h4>
+<div class="qa"><div class="q">Q: How does router-on-a-stick work?</div><div class="a">A: One physical interface with a subinterface per VLAN (<code>encapsulation dot1Q</code>). Each subinterface is the VLAN's gateway, and the router routes between them. Good for small sites; a Layer-3 switch scales better.</div></div>
+<div class="qa"><div class="q">Q: Explain how an OSPF adjacency forms.</div><div class="a">A: Down → Init → 2-Way (hellos) → ExStart/Exchange (DBD) → Loading (LSR/LSU) → Full. I saw exactly this in Wireshark: Hello, DB Description, LS Request, LS Update, LS Ack.</div></div>
+<div class="qa"><div class="q">Q: What must match for neighbors to form?</div><div class="a">A: Area, hello/dead timers, subnet and mask, authentication, the stub flag and MTU (for Exchange), plus a unique router ID. TS-04 was a hello/dead mismatch.</div></div>
+<div class="qa"><div class="q">Q: Why ip ospf network point-to-point on the WAN?</div><div class="a">A: There are only two routers on a /30, so no DR/BDR election is needed. Adjacency forms faster with no wait timer.</div></div>
+<div class="qa"><div class="q">Q: What is passive-interface?</div><div class="a">A: The network is still advertised but no hellos are sent there. I used <code>passive-interface default</code>, so OSPF only talks on the WAN. That is more secure and less noisy.</div></div>
+<div class="qa"><div class="q">Q: How fast did your network fail over, and how did you measure it?</div><div class="a">A: 11 seconds, measured by the test script from the link restore to the neighbor reaching Full and routes returning. Syslog recorded Full→Deleted and then Loading→Full. BFD or tuned timers would make it faster.</div></div>
+<div class="qa"><div class="q">Q: OSPF cost and administrative distance?</div><div class="a">A: Cost = reference bandwidth / interface bandwidth; lowest total wins. AD ranks protocols: connected 0, static 1, eBGP 20, OSPF 110, RIP 120.</div></div>
+
+<h4>ACLs and security</h4>
+<div class="qa"><div class="q">Q: Standard vs extended ACL, and where to place them?</div><div class="a">A: A standard ACL matches source only, so place it near the destination. An extended ACL matches source, destination, protocol and ports, so it usually goes near the source. I put FINANCE-PROTECT outbound on the Finance subinterface, so one ACL protects the VLAN no matter where traffic comes from.</div></div>
+<div class="qa"><div class="q">Q: Why does ACL order matter?</div><div class="a">A: Rules are checked top-down and the first match wins, with an implicit deny at the end. TS-08 was a deny placed above a permit. <code>show access-lists</code> hit counters reveal it.</div></div>
+<div class="qa"><div class="q">Q: How do you secure device management?</div><div class="a">A: SSH v2 only, local or AAA users, an enable secret, a VTY access-class, a management VLAN, login blocking, timeouts, a banner, SNMPv3 instead of v2c, Syslog and NTP.</div></div>
+<div class="qa"><div class="q">Q: SNMPv2c vs v3?</div><div class="a">A: v2c uses a plaintext community string. v3 adds users with authentication (SHA) and encryption (AES), the authPriv level. My Wireshark capture shows encryptedPDU and no community string.</div></div>
+<div class="qa"><div class="q">Q: What is defense in depth? Give an example from your project.</div><div class="a">A: Multiple independent controls. VPN access is limited by the client's AllowedIPs, by a router VPN-FILTER, by an edge filter, by UFW on the server and by MGMT-PROTECT. If one is misconfigured, the others still hold.</div></div>
+
+<h4>Services: DHCP, DNS, Syslog</h4>
+<div class="qa"><div class="q">Q: Explain DORA and the role of a relay.</div><div class="a">A: Discover, Offer, Request, Ack. Broadcasts don't cross routers, so the relay (<code>ip helper-address</code>) unicasts them to the server and adds the giaddr. The server uses the giaddr to pick the right subnet's pool.</div></div>
+<div class="qa"><div class="q">Q: Forward vs reverse DNS zone? Why check zones?</div><div class="a">A: Forward maps name→IP (A, CNAME). Reverse maps IP→name (PTR). <code>named-checkzone</code> catches syntax and serial mistakes before a reload breaks DNS.</div></div>
+<div class="qa"><div class="q">Q: Why central Syslog?</div><div class="a">A: Device logs are lost on reboot and are scattered. A central server gives correlation and retention, and it can feed a SIEM. I keep one file per device plus a combined log, and use timestamps with msec.</div></div>
+
+<h4>Linux and server</h4>
+<div class="qa"><div class="q">Q: How did you harden the Ubuntu server?</div><div class="a">A: UFW default deny with per-source rules, no root SSH, MaxAuthTries 3, AllowUsers, <code>ip_forward=0</code>, rp_filter, only the needed services, generated secrets in a 600 file, and server_tokens off.</div></div>
+<div class="qa"><div class="q">Q: What is a network namespace and why did you use them?</div><div class="a">A: An isolated network stack. Each one acts like a separate device. I used them to emulate routers, switches and PCs on one VM so I could run real routed tests without licensed images. Containers use the same technology.</div></div>
+<div class="qa"><div class="q">Q: Your script is "idempotent"; what does that mean?</div><div class="a">A: Running it twice gives the same result with no duplicates or errors. It checks before it creates, for example "create the user if missing". That is essential for automation.</div></div>
+
+<h4>Automation</h4>
+<div class="qa"><div class="q">Q: Why Ansible for network devices?</div><div class="a">A: It is agentless over SSH, declarative YAML, has vendor modules (cisco.ios) and is repeatable. I used it for backups and compliance (an OSPF Full assertion), with credentials in Ansible Vault.</div></div>
+<div class="qa"><div class="q">Q: Why sanitize backups?</div><div class="a">A: Configs contain password hashes and SNMP keys. The sanitized copy replaces them with placeholders, so it can be stored in Git safely.</div></div>
+<div class="qa"><div class="q">Q: What does your Python script do and how is it tested?</div><div class="a">A: It reads a CSV inventory, pings and checks TCP ports concurrently, logs to CSV, prints a summary, and returns a non-zero exit code on failure (for cron or CI). Unit tests cover parsing and logic.</div></div>
+
+<h4>Monitoring, NetBox, Nmap, Wireshark, VPN</h4>
+<div class="qa"><div class="q">Q: Why both LibreNMS and Zabbix?</div><div class="a">A: To compare them. LibreNMS auto-discovers and is network-focused, with great port graphs. Zabbix is a broader enterprise platform with triggers, actions and an API. Grafana unifies both. In a real job I would pick one based on scope.</div></div>
+<div class="qa"><div class="q">Q: How did you keep monitoring credentials safe?</div><div class="a">A: SNMPv3 keys are secret macros in Zabbix and encrypted in LibreNMS. Grafana uses a Zabbix role allowed only <code>*.get</code> and a database user with SELECT on three tables.</div></div>
+<div class="qa"><div class="q">Q: What is NetBox and how did you use it?</div><div class="a">A: A source of truth for IPAM and DCIM. I loaded the design through its API, then audited reality against it with Nmap: 16 live hosts, 0 undocumented. Automation should read the intended state from NetBox.</div></div>
+<div class="qa"><div class="q">Q: Nmap says open|filtered for UDP; what does it mean?</div><div class="a">A: No response. A closed UDP port would send ICMP port-unreachable and an open service would reply, so no reply means it is filtered (silently dropped) or open but silent. For my edge test it proved the drop.</div></div>
+<div class="qa"><div class="q">Q: How do you prove traffic is encrypted?</div><div class="a">A: Capture it. Outside the WireGuard tunnel there is only UDP 51820 transport data and no ICMP. Inside wg0 the ICMP is visible. SNMPv3 shows encryptedPDU, while Syslog was readable, which is a documented weakness.</div></div>
+<div class="qa"><div class="q">Q: WireGuard vs IPsec?</div><div class="a">A: WireGuard is small, kernel-based and uses modern fixed crypto with simple key pairs. IPsec/IKEv2 is the industry standard on Cisco gear. On Cisco I would build the same policy with IKEv2 remote access plus a VPN filter ACL.</div></div>
+
+<h4>Troubleshooting scenarios</h4>
+<div class="qa"><div class="q">Q: A user can't reach the server. Walk me through it.</div><div class="a">A: Scope it first: one user or many, and since when. Then go bottom-up:
+<ol>
+<li>link and port status;</li>
+<li>VLAN and trunk (<code>show vlan</code>, <code>show interfaces trunk</code>);</li>
+<li>IP, mask and gateway, then ping the gateway;</li>
+<li>routing on both directions (<code>show ip route</code>);</li>
+<li>ACLs and firewalls (<code>show access-lists</code>, <code>ufw</code>);</li>
+<li>DNS vs IP: ping by IP first;</li>
+<li>the service itself (<code>ss -tulpn</code>, logs).</li>
+</ol>
+Change one thing at a time, then verify.</div></div>
+<div class="qa"><div class="q">Q: OSPF neighbor stuck in ExStart/Exchange?</div><div class="a">A: Usually an MTU mismatch. Check <code>show ip ospf interface</code> on both sides and fix the MTU (or <code>ip ospf mtu-ignore</code> as a workaround).</div></div>
+<div class="qa"><div class="q">Q: DHCP works at HQ but not the branch?</div><div class="a">A: Check the helper-address on the branch subinterface, the route back to the relay address, and the firewall on the server for the relay's <i>actual</i> source IP. That last one was my real bug.</div></div>
+
+<h3>11.5 Questions you can ask the interviewer</h3>
+<ul>
+<li>What does your network look like: sites, vendors, routing protocols?</li>
+<li>Which monitoring and IPAM tools does the team use, and is there a source of truth?</li>
+<li>How much is automated today (Ansible, Python), and what would you like automated next?</li>
+<li>How are changes and incidents handled: change windows, on-call, post-incident reviews?</li>
+<li>What would success look like in the first 90 days?</li>
+</ul>
+
+<h3>11.6 Tips for the interview</h3>
+<ul>
+<li>Open the GitHub repo and the Grafana screenshot. <b>Showing</b> is stronger than telling.</li>
+<li>For every claim, have the evidence file ready: test-report.md, the build log and the pcaps.</li>
+<li>Be honest about scope (Packet Tracer plus emulation, not physical gear), then explain why the approach is still rigorous.</li>
+<li>Practice the CLI: <code>show ip ospf neighbor</code>, <code>show vlan brief</code>, <code>show access-lists</code>, <code>show interfaces trunk</code>.</li>
+<li>When you don't know something, say how you would find out: docs, <code>--help</code>, a lab test, packet capture. That is exactly how this project was built.</li>
+</ul>
+</div>
+
+<!-- ============================== 12 ============================== -->
+<div class="section">
+<h2>12. Glossary</h2>
+<table class="small">
+<tr><th style="width:20%">Term</th><th>Meaning</th></tr>
+<tr><td>802.1Q</td><td>VLAN tagging standard: a 4-byte tag carries the VLAN ID on trunks</td></tr>
+<tr><td>ACL</td><td>Access Control List: ordered permit/deny rules, first match wins, implicit deny at the end</td></tr>
+<tr><td>authPriv</td><td>SNMPv3 security level with authentication (SHA) and privacy/encryption (AES)</td></tr>
+<tr><td>BPDU Guard</td><td>Err-disables an edge port that receives spanning-tree BPDUs</td></tr>
+<tr><td>DCIM / IPAM</td><td>Data-center infrastructure management / IP address management (NetBox does both)</td></tr>
+<tr><td>DHCP relay / giaddr</td><td>Forwards DHCP to a central server; giaddr = the relay's address, used to choose the pool</td></tr>
+<tr><td>DHCP snooping</td><td>Switch feature that blocks DHCP server replies on untrusted ports</td></tr>
+<tr><td>Idempotent</td><td>Can be run many times with the same end result</td></tr>
+<tr><td>LLD</td><td>Zabbix low-level discovery: automatically creates items for discovered interfaces and disks</td></tr>
+<tr><td>LSA / LSU</td><td>OSPF link-state advertisement / the update packet that carries LSAs</td></tr>
+<tr><td>Native VLAN</td><td>The VLAN sent untagged on a trunk; set to unused 999 here</td></tr>
+<tr><td>Network namespace</td><td>Linux isolated network stack; used here as virtual routers, switches and PCs</td></tr>
+<tr><td>Passive interface</td><td>OSPF advertises the network but sends no hellos there</td></tr>
+<tr><td>pcap</td><td>Packet-capture file format read by Wireshark and tshark</td></tr>
+<tr><td>Router-on-a-stick</td><td>One router port with a subinterface per VLAN for inter-VLAN routing</td></tr>
+<tr><td>Source of truth</td><td>The authoritative record of intended network state (NetBox)</td></tr>
+<tr><td>Trunk</td><td>A link that carries multiple VLANs with tags</td></tr>
+<tr><td>UFW</td><td>Uncomplicated Firewall: Ubuntu's simple firewall front end</td></tr>
+<tr><td>WireGuard AllowedIPs</td><td>Which destination networks a peer may send to or receive from through the tunnel</td></tr>
+</table>
+<div class="box tip" style="margin-top:14px"><b>Where to find everything:</b> README.md (overview) · docs/build-log.md (all steps and 23 problems) ·
+testing/results/test-report.md (22 tests with evidence) · testing/troubleshooting/ (10 challenges) · screenshots/ (Packet Tracer, LibreNMS,
+Zabbix, NetBox, Grafana, Wireshark) · each tool folder has its own README with commands and results.</div>
+</div>
+
+</body>
+</html>
