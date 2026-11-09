@@ -15,7 +15,8 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -q
 apt-get install -y -q openssh-server nginx bind9 bind9-utils dnsutils \
   kea-dhcp4-server tcpdump snmp snmpd libsnmp-dev rsyslog python3 python3-pip python3-venv \
-  git curl traceroute nftables frr isc-dhcp-relay isc-dhcp-client ansible sshpass jq bc snmp-mibs-downloader
+  git curl traceroute nftables frr isc-dhcp-relay isc-dhcp-client ansible sshpass jq bc snmp-mibs-downloader \
+  wireguard-tools netcat-openbsd
 # load the standard MIBs so tools show names (sysName.0) instead of numeric OIDs
 sed -i 's/^mibs :/# mibs :/' /etc/snmp/snmp.conf
 # FRR and dhcrelay run only inside the emulated routers (testing/emulation), not on the server

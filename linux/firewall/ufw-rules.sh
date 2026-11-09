@@ -6,6 +6,8 @@ set -euo pipefail
 LAB=192.168.0.0/16          # all lab VLANs
 VBOX_NAT=10.0.2.0/24        # VirtualBox NAT: Windows host reaches the VM via port forwards
 DEVICES=(192.168.50.1 192.168.99.0/24 192.168.199.0/24 10.0.12.0/30)   # routers/switches (syslog sources)
+VPN=10.99.0.0/24            # WireGuard remote-admin pool (terminated on HQ-R1)
+ADMIN=192.168.10.0/24       # Admin VLAN
 
 ufw --force reset >/dev/null
 ufw default deny incoming
@@ -17,9 +19,16 @@ ufw allow from "$LAB"      to any port 22 proto tcp comment 'SSH from lab'
 ufw allow from "$VBOX_NAT" to any port 22 proto tcp comment 'SSH from VirtualBox host'
 ufw allow from "$LAB"      to any port 80 proto tcp comment 'HTTP from lab'
 ufw allow from "$VBOX_NAT" to any port 80 proto tcp comment 'HTTP from VirtualBox host'
+ufw allow from "$VPN"      to any port 22 proto tcp comment 'SSH from WireGuard admins'
+ufw allow from "$VPN"      to any port 80 proto tcp comment 'HTTP from WireGuard admins'
+
+# LibreNMS web UI (monitoring/librenms): Admin VLAN and VPN admins only
+ufw allow from "$ADMIN"    to any port 8000 proto tcp comment 'LibreNMS from Admin VLAN'
+ufw allow from "$VPN"      to any port 8000 proto tcp comment 'LibreNMS from WireGuard admins'
+ufw allow from 10.0.2.2    to any port 8000 proto tcp comment 'LibreNMS via VirtualBox NAT (host only)'
 
 # DNS
-for src in "$LAB" "$VBOX_NAT"; do
+for src in "$LAB" "$VBOX_NAT" "$VPN"; do
   ufw allow from "$src" to any port 53 proto udp comment 'DNS'
   ufw allow from "$src" to any port 53 proto tcp comment 'DNS'
 done

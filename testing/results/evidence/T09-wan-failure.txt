@@ -1,4 +1,4 @@
-## 2026-11-08T21:57:15+00:00 shutdown WAN on HQ-R1 (ip link set g0-1 down)
+## 2026-11-09T17:19:24+06:00 shutdown WAN on HQ-R1 (ip link set g0-1 down)
 $ vtysh -N hq-r1 -c show ip ospf neighbor
 
 Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
@@ -12,10 +12,11 @@ Codes: K - kernel route, C - connected, S - static, R - RIP,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-O   192.168.10.0/24 [110/10] is directly connected, g0-0.10, weight 1, 00:02:00
-O   192.168.20.0/24 [110/10] is directly connected, g0-0.20, weight 1, 00:02:00
-O   192.168.50.0/24 [110/10] is directly connected, g0-0.50, weight 1, 00:02:00
-O   192.168.99.0/24 [110/10] is directly connected, g0-0.99, weight 1, 00:02:00
+O   10.99.0.0/24 [110/10] is directly connected, wg0, weight 1, 00:00:47
+O   192.168.10.0/24 [110/10] is directly connected, g0-0.10, weight 1, 05:10:27
+O   192.168.20.0/24 [110/10] is directly connected, g0-0.20, weight 1, 05:10:27
+O   192.168.50.0/24 [110/10] is directly connected, g0-0.50, weight 1, 05:10:27
+O   192.168.99.0/24 [110/10] is directly connected, g0-0.99, weight 1, 05:10:27
 
 $ ip netns exec hr-pc ping -c 2 -W 1 192.168.50.10
 PING 192.168.50.10 (192.168.50.10) 56(84) bytes of data.
@@ -23,23 +24,23 @@ From 192.168.30.1 icmp_seq=1 Destination Net Unreachable
 From 192.168.30.1 icmp_seq=2 Destination Net Unreachable
 
 --- 192.168.50.10 ping statistics ---
-2 packets transmitted, 0 received, +2 errors, 100% packet loss, time 1054ms
+2 packets transmitted, 0 received, +2 errors, 100% packet loss, time 1020ms
 
 
-## 2026-11-08T21:57:23+00:00 restore WAN (ip link set g0-1 up)
-OSPF re-converged in 10.9 s
+## 2026-11-09T17:19:32+06:00 restore WAN (ip link set g0-1 up)
+OSPF re-converged in 10.3 s
 $ vtysh -N hq-r1 -c show ip ospf neighbor
 
 Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
-2.2.2.2           1 Full/DROther      38.462s 10.0.12.2       g0-1:10.0.12.1                       0     0     0
+2.2.2.2           1 Full/DROther      39.343s 10.0.12.2       g0-1:10.0.12.1                       0     0     0
 
 
 ## Syslog received on srv01 during the test (/var/log/remote/HQ-R1.log)
-2026-11-08T21:57:15.814656+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:15.806 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Full -> Deleted (KillNbr)
-2026-11-08T21:57:15.814656+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:15.807 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Full -> Deleted): scheduling new router-LSA origination
-2026-11-08T21:57:23.289573+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:23.278 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Down -> Init (PacketReceived)
-2026-11-08T21:57:33.406376+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:33.279 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Init -> ExStart (2-WayReceived)
-2026-11-08T21:57:33.406679+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:33.283 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: ExStart -> Exchange (NegotiationDone)
-2026-11-08T21:57:33.407046+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:33.285 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Exchange -> Loading (ExchangeDone)
-2026-11-08T21:57:33.407131+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:33.286 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Loading -> Full (LoadingDone)
-2026-11-08T21:57:33.407217+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/08 21:57:33.286 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination
+2026-11-09T11:19:25.206091+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:24.929 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Full -> Deleted (KillNbr)
+2026-11-09T11:19:25.206091+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:24.930 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Full -> Deleted): scheduling new router-LSA origination
+2026-11-09T11:19:32.444085+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:32.435 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Down -> Init (PacketReceived)
+2026-11-09T11:19:42.470531+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.435 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Init -> ExStart (2-WayReceived)
+2026-11-09T11:19:42.470965+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.435 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: ExStart -> Exchange (NegotiationDone)
+2026-11-09T11:19:42.471409+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.436 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Exchange -> Loading (ExchangeDone)
+2026-11-09T11:19:42.471493+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.438 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Loading -> Full (LoadingDone)
+2026-11-09T11:19:42.471576+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.438 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination

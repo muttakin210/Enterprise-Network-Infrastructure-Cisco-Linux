@@ -10,10 +10,17 @@ To                         Action      From
 22/tcp                     ALLOW IN    10.0.2.0/24                # SSH from VirtualBox host
 80/tcp                     ALLOW IN    192.168.0.0/16             # HTTP from lab
 80/tcp                     ALLOW IN    10.0.2.0/24                # HTTP from VirtualBox host
+22/tcp                     ALLOW IN    10.99.0.0/24               # SSH from WireGuard admins
+80/tcp                     ALLOW IN    10.99.0.0/24               # HTTP from WireGuard admins
+8000/tcp                   ALLOW IN    192.168.10.0/24            # LibreNMS from Admin VLAN
+8000/tcp                   ALLOW IN    10.99.0.0/24               # LibreNMS from WireGuard admins
+8000/tcp                   ALLOW IN    10.0.2.2                   # LibreNMS via VirtualBox NAT (host only)
 53/udp                     ALLOW IN    192.168.0.0/16             # DNS
 53/tcp                     ALLOW IN    192.168.0.0/16             # DNS
 53/udp                     ALLOW IN    10.0.2.0/24                # DNS
 53/tcp                     ALLOW IN    10.0.2.0/24                # DNS
+53/udp                     ALLOW IN    10.99.0.0/24               # DNS
+53/tcp                     ALLOW IN    10.99.0.0/24               # DNS
 67/udp                     ALLOW IN    192.168.0.0/16             # DHCP relay
 67/udp                     ALLOW IN    10.0.12.0/30               # DHCP relay via WAN
 514/udp                    ALLOW IN    192.168.50.1               # syslog from devices
@@ -34,35 +41,37 @@ To                         Action      From
 
 
 $ ss -tulpn
-Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                                                           
-udp   UNCONN 0      0         127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=13218,fd=13))                                      
-udp   UNCONN 0      0         192.168.50.10:53        0.0.0.0:*    users:(("named",pid=13207,fd=35))                                                
-udp   UNCONN 0      0         192.168.50.10:53        0.0.0.0:*    users:(("named",pid=13207,fd=36))                                                
-udp   UNCONN 0      0             10.0.2.15:53        0.0.0.0:*    users:(("named",pid=13207,fd=32))                                                
-udp   UNCONN 0      0             10.0.2.15:53        0.0.0.0:*    users:(("named",pid=13207,fd=31))                                                
-udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=13207,fd=25))                                                
-udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=13207,fd=26))                                                
-udp   UNCONN 0      0         192.168.50.10:67        0.0.0.0:*    users:(("kea-dhcp4",pid=13330,fd=11))                                            
-udp   UNCONN 0      0      10.0.2.15%enp0s3:68        0.0.0.0:*    users:(("systemd-network",pid=696,fd=17))                                        
-udp   UNCONN 0      0               0.0.0.0:161       0.0.0.0:*    users:(("snmpd",pid=13457,fd=6))                                                 
-udp   UNCONN 0      0               0.0.0.0:514       0.0.0.0:*    users:(("rsyslogd",pid=13339,fd=6))                                              
-udp   UNCONN 0      0                  [::]:514          [::]:*    users:(("rsyslogd",pid=13339,fd=7))                                              
-tcp   LISTEN 0      5             127.0.0.1:953       0.0.0.0:*    users:(("named",pid=13207,fd=39))                                                
-tcp   LISTEN 0      5             127.0.0.1:953       0.0.0.0:*    users:(("named",pid=13207,fd=40))                                                
-tcp   LISTEN 0      10        192.168.50.10:53        0.0.0.0:*    users:(("named",pid=13207,fd=37))                                                
-tcp   LISTEN 0      10        192.168.50.10:53        0.0.0.0:*    users:(("named",pid=13207,fd=38))                                                
-tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=13218,fd=14))                                      
-tcp   LISTEN 0      128             0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=2427,fd=3))                                                   
-tcp   LISTEN 0      511             0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=13090,fd=6),("nginx",pid=13089,fd=6),("nginx",pid=5999,fd=6))
-tcp   LISTEN 0      25              0.0.0.0:514       0.0.0.0:*    users:(("rsyslogd",pid=13339,fd=8))                                              
-tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=13207,fd=27))                                                
-tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=13207,fd=28))                                                
-tcp   LISTEN 0      10            10.0.2.15:53        0.0.0.0:*    users:(("named",pid=13207,fd=34))                                                
-tcp   LISTEN 0      10            10.0.2.15:53        0.0.0.0:*    users:(("named",pid=13207,fd=33))                                                
-tcp   LISTEN 0      128                [::]:22           [::]:*    users:(("sshd",pid=2427,fd=4))                                                   
-tcp   LISTEN 0      5                 [::1]:953          [::]:*    users:(("named",pid=13207,fd=41))                                                
-tcp   LISTEN 0      5                 [::1]:953          [::]:*    users:(("named",pid=13207,fd=42))                                                
-tcp   LISTEN 0      25                 [::]:514          [::]:*    users:(("rsyslogd",pid=13339,fd=9))                                              
+Netid State  Recv-Q Send-Q    Local Address:Port Peer Address:PortProcess                                                                             
+udp   UNCONN 0      0             10.0.2.15:53        0.0.0.0:*    users:(("named",pid=782,fd=34))                                                    
+udp   UNCONN 0      0             10.0.2.15:53        0.0.0.0:*    users:(("named",pid=782,fd=35))                                                    
+udp   UNCONN 0      0         192.168.50.10:53        0.0.0.0:*    users:(("named",pid=782,fd=6))                                                     
+udp   UNCONN 0      0         192.168.50.10:53        0.0.0.0:*    users:(("named",pid=782,fd=31))                                                    
+udp   UNCONN 0      0         127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=29221,fd=13))                                        
+udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=782,fd=25))                                                    
+udp   UNCONN 0      0             127.0.0.1:53        0.0.0.0:*    users:(("named",pid=782,fd=26))                                                    
+udp   UNCONN 0      0         192.168.50.10:67        0.0.0.0:*    users:(("kea-dhcp4",pid=716,fd=11))                                                
+udp   UNCONN 0      0      10.0.2.15%enp0s3:68        0.0.0.0:*    users:(("systemd-network",pid=29340,fd=21))                                        
+udp   UNCONN 0      0               0.0.0.0:161       0.0.0.0:*    users:(("snmpd",pid=725,fd=6))                                                     
+udp   UNCONN 0      0               0.0.0.0:514       0.0.0.0:*    users:(("rsyslogd",pid=720,fd=6))                                                  
+udp   UNCONN 0      0                  [::]:514          [::]:*    users:(("rsyslogd",pid=720,fd=7))                                                  
+tcp   LISTEN 0      10        192.168.50.10:53        0.0.0.0:*    users:(("named",pid=782,fd=32))                                                    
+tcp   LISTEN 0      10        192.168.50.10:53        0.0.0.0:*    users:(("named",pid=782,fd=33))                                                    
+tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=782,fd=27))                                                    
+tcp   LISTEN 0      10            127.0.0.1:53        0.0.0.0:*    users:(("named",pid=782,fd=28))                                                    
+tcp   LISTEN 0      25              0.0.0.0:514       0.0.0.0:*    users:(("rsyslogd",pid=720,fd=8))                                                  
+tcp   LISTEN 0      5             127.0.0.1:953       0.0.0.0:*    users:(("named",pid=782,fd=39))                                                    
+tcp   LISTEN 0      5             127.0.0.1:953       0.0.0.0:*    users:(("named",pid=782,fd=40))                                                    
+tcp   LISTEN 0      10            10.0.2.15:53        0.0.0.0:*    users:(("named",pid=782,fd=36))                                                    
+tcp   LISTEN 0      10            10.0.2.15:53        0.0.0.0:*    users:(("named",pid=782,fd=37))                                                    
+tcp   LISTEN 0      128             0.0.0.0:22        0.0.0.0:*    users:(("sshd",pid=776,fd=3))                                                      
+tcp   LISTEN 0      511             0.0.0.0:80        0.0.0.0:*    users:(("nginx",pid=34727,fd=8),("nginx",pid=34726,fd=8),("nginx",pid=819,fd=8))   
+tcp   LISTEN 0      4096      127.0.0.53%lo:53        0.0.0.0:*    users:(("systemd-resolve",pid=29221,fd=14))                                        
+tcp   LISTEN 0      511             0.0.0.0:8000      0.0.0.0:*    users:(("nginx",pid=34727,fd=16),("nginx",pid=34726,fd=16),("nginx",pid=819,fd=16))
+tcp   LISTEN 0      80            127.0.0.1:3306      0.0.0.0:*    users:(("mariadbd",pid=34540,fd=19))                                               
+tcp   LISTEN 0      25                 [::]:514          [::]:*    users:(("rsyslogd",pid=720,fd=9))                                                  
+tcp   LISTEN 0      5                 [::1]:953          [::]:*    users:(("named",pid=782,fd=42))                                                    
+tcp   LISTEN 0      5                 [::1]:953          [::]:*    users:(("named",pid=782,fd=41))                                                    
+tcp   LISTEN 0      128                [::]:22           [::]:*    users:(("sshd",pid=776,fd=4))                                                      
 
 $ sshd -T
 port 22

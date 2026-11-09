@@ -26,12 +26,11 @@
 snmpwalk -v3 -l authPriv -u monitor -a SHA -A "$SNMP_AUTH" -x AES -X "$SNMP_PRIV" 192.168.99.1 IF-MIB::ifOperStatus
 ```
 
-## LibreNMS (extension)
+## LibreNMS
 
-LibreNMS adds dashboards and alert history on top of the SNMPv3 polling verified above.
-It needs MariaDB, PHP-FPM and about 1 GB of extra RAM, so on a 16 GB host run it only once the core lab
-is stable (guide section 8). See [librenms/README.md](librenms/README.md) for the steps and the
-device-add commands that match this lab's SNMPv3 settings.
+LibreNMS on srv01 (port 8000) polls all five devices over SNMPv3 authPriv and records interface
+events. It needs MariaDB, PHP-FPM and about 1 GB of extra RAM (VM raised to 3 GB). Install script,
+results and screenshots: [librenms/README.md](librenms/README.md). Test: T17.
 
 ## Evidence checklist
 
@@ -41,4 +40,4 @@ device-add commands that match this lab's SNMPv3 settings.
 | Interface operational state | ✅ | `IF-MIB::ifOperStatus` walk (T11) |
 | Syslog events for interface/adjacency changes | ✅ | T09, T10 |
 | Test that generated each event | ✅ | T09 procedure (shut/no shut WAN) |
-| Dashboard and alert history | Extension | LibreNMS guide |
+| Dashboard and event history | ✅ | LibreNMS: 5 devices up, WAN `ifOperStatus` down/up events (T17, [screenshots](../screenshots/librenms/)) |

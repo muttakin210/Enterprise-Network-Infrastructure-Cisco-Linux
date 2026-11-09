@@ -16,6 +16,10 @@ are the most useful part of a lab write-up.
 | Test plan `run-tests.sh` | first run 9/15 → after the fixes below, **15/15** |
 | Troubleshooting challenges `run-challenges.sh` | **10/10** faults diagnosed and fixed |
 | Packet Tracer 9.0 build ([enterprise-lab.pkt](../cisco/packet-tracer/enterprise-lab.pkt)): 9 devices, generated configs, SRV01 services | ✅ DHCP relay, OSPF, ACLs, DNS, web, Syslog verified ([results](../cisco/packet-tracer/README.md#build-result-2026-11-09)) |
+| BR-SW1 in Packet Tracer: trunk native 999, DHCP snooping, BPDU Guard, port security, Rapid-PVST | ✅ ([screenshots 13–14](../screenshots/packet-tracer/)) |
+| LibreNMS ([install script](../monitoring/librenms/install-librenms.sh)), VM raised to 3 GB | ✅ 5/5 devices up over SNMPv3, WAN down/up events logged |
+| WireGuard remote admin VPN on HQ-R1 ([wireguard-lab.sh](../testing/emulation/wireguard-lab.sh)) | ✅ handshake, permitted routes only, VPN-FILTER blocks Finance |
+| Test plan with T16 (WireGuard) and T17 (LibreNMS) | **17/17** |
 
 ## Problems found and fixed
 
@@ -33,7 +37,11 @@ are the most useful part of a lab write-up.
 
 | 10 | Packet Tracer rejected lines of the pasted configs (`... log` on ACL entries, `logging trap`, `logging buffered`); the ACLs ended up without their final `deny` | PT's IOS parser lacks these keywords, and a rejected line is skipped silently in a paste | `make_pt_configs.py` drops or rewrites them; `show access-lists` is checked after every paste. |
 | 11 | "Invalid DNS entered" on SRV01 | An earlier keystroke batch had already typed into the field, so the address was entered twice | Clear the field fully, then enter the address once. |
+| 12 | LibreNMS `composer install`: "Your lock file does not contain a compatible set of packages" | The current LibreNMS (26.11) and its Symfony 8 dependencies require **PHP ≥ 8.4**; the script installed 8.3 | Install `php8.4-*` from `ppa:ondrej/php` and `update-alternatives --set php`. |
+| 13 | `lnms migrate`: "No application encryption key has been specified" | `APP_KEY` is normally created by the web installer, which a scripted install skips | The script runs `php artisan key:generate` when `.env` has no key. |
+| 14 | `lnms device:add`: "The --seclevel option does not exist"; no devices added | SNMPv3 options were renamed (`--security-name`, `--auth-protocol`, `--auth-password`, `--privacy-protocol`, `--privacy-password`) | Use the new names; checked with `lnms device:add --help`. |
+| 15 | T17 SQL failed: "Unknown column 'snmpver'" | LibreNMS 26.10 moved SNMP credentials out of `devices` into the encrypted `secrets` table (via `device_polling_methods`) | T17 joins those tables and checks `secret_type='snmp-v3'` and `last_check_successful=1`. |
 
 ## Not done
 
-- LibreNMS dashboard (documented extension), WireGuard (optional in the guide).
+- Nothing from the guide. Next: Zabbix, Nmap, NetBox and Grafana as additions beyond the guide.

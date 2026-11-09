@@ -13,5 +13,6 @@ _Cisco IOS, Packet Tracer, Ubuntu Server, VLAN, OSPF, ACL, Ansible, Python, SNMP
 - Built an Ubuntu 22.04 services server (BIND9, Kea DHCP with relay, Nginx, rsyslog, SNMPv3, UFW)
   from one idempotent script.
 - Automated configuration backups with sanitizing (Ansible) and reachability and SSH checks (Python, unit-tested).
-- Validated the design end to end on a Linux network-namespace emulation with 15 automated tests and
+- Deployed LibreNMS (SNMPv3 authPriv) and a WireGuard remote-admin VPN with least-privilege routes and a router-side filter.
+- Validated the design end to end on a Linux network-namespace emulation with 17 automated tests and
   10 troubleshooting scenarios, including WAN failure with Syslog evidence and OSPF re-convergence time.

@@ -1,11 +1,11 @@
 $ ip netns exec admin-pc ip -4 addr show eth0
 2: eth0@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns hq-sw1
-    inet 192.168.10.101/24 brd 192.168.10.255 scope global dynamic eth0
-       valid_lft 7142sec preferred_lft 7142sec
+    inet 192.168.10.100/24 brd 192.168.10.255 scope global dynamic eth0
+       valid_lft 7056sec preferred_lft 7056sec
 
 $ ip netns exec admin-pc ip route
 default via 192.168.10.1 dev eth0 
-192.168.10.0/24 dev eth0 proto kernel scope link src 192.168.10.101 
+192.168.10.0/24 dev eth0 proto kernel scope link src 192.168.10.100 
 
 $ ip netns exec admin-pc cat /etc/resolv.conf
 nameserver 192.168.50.10
@@ -13,12 +13,12 @@ search corp.lab
 
 $ ip netns exec it-pc ip -4 addr show eth0
 2: eth0@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns hq-sw1
-    inet 192.168.20.101/24 brd 192.168.20.255 scope global dynamic eth0
-       valid_lft 7155sec preferred_lft 7155sec
+    inet 192.168.20.100/24 brd 192.168.20.255 scope global dynamic eth0
+       valid_lft 7068sec preferred_lft 7068sec
 
 $ ip netns exec it-pc ip route
 default via 192.168.20.1 dev eth0 
-192.168.20.0/24 dev eth0 proto kernel scope link src 192.168.20.101 
+192.168.20.0/24 dev eth0 proto kernel scope link src 192.168.20.100 
 
 $ ip netns exec it-pc cat /etc/resolv.conf
 nameserver 192.168.50.10
@@ -26,12 +26,12 @@ search corp.lab
 
 $ ip netns exec hr-pc ip -4 addr show eth0
 2: eth0@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns br-sw1
-    inet 192.168.30.101/24 brd 192.168.30.255 scope global dynamic eth0
-       valid_lft 7168sec preferred_lft 7168sec
+    inet 192.168.30.100/24 brd 192.168.30.255 scope global dynamic eth0
+       valid_lft 6945sec preferred_lft 6945sec
 
 $ ip netns exec hr-pc ip route
 default via 192.168.30.1 dev eth0 
-192.168.30.0/24 dev eth0 proto kernel scope link src 192.168.30.101 
+192.168.30.0/24 dev eth0 proto kernel scope link src 192.168.30.100 
 
 $ ip netns exec hr-pc cat /etc/resolv.conf
 nameserver 192.168.50.10
@@ -39,24 +39,24 @@ search corp.lab
 
 $ ip netns exec fin-pc ip -4 addr show eth0
 2: eth0@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns br-sw1
-    inet 192.168.40.101/24 brd 192.168.40.255 scope global dynamic eth0
-       valid_lft 7191sec preferred_lft 7191sec
+    inet 192.168.40.100/24 brd 192.168.40.255 scope global dynamic eth0
+       valid_lft 7091sec preferred_lft 7091sec
 
 $ ip netns exec fin-pc ip route
 default via 192.168.40.1 dev eth0 
-192.168.40.0/24 dev eth0 proto kernel scope link src 192.168.40.101 
+192.168.40.0/24 dev eth0 proto kernel scope link src 192.168.40.100 
 
 $ ip netns exec fin-pc cat /etc/resolv.conf
 nameserver 192.168.50.10
 search corp.lab
 
 $ tail -n 8 /var/lib/kea/kea-leases4.csv
-192.168.10.100,86:e8:81:85:4f:28,,7200,1794181772,10,0,0,,0,
-192.168.20.100,b6:b6:12:dd:b4:2b,,7200,1794181772,20,0,0,,0,
-192.168.30.100,96:e9:c0:75:6a:a0,,7200,1794181873,30,0,0,,0,
-192.168.40.100,8a:3e:f0:4d:a0:3b,,7200,1794181873,40,0,0,,0,
-192.168.10.101,22:89:1d:07:00:26,,7200,1794182149,10,0,0,,0,
-192.168.20.101,76:e9:03:08:2c:9a,,7200,1794182163,20,0,0,,0,
-192.168.30.101,8a:9b:5b:1f:29:7a,,7200,1794182175,30,0,0,,0,
-192.168.40.101,c6:2b:bf:ec:7b:30,,7200,1794182199,40,0,0,,0,
+192.168.30.100,42:ba:e0:f2:50:78,,7200,1794230080,30,0,0,,0,
+192.168.30.100,42:ba:e0:f2:50:78,,7200,1794230080,30,0,0,,0,
+192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794230191,10,0,0,,0,
+192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794230191,10,0,0,,0,
+192.168.20.100,6e:a6:54:04:06:f5,,7200,1794230203,20,0,0,,0,
+192.168.20.100,6e:a6:54:04:06:f5,,7200,1794230203,20,0,0,,0,
+192.168.40.100,66:17:d8:88:21:ef,,7200,1794230226,40,0,0,,0,
+192.168.40.100,66:17:d8:88:21:ef,,7200,1794230226,40,0,0,,0,
 

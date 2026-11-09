@@ -1,10 +1,10 @@
 # Test report
 
-Run: 2026-11-08 21:58 UTC on srv01.corp.lab — Ubuntu 22.04, FRR 8.1
+Run: 2026-11-09 11:21 UTC on srv01.corp.lab — Ubuntu 22.04, FRR 8.1
 
 Environment: namespace emulation of the guide topology (see [testing/emulation](../emulation/)).
 
-**Result: 15 passed, 0 failed**
+**Result: 17 passed, 0 failed**
 
 | ID | Test | Procedure | Expected | Result | Evidence |
 |---|---|---|---|---|---|
@@ -23,3 +23,5 @@ Environment: namespace emulation of the guide topology (see [testing/emulation](
 | T13 | Python health check | health_check.py: ping + TCP/22 to every device | All devices reachable, CSV log written | **PASS** | [T13](evidence/T13-python-health-check.txt) |
 | T14 | Server hardening | UFW policy, listening sockets, sshd effective config | UFW active default-deny; root SSH login disabled | **PASS** | [T14](evidence/T14-server-hardening.txt) |
 | T15 | Linux services | systemctl status of all server services | All active (running) | **PASS** | [T15](evidence/T15-services.txt) |
+| T16 | WireGuard remote access | Remote admin over the internet link: no VPN, VPN, permitted and denied routes | Handshake; servers + mgmt reachable via tunnel; Finance and untunnelled traffic dropped | **PASS** | [T16](evidence/T16-wireguard.txt) |
+| T17 | LibreNMS (SNMPv3) | Web UI, device inventory and port status polled over SNMPv3 authPriv | Login page 200; 5 devices up via v3; port events logged | **PASS** | [T17](evidence/T17-librenms.txt) |

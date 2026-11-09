@@ -1,0 +1,112 @@
+## Without the tunnel: the internet edge routes nothing into the LAN
+192.168.50.10 via 203.0.113.1 dev eth0 src 203.0.113.2 uid 0 
+    cache 
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.50.10
+PING 192.168.50.10 (192.168.50.10) 56(84) bytes of data.
+
+--- 192.168.50.10 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1032ms
+
+
+## Through the tunnel
+$ ip netns exec remote-admin ping -c 2 -W 1 10.99.0.1
+PING 10.99.0.1 (10.99.0.1) 56(84) bytes of data.
+From 10.99.0.2 icmp_seq=1 Destination Host Unreachable
+ping: sendmsg: Required key not available
+From 10.99.0.2 icmp_seq=2 Destination Host Unreachable
+ping: sendmsg: Required key not available
+
+--- 10.99.0.1 ping statistics ---
+2 packets transmitted, 0 received, +2 errors, 100% packet loss, time 1007ms
+
+
+$ bash /home/netadmin/enl-lab/testing/emulation/wireguard-lab.sh status
+== HQ-R1 wg0 ==
+interface: wg0
+  public key: VVW0i2g1L0Hq7hfQdGAB5o9wtghEubazdKvaMm519Gk=
+  private key: (hidden)
+  listening port: 51820
+
+peer: nE1XZtCRSAwrDBCLltFg4qHNYSXdtYkeIfBkUI5kZxs=
+  endpoint: 203.0.113.2:37921
+  allowed ips: 10.99.0.2/32
+  latest handshake: 2 minutes, 8 seconds ago
+  transfer: 308 B received, 92 B sent
+== remote-admin routes ==
+10.99.0.0/24 dev wg0 proto kernel scope link src 10.99.0.2 
+192.168.50.0/24 dev wg0 scope link 
+192.168.99.0/24 dev wg0 scope link 
+192.168.199.0/24 dev wg0 scope link 
+203.0.113.0/30 dev eth0 proto kernel scope link src 203.0.113.2 
+
+latest handshake: 1794223120 (128 s ago)
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.50.10
+PING 192.168.50.10 (192.168.50.10) 56(84) bytes of data.
+64 bytes from 192.168.50.10: icmp_seq=1 ttl=63 time=5.90 ms
+64 bytes from 192.168.50.10: icmp_seq=2 ttl=63 time=2.28 ms
+
+--- 192.168.50.10 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 2.284/4.093/5.902/1.809 ms
+
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.99.2
+PING 192.168.99.2 (192.168.99.2) 56(84) bytes of data.
+64 bytes from 192.168.99.2: icmp_seq=1 ttl=63 time=1.55 ms
+64 bytes from 192.168.99.2: icmp_seq=2 ttl=63 time=1.32 ms
+
+--- 192.168.99.2 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1003ms
+rtt min/avg/max/mdev = 1.324/1.435/1.547/0.111 ms
+
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.199.2
+PING 192.168.199.2 (192.168.199.2) 56(84) bytes of data.
+64 bytes from 192.168.199.2: icmp_seq=1 ttl=62 time=1.98 ms
+64 bytes from 192.168.199.2: icmp_seq=2 ttl=62 time=0.928 ms
+
+--- 192.168.199.2 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = 0.928/1.453/1.979/0.525 ms
+
+$ ip netns exec remote-admin nc -zv -w 2 192.168.50.10 22
+Connection to 192.168.50.10 22 port [tcp/ssh] succeeded!
+
+$ ip netns exec remote-admin curl -s -o /dev/null -w HTTP %{http_code}\n http://192.168.50.10/
+HTTP 200
+
+## Not permitted: Finance VLAN
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.40.100
+ping: connect: Network is unreachable
+
+## Client widens its own AllowedIPs/route: HQ-R1 VPN-FILTER still drops it
+$ ip netns exec remote-admin ping -c 2 -W 1 192.168.40.100
+PING 192.168.40.100 (192.168.40.100) 56(84) bytes of data.
+
+--- 192.168.40.100 ping statistics ---
+2 packets transmitted, 0 received, 100% packet loss, time 1015ms
+
+
+$ ip netns exec hq-r1 nft list table ip vpn
+table ip vpn {
+	chain input {
+		type filter hook input priority filter; policy accept;
+		iifname "g0-2" udp dport 51820 counter packets 37 bytes 4880 accept
+		iifname "g0-2" ct state established,related accept
+		iifname "g0-2" counter packets 0 bytes 0 log prefix "HQ-R1 EDGE-IN deny " drop
+	}
+
+	chain forward {
+		type filter hook forward priority filter - 10; policy accept;
+		iifname "g0-2" counter packets 4 bytes 336 log prefix "HQ-R1 EDGE-IN deny " drop
+		oifname "g0-2" counter packets 0 bytes 0 drop
+		iifname "wg0" ip daddr { 192.168.50.0/24, 192.168.99.0/24, 192.168.199.0/24 } counter packets 27 bytes 1865 accept
+		iifname "wg0" counter packets 4 bytes 336 log prefix "HQ-R1 VPN-FILTER deny " drop
+	}
+}
+
+$ vtysh -N br-r2 -c show ip route 10.99.0.0/24
+Routing entry for 10.99.0.0/24
+  Known via "ospf", distance 110, metric 20, best
+  Last update 00:01:08 ago
+  * 10.0.12.1, via g0-1, weight 1
+
+

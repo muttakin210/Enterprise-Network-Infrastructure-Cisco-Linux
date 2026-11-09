@@ -208,6 +208,61 @@ for s in ssh nginx named kea-dhcp4-server rsyslog snmpd; do
 done
 record T15 "Linux services" "systemctl status of all server services" "All active (running)" $ok T15-services.txt
 
+# ---------------------------------------------------------------- T16
+# WireGuard (guide section 9, optional): handshake + permitted-route test
+f=$(ev T16-wireguard.txt); ok=PASS
+ip netns list | grep -q '^remote-admin' || bash "$REPO/testing/emulation/wireguard-lab.sh" up >/dev/null
+WG=$REPO/testing/emulation/wireguard-lab.sh
+echo "## Without the tunnel: the internet edge routes nothing into the LAN" >>"$f"
+n remote-admin ip route add 192.168.50.10/32 via 203.0.113.1 dev eth0 2>/dev/null
+n remote-admin ip route get 192.168.50.10 >>"$f" 2>&1
+capture "$f" ip netns exec remote-admin ping -c 2 -W 1 192.168.50.10
+can_ping remote-admin 192.168.50.10 && ok=FAIL
+n remote-admin ip route del 192.168.50.10/32 via 203.0.113.1 dev eth0 2>/dev/null
+echo "## Through the tunnel" >>"$f"
+capture "$f" ip netns exec remote-admin ping -c 2 -W 1 10.99.0.1
+capture "$f" bash "$WG" status
+hs=$(n hq-r1 wg show wg0 latest-handshakes | awk '{print $2}')
+echo "latest handshake: $hs ($(( $(date +%s) - ${hs:-0} )) s ago)" >>"$f"
+[[ ${hs:-0} -gt 0 ]] || ok=FAIL
+for ip in 192.168.50.10 192.168.99.2 192.168.199.2; do
+  capture "$f" ip netns exec remote-admin ping -c 2 -W 1 "$ip"
+  can_ping remote-admin "$ip" || ok=FAIL
+done
+capture "$f" ip netns exec remote-admin nc -zv -w 2 192.168.50.10 22
+n remote-admin nc -z -w 2 192.168.50.10 22 || ok=FAIL
+capture "$f" ip netns exec remote-admin curl -s -o /dev/null -w 'HTTP %{http_code}\n' http://192.168.50.10/
+echo "## Not permitted: Finance VLAN" >>"$f"
+capture "$f" ip netns exec remote-admin ping -c 2 -W 1 192.168.40.100
+can_ping remote-admin 192.168.40.100 && ok=FAIL
+echo "## Client widens its own AllowedIPs/route: HQ-R1 VPN-FILTER still drops it" >>"$f"
+peer=$(n remote-admin wg show wg0 peers)
+n remote-admin wg set wg0 peer "$peer" allowed-ips 192.168.50.0/24,192.168.99.0/24,192.168.199.0/24,192.168.40.0/24
+n remote-admin ip route add 192.168.40.0/24 dev wg0
+capture "$f" ip netns exec remote-admin ping -c 2 -W 1 192.168.40.100
+can_ping remote-admin 192.168.40.100 && ok=FAIL
+n remote-admin ip route del 192.168.40.0/24 dev wg0
+n remote-admin wg set wg0 peer "$peer" allowed-ips 192.168.50.0/24,192.168.99.0/24,192.168.199.0/24
+capture "$f" ip netns exec hq-r1 nft list table ip vpn
+capture "$f" vtysh -N br-r2 -c 'show ip route 10.99.0.0/24'
+record T16 "WireGuard remote access" "Remote admin over the internet link: no VPN, VPN, permitted and denied routes" "Handshake; servers + mgmt reachable via tunnel; Finance and untunnelled traffic dropped" $ok T16-wireguard.txt
+
+# ---------------------------------------------------------------- T17
+f=$(ev T17-librenms.txt); ok=PASS
+if [[ -d /opt/librenms ]]; then
+  capture "$f" curl -s -o /dev/null -w 'login page HTTP %{http_code}\n' http://127.0.0.1:8000/login
+  [[ $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/login) == 200 ]] || ok=FAIL
+  # LibreNMS >= 26.10 keeps SNMP credentials encrypted in `secrets`, linked via device_polling_methods
+  V3SQL="FROM devices d JOIN device_polling_methods m ON m.device_id=d.device_id AND m.method_type='snmp' JOIN secrets s ON s.id=m.secret_id"
+  capture "$f" mysql librenms -e "SELECT d.hostname, d.sysName, IF(d.status=1,'up','DOWN') AS status, s.secret_type AS snmp, m.last_check_successful AS snmp_ok, d.last_polled $V3SQL ORDER BY d.hostname"
+  [[ $(mysql -N librenms -e "SELECT COUNT(*) $V3SQL WHERE d.status=1 AND s.secret_type='snmp-v3' AND m.last_check_successful=1") -ge 5 ]] || ok=FAIL
+  capture "$f" mysql librenms -e "SELECT d.sysName, p.ifName, p.ifOperStatus FROM ports p JOIN devices d USING(device_id) WHERE p.ifName IN ('g0-1','g0-0.50','vlan99','vlan199') ORDER BY d.sysName"
+  capture "$f" mysql librenms -e "SELECT datetime, d.sysName, e.type, e.message FROM eventlog e JOIN devices d USING(device_id) WHERE e.message LIKE '%ifOperStatus%' ORDER BY e.datetime DESC LIMIT 6"
+else
+  echo "LibreNMS not installed (monitoring/librenms/install-librenms.sh)" >>"$f"; ok=FAIL
+fi
+record T17 "LibreNMS (SNMPv3)" "Web UI, device inventory and port status polled over SNMPv3 authPriv" "Login page 200; 5 devices up via v3; port events logged" $ok T17-librenms.txt
+
 # ---------------------------------------------------------------- report
 {
   echo "# Test report"
