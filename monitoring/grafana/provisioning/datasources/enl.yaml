@@ -1,0 +1,29 @@
+# Grafana data sources for the lab. install-grafana.sh replaces the __PLACEHOLDERS__
+# with secrets from /root/lab-secrets.env when it copies this file (mode 640, root:grafana).
+apiVersion: 1
+datasources:
+  - name: Zabbix
+    uid: zabbix
+    type: alexanderzobnin-zabbix-datasource
+    access: proxy
+    url: http://127.0.0.1:8081/api_jsonrpc.php
+    isDefault: true
+    jsonData:
+      authType: userLogin
+      username: grafana              # read-only Zabbix API user, no GUI access
+      trends: true
+      trendsFrom: 7d
+      cacheTTL: 1m
+    secureJsonData:
+      password: __GRAFANA_ZBX_PASS__
+
+  - name: LibreNMS
+    uid: librenms
+    type: mysql
+    url: 127.0.0.1:3306
+    user: grafana_ro                 # SELECT on librenms.devices/ports/eventlog only
+    jsonData:
+      database: librenms
+      maxOpenConns: 5
+    secureJsonData:
+      password: __GRAFANA_DB_PASS__

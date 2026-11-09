@@ -1,0 +1,35 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:29:18 2026 as: nmap -n -sn -oN /home/netadmin/enl-lab/testing/results/nmap/01-discovery.txt -oX /home/netadmin/enl-lab/testing/results/nmap/01-discovery.xml 192.168.10.0/24 192.168.20.0/24 192.168.50.0/24 192.168.99.0/24 192.168.30.0/24 192.168.40.0/24 192.168.199.0/24 10.0.12.0/30
+Nmap scan report for 192.168.10.1
+Host is up (0.00012s latency).
+MAC Address: 7A:EE:EA:F3:44:4F (Unknown)
+Nmap scan report for 192.168.10.100
+Host is up.
+Nmap scan report for 192.168.20.1
+Host is up (0.000023s latency).
+Nmap scan report for 192.168.20.100
+Host is up (0.000059s latency).
+Nmap scan report for 192.168.50.1
+Host is up (0.00018s latency).
+Nmap scan report for 192.168.50.10
+Host is up (0.0011s latency).
+Nmap scan report for 192.168.99.1
+Host is up (0.00057s latency).
+Nmap scan report for 192.168.99.2
+Host is up (0.00010s latency).
+Nmap scan report for 192.168.30.1
+Host is up (0.000031s latency).
+Nmap scan report for 192.168.30.100
+Host is up (0.000047s latency).
+Nmap scan report for 192.168.40.1
+Host is up (0.000028s latency).
+Nmap scan report for 192.168.40.100
+Host is up (0.00019s latency).
+Nmap scan report for 192.168.199.1
+Host is up (0.000098s latency).
+Nmap scan report for 192.168.199.2
+Host is up (0.00018s latency).
+Nmap scan report for 10.0.12.1
+Host is up (0.000040s latency).
+Nmap scan report for 10.0.12.2
+Host is up (0.000031s latency).
+# Nmap done at Mon Nov  9 18:29:37 2026 -- 1796 IP addresses (16 hosts up) scanned in 18.80 seconds

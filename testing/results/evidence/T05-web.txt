@@ -1,19 +1,19 @@
 $ ip netns exec admin-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
-200 192.168.50.10 0.027088s
+200 192.168.50.10 0.013423s
 
 $ ip netns exec it-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
-200 192.168.50.10 0.006212s
+200 192.168.50.10 0.005087s
 
 $ ip netns exec hr-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
-200 192.168.50.10 0.004708s
+200 192.168.50.10 0.005304s
 
 $ ip netns exec fin-pc curl -sS -o /dev/null -w %{http_code} %{remote_ip} %{time_total}s\n http://www.corp.lab/
-200 192.168.50.10 0.004399s
+200 192.168.50.10 0.005852s
 
 $ curl -sI http://127.0.0.1/
 HTTP/1.1 200 OK
 Server: nginx
-Date: Mon, 09 Nov 2026 11:19:05 GMT
+Date: Mon, 09 Nov 2026 12:25:45 GMT
 Content-Type: text/html
 Content-Length: 1150
 Last-Modified: Sun, 08 Nov 2026 21:54:47 GMT

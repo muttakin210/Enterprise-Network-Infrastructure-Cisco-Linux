@@ -1,0 +1,10 @@
+# DHCP between HQ-R1 (relay) and Kea on srv01
+$ tshark -r 02-dhcp-relay.pcap -T fields -E header=y -e ip.src -e ip.dst -e dhcp.option.dhcp -e dhcp.ip.relay -e dhcp.ip.your -e dhcp.hw.mac_addr
+ip.src	ip.dst	dhcp.option.dhcp	dhcp.ip.relay	dhcp.ip.your	dhcp.hw.mac_addr
+192.168.20.100	192.168.50.10		0.0.0.0	0.0.0.0	6e:a6:54:04:06:f5
+192.168.50.1	192.168.50.10		192.168.20.1	0.0.0.0	6e:a6:54:04:06:f5
+192.168.50.1	192.168.50.10		192.168.20.1	0.0.0.0	6e:a6:54:04:06:f5
+192.168.50.10	192.168.20.1				
+192.168.50.1	192.168.50.10		192.168.20.1	0.0.0.0	6e:a6:54:04:06:f5
+192.168.50.10	192.168.20.1				
+

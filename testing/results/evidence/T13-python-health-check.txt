@@ -1,11 +1,11 @@
 $ sudo -u netadmin -H python3 /home/netadmin/enl-lab/automation/python/health_check.py -o /home/netadmin/enl-lab/automation/python/results/health_log.csv
 DEVICE      IP              STATUS        RTT ms  tcp/22
 HQ-R1       192.168.99.1    reachable       0.10  open  
-HQ-SW1      192.168.99.2    reachable       0.12  open  
-BR-R2       192.168.199.1   reachable       0.18  open  
-BR-SW1      192.168.199.2   reachable       0.17  open  
-GW-SERVERS  192.168.50.1    reachable       0.24  closed
-SRV01       192.168.50.10   reachable       0.09  open  
+HQ-SW1      192.168.99.2    reachable       0.17  open  
+BR-R2       192.168.199.1   reachable       0.10  open  
+BR-SW1      192.168.199.2   reachable       0.18  open  
+GW-SERVERS  192.168.50.1    reachable       0.33  closed
+SRV01       192.168.50.10   reachable       0.56  open  
 
 6/6 devices reachable
 

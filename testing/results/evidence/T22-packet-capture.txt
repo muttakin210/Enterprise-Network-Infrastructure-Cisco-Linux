@@ -1,0 +1,37 @@
+$ bash /home/netadmin/enl-lab/testing/capture/capture-lab.sh
+== 01 OSPF adjacency after a WAN flap
+01-ospf-adjacency        24 packets  OSPF on the WAN (10.0.12.0/30) during a link flap
+== 02 DHCP relay (IT-PC renews)
+02-dhcp-relay             6 packets  DHCP between HQ-R1 (relay) and Kea on srv01
+== 03 SNMPv3 authPriv
+03-snmpv3-authpriv        5 packets  SNMP on the wire: v3 user name visible, PDU encrypted; v2c 'public' gets no reply
+== 04/05 WireGuard outer and inner
+04-wireguard-outer        6 packets  Internet link: only WireGuard UDP 51820, payload encrypted
+05-wireguard-inner        6 packets  Inside the tunnel (HQ-R1 wg0): the admin's ICMP in clear
+== 06 Syslog over UDP 514
+06-syslog-plaintext       1 packets  Syslog is plaintext on the wire (protect with TLS/RELP or a management VLAN)
+total 56
+drwxr-xr-x 2 netadmin netadmin 4096 Nov  9 18:32 .
+drwxr-xr-x 5 netadmin netadmin 4096 Nov  9 18:20 ..
+-rw-r--r-- 1 tcpdump  tcpdump  2764 Nov  9 18:31 01-ospf-adjacency.pcap
+-rw-r--r-- 1 root     root     1257 Nov  9 18:31 01-ospf-adjacency.txt
+-rw-r--r-- 1 tcpdump  tcpdump  1656 Nov  9 18:31 02-dhcp-relay.pcap
+-rw-r--r-- 1 root     root      595 Nov  9 18:31 02-dhcp-relay.txt
+-rw-r--r-- 1 tcpdump  tcpdump   829 Nov  9 18:31 03-snmpv3-authpriv.pcap
+-rw-r--r-- 1 root     root      766 Nov  9 18:31 03-snmpv3-authpriv.txt
+-rw-r--r-- 1 tcpdump  tcpdump  1140 Nov  9 18:31 04-wireguard-outer.pcap
+-rw-r--r-- 1 root     root      532 Nov  9 18:31 04-wireguard-outer.txt
+-rw-r--r-- 1 tcpdump  tcpdump   624 Nov  9 18:31 05-wireguard-inner.pcap
+-rw-r--r-- 1 root     root      331 Nov  9 18:32 05-wireguard-inner.txt
+-rw-r--r-- 1 tcpdump  tcpdump   288 Nov  9 18:32 06-syslog-plaintext.pcap
+-rw-r--r-- 1 root     root      428 Nov  9 18:32 06-syslog-plaintext.txt
+
+## Assertions
+OSPF LS Update packets after the flap: 5
+DHCP relayed with giaddr 192.168.20.1:  3
+SNMPv3 encrypted PDUs:                  2
+SNMP replies to v2c 'public':           0
+WireGuard data packets on the internet: 6
+ICMP visible on the internet link:      0
+ICMP inside the tunnel (wg0):           6
+Syslog readable on the wire:            1

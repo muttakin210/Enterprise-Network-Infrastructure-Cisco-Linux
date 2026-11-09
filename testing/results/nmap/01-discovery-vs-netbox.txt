@@ -1,0 +1,17 @@
+LIVE HOST        NETBOX
+10.0.12.1        ip documented
+10.0.12.2        ip documented
+192.168.10.1     ip documented
+192.168.10.100   in DHCP range 192.168.10.100-192.168.10.199
+192.168.20.1     ip documented
+192.168.20.100   in DHCP range 192.168.20.100-192.168.20.199
+192.168.30.1     ip documented
+192.168.30.100   in DHCP range 192.168.30.100-192.168.30.199
+192.168.40.1     ip documented
+192.168.40.100   in DHCP range 192.168.40.100-192.168.40.199
+192.168.50.1     ip documented
+192.168.50.10    ip srv01.corp.lab
+192.168.99.1     ip hq-r1.corp.lab
+192.168.99.2     ip hq-sw1.corp.lab
+192.168.199.1    ip br-r2.corp.lab
+192.168.199.2    ip br-sw1.corp.lab

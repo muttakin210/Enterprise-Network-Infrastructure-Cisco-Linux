@@ -1,0 +1,27 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:30:24 2026 as: nmap -n -Pn -sU -sV -p 161 --version-intensity 3 -oN /home/netadmin/enl-lab/testing/results/nmap/05-snmp.txt 192.168.99.1 192.168.199.1 192.168.99.2 192.168.199.2
+Nmap scan report for 192.168.99.1
+Host is up (0.00099s latency).
+
+PORT    STATE SERVICE VERSION
+161/udp open  snmp    net-snmp
+
+Nmap scan report for 192.168.199.1
+Host is up (0.00071s latency).
+
+PORT    STATE SERVICE VERSION
+161/udp open  snmp    net-snmp
+
+Nmap scan report for 192.168.99.2
+Host is up (0.00096s latency).
+
+PORT    STATE SERVICE VERSION
+161/udp open  snmp    net-snmp
+
+Nmap scan report for 192.168.199.2
+Host is up (0.00034s latency).
+
+PORT    STATE SERVICE VERSION
+161/udp open  snmp    net-snmp
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Mon Nov  9 18:30:30 2026 -- 4 IP addresses (4 hosts up) scanned in 6.24 seconds

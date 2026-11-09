@@ -1,0 +1,10 @@
+# Inside the tunnel (HQ-R1 wg0): the admin's ICMP in clear
+$ tshark -r 05-wireguard-inner.pcap -T fields -E header=y -e ip.src -e ip.dst -e icmp.type
+ip.src	ip.dst	icmp.type
+10.99.0.2	192.168.50.10	8
+192.168.50.10	10.99.0.2	0
+10.99.0.2	192.168.50.10	8
+192.168.50.10	10.99.0.2	0
+10.99.0.2	192.168.50.10	8
+192.168.50.10	10.99.0.2	0
+

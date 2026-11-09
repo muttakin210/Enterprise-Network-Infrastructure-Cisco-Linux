@@ -1,0 +1,14 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:30:31 2026 as: nmap -n -Pn -sU -p 161 --script snmp-info -oN /home/netadmin/enl-lab/testing/results/nmap/05-snmp-v3-engine.txt 192.168.99.1
+Nmap scan report for 192.168.99.1
+Host is up (0.00096s latency).
+
+PORT    STATE SERVICE
+161/udp open  snmp
+| snmp-info: 
+|   enterprise: net-snmp
+|   engineIDFormat: unknown
+|   engineIDData: 91ce8b684663f16a00000000
+|   snmpEngineBoots: 1
+|_  snmpEngineTime: 6h21m27s
+
+# Nmap done at Mon Nov  9 18:30:31 2026 -- 1 IP address (1 host up) scanned in 0.73 seconds

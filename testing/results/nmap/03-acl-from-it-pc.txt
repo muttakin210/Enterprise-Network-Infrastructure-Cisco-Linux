@@ -1,0 +1,2 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:29:50 2026 as: nmap -n -sn -oN /home/netadmin/enl-lab/testing/results/nmap/03-acl-from-it-pc.txt 192.168.40.100 192.168.99.2 192.168.199.2
+# Nmap done at Mon Nov  9 18:29:55 2026 -- 3 IP addresses (0 hosts up) scanned in 5.06 seconds

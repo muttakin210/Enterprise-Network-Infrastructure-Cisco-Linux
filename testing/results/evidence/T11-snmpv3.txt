@@ -1,26 +1,26 @@
 $ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysName.0 = STRING: HQ-R1
-DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (1865339) 5:10:53.39
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (2265493) 6:17:34.93
 SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ
 
 $ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.199.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysName.0 = STRING: BR-R2
-DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (1865331) 5:10:53.31
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (2265484) 6:17:34.84
 SNMPv2-MIB::sysLocation.0 = STRING: CORP-BRANCH
 
 $ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.2 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysName.0 = STRING: HQ-SW1
-DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (1865320) 5:10:53.20
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (2265472) 6:17:34.72
 SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ
 
 $ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.199.2 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysName.0 = STRING: BR-SW1
-DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (1865315) 5:10:53.15
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (2265466) 6:17:34.66
 SNMPv2-MIB::sysLocation.0 = STRING: CORP-BRANCH
 
 $ snmpget -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 127.0.0.1 SNMPv2-MIB::sysName.0 SNMPv2-MIB::sysUpTime.0 SNMPv2-MIB::sysLocation.0
 SNMPv2-MIB::sysName.0 = STRING: srv01.corp.lab
-DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (1868516) 5:11:25.16
+DISMAN-EVENT-MIB::sysUpTimeInstance = Timeticks: (2268669) 6:18:06.69
 SNMPv2-MIB::sysLocation.0 = STRING: CORP-HQ, server room, VLAN 50
 
 $ snmpwalk -v3 -l authPriv -u monitor -a SHA -A <SNMP_AUTH> -x AES -X <SNMP_PRIV> -t 2 -r 1 192.168.99.1 IF-MIB::ifDescr

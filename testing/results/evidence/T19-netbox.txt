@@ -1,0 +1,34 @@
+$ curl -s -o /dev/null -w login page HTTP %{http_code}\n http://127.0.0.1:8082/login/
+login page HTTP 200
+
+## Re-run the import (idempotent): object counts
+$ env NETBOX_ADMIN_PASS=<NETBOX_ADMIN_PASS> python3 /home/netadmin/enl-lab/ipam/netbox/import-lab.py /home/netadmin/enl-lab/topology/addressing-plan.csv
+NetBox 4.7.4
+dcim/sites           2
+ipam/vlans           10
+ipam/prefixes        10
+ipam/ip-ranges       4
+dcim/devices         5
+dcim/interfaces      21
+ipam/ip-addresses    12
+dcim/cables          4
+
+## What NetBox documents (used by the Nmap audit)
+$ env NETBOX_ADMIN_PASS=<NETBOX_ADMIN_PASS> python3 /home/netadmin/enl-lab/ipam/netbox/nb-expected.py
+ip 10.0.12.1 
+ip 10.0.12.2 
+ip 192.168.10.1 
+ip 192.168.20.1 
+ip 192.168.30.1 
+ip 192.168.40.1 
+ip 192.168.50.1 
+ip 192.168.50.10 srv01.corp.lab
+ip 192.168.99.1 hq-r1.corp.lab
+ip 192.168.99.2 hq-sw1.corp.lab
+ip 192.168.199.1 br-r2.corp.lab
+ip 192.168.199.2 br-sw1.corp.lab
+range 192.168.10.100 192.168.10.199
+range 192.168.20.100 192.168.20.199
+range 192.168.30.100 192.168.30.199
+range 192.168.40.100 192.168.40.199
+

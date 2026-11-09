@@ -1,0 +1,14 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:29:39 2026 as: nmap -n -Pn -sT -p 22,53,80,3000,8000,8081,8082 --max-retries 1 -oN /home/netadmin/enl-lab/testing/results/nmap/02-srv01-from-admin-pc.txt 192.168.50.10
+Nmap scan report for 192.168.50.10
+Host is up (0.0015s latency).
+
+PORT     STATE SERVICE
+22/tcp   open  ssh
+53/tcp   open  domain
+80/tcp   open  http
+3000/tcp open  ppp
+8000/tcp open  http-alt
+8081/tcp open  blackice-icecap
+8082/tcp open  blackice-alerts
+
+# Nmap done at Mon Nov  9 18:29:39 2026 -- 1 IP address (1 host up) scanned in 0.09 seconds

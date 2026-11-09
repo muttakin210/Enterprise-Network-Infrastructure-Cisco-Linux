@@ -2,7 +2,8 @@
 
 Design, build, secure, automate and monitor a small two-site enterprise network:
 Cisco routing and switching, Ubuntu network services, Ansible/Python automation,
-SNMPv3 and Syslog monitoring, and test evidence for every requirement.
+SNMPv3 and Syslog monitoring (LibreNMS, Zabbix, Grafana), NetBox as source of truth,
+Nmap and Wireshark verification, and test evidence for every requirement.
 
 ![Topology](topology/enterprise-topology.png)
 
@@ -18,7 +19,10 @@ Departments are separated by VLANs, and the sites are joined by a point-to-point
 | VLAN segmentation and ACLs enforce access policy | [T07, T08](testing/results/test-report.md), [cisco/security](cisco/security/) |
 | Ubuntu provides SSH, web, DNS and DHCP | [T02, T05, T06, T15](testing/results/test-report.md), [linux/](linux/) |
 | Ansible backs up configs; Python checks reachability | [T12, T13](testing/results/test-report.md), [automation/](automation/) |
-| Monitoring and Syslog record a controlled link event | [T09, T10, T11, T17](testing/results/test-report.md), [monitoring/](monitoring/) (LibreNMS) |
+| Monitoring and Syslog record a controlled link event | [T09, T10, T11, T17, T18](testing/results/test-report.md), [monitoring/](monitoring/) (LibreNMS, Zabbix) |
+| One dashboard across both monitoring systems | [T20](testing/results/test-report.md), [monitoring/grafana](monitoring/grafana/) |
+| The network matches its documentation (IPAM) | [T19, T21](testing/results/test-report.md), [ipam/netbox](ipam/netbox/), [testing/nmap](testing/nmap/) |
+| Protocols behave as designed on the wire | [T22](testing/results/test-report.md), [testing/capture](testing/capture/) (tshark/Wireshark) |
 | Remote admins reach only permitted networks over a VPN | [T16](testing/results/test-report.md), [linux/wireguard](linux/wireguard/) |
 
 ## Topology and addressing
@@ -69,7 +73,7 @@ cisco/
   ospf/          OSPF design, expected output, WAN-failure procedure
   security/      control matrix, optional guest VLAN 60 + GUEST-FILTER
   packet-tracer/ enterprise-lab.pkt, PT 2911/2960 configs (generated), build guide + results
-screenshots/     Packet Tracer and LibreNMS verification evidence
+screenshots/     Packet Tracer, LibreNMS, Zabbix, NetBox, Grafana and Wireshark evidence
 linux/
   setup-server.sh  one idempotent script that builds srv01 from this repo
   netplan/ dns/ dhcp/ nginx/ firewall/ syslog/ snmp/
@@ -77,10 +81,14 @@ linux/
 automation/
   ansible/       inventory, vault example, backup + verify-ospf playbooks, sanitizer
   python/        health_check.py (ping + TCP/22 -> CSV + summary), unit tests
-monitoring/      SNMPv3, Syslog and LibreNMS (install script, results)
+monitoring/      SNMPv3, Syslog, LibreNMS, Zabbix (+ API config), Grafana (provisioned)
+ipam/netbox/     NetBox install + API import of the addressing plan (source of truth)
 testing/
   emulation/     netns-lab.sh: the topology rebuilt with namespaces + FRR (see below)
                  wireguard-lab.sh: remote-admin VPN on HQ-R1
+  nmap/          discovery vs NetBox + policy audit
+  capture/       tcpdump/tshark protocol captures (pcaps for Wireshark)
+  screenshots/   scripted UI and Wireshark screenshots
   run-tests.sh   guide section 10 test plan, saves evidence
   results/       test-report.md + raw evidence per test
   troubleshooting/  10 troubleshooting challenge records
@@ -91,7 +99,7 @@ docs/            build log, limitations, CV entry
 
 | Layer | Tooling on this PC (Windows 11, 16 GB) |
 |---|---|
-| Linux server | VirtualBox 7.2 VM `ENL-Ubuntu-Server` — Ubuntu Server 22.04.5, 2 vCPU / 3 GB (raised from 2 GB for LibreNMS) / 30 GB dynamic disk, unattended install |
+| Linux server | VirtualBox 7.2 VM `ENL-Ubuntu-Server` — Ubuntu Server 22.04.5, 2 vCPU / 3 GB + 3 GB swap (LibreNMS, Zabbix, NetBox, Grafana share it) / 30 GB dynamic disk, unattended install |
 | Cisco IOS configs | Written for IOSv/IOSvL2. Packet Tracer 9.0 (ISR 2911 + Catalyst 2960) variants are generated and built in [`enterprise-lab.pkt`](cisco/packet-tracer/enterprise-lab.pkt): DHCP relay, OSPF, ACLs, DNS, web and Syslog verified, with [screenshots](screenshots/packet-tracer/) — [cisco/packet-tracer](cisco/packet-tracer/) |
 | End-to-end routed tests | Namespace emulation on the VM: VLAN-aware bridges, 802.1Q subinterfaces, FRR OSPF, `dhcrelay`, nftables ACLs — [testing/emulation](testing/emulation/) |
 
@@ -128,7 +136,7 @@ with raw command output for every test, and
 
 ## Build log
 
-[docs/build-log.md](docs/build-log.md) records how the lab was built and fifteen real problems hit
+[docs/build-log.md](docs/build-log.md) records how the lab was built and twenty-three real problems hit
 along the way, each with its root cause and fix (for example, why branch DHCP failed until UFW
 allowed relayed requests from the WAN address).
 

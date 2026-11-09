@@ -1,0 +1,16 @@
+$ curl -s http://127.0.0.1:3000/api/health
+{
+  "database": "ok",
+  "version": "13.3.0",
+  "commit": "6f8ce3c693b493043ebcd4787566d2b6b118b0f0"
+}
+$ curl -s -u admin:<GRAFANA_ADMIN_PASS> http://127.0.0.1:3000/api/datasources/uid/zabbix/health
+{"message":"Zabbix API version 8.0.0","status":"OK"}
+$ curl -s -u admin:<GRAFANA_ADMIN_PASS> http://127.0.0.1:3000/api/datasources/uid/librenms/health
+{"message":"Database Connection OK","status":"OK"}
+$ curl -s -u admin:<GRAFANA_ADMIN_PASS> http://127.0.0.1:3000/api/search?query=ENL
+[{"id":3067279421034496,"uid":"eg3rzw0z394w0e","orgId":1,"title":"ENL Lab","uri":"db/enl-lab","url":"/dashboards/f/eg3rzw0z394w0e/enl-lab","slug":"","type":"dash-folder","tags":[],"isStarred":false,"sortMeta":0,"isDeleted":false},{"id":3067280236118016,"uid":"enl-lab-overview","orgId":1,"title":"ENL Lab overview","uri":"db/enl-lab-overview","url":"/d/enl-lab-overview/enl-lab-overview","slug":"","type":"dash-db","tags":["enl","librenms","zabbix"],"isStarred":false,"description":"Two-site lab: Zabbix (SNMPv3 + agent) and LibreNMS (SNMPv3) in one view","folderId":3067279421034496,"folderUid":"eg3rzw0z394w0e","folderTitle":"ENL Lab","folderUrl":"/dashboards/f/eg3rzw0z394w0e/enl-lab","sortMeta":0,"isDeleted":false}]
+## Anonymous access is refused
+$ curl -s -o /dev/null -w anonymous dashboard API HTTP %{http_code}\n http://127.0.0.1:3000/api/dashboards/uid/enl-lab-overview
+anonymous dashboard API HTTP 401
+

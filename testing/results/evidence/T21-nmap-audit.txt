@@ -1,0 +1,48 @@
+$ bash /home/netadmin/enl-lab/testing/nmap/nmap-audit.sh
+## 1. Discovery vs NetBox
+LIVE HOST        NETBOX
+10.0.12.1        ip documented
+10.0.12.2        ip documented
+192.168.10.1     ip documented
+192.168.10.100   in DHCP range 192.168.10.100-192.168.10.199
+192.168.20.1     ip documented
+192.168.20.100   in DHCP range 192.168.20.100-192.168.20.199
+192.168.30.1     ip documented
+192.168.30.100   in DHCP range 192.168.30.100-192.168.30.199
+192.168.40.1     ip documented
+192.168.40.100   in DHCP range 192.168.40.100-192.168.40.199
+192.168.50.1     ip documented
+192.168.50.10    ip srv01.corp.lab
+192.168.99.1     ip hq-r1.corp.lab
+192.168.99.2     ip hq-sw1.corp.lab
+192.168.199.1    ip br-r2.corp.lab
+192.168.199.2    ip br-sw1.corp.lab
+PASS  live hosts: 16; undocumented hosts  (0)
+
+## 2. srv01 services by source VLAN (UFW)
+PASS  ADMIN-PC -> srv01:3000  (open)
+PASS  IT-PC    -> srv01:3000  (filtered)
+PASS  ADMIN-PC -> srv01:8000  (open)
+PASS  IT-PC    -> srv01:8000  (filtered)
+PASS  ADMIN-PC -> srv01:8081  (open)
+PASS  IT-PC    -> srv01:8081  (filtered)
+PASS  ADMIN-PC -> srv01:8082  (open)
+PASS  IT-PC    -> srv01:8082  (filtered)
+PASS  IT-PC    -> srv01:80 (intranet web)  (open)
+
+## 3. ACLs (FINANCE-PROTECT, MGMT-PROTECT)
+PASS  ADMIN-PC -> HQ-SW1 mgmt 192.168.99.2:22  (open)
+PASS  IT-PC    -> HQ-SW1 mgmt 192.168.99.2:22  (filtered)
+PASS  ADMIN-PC -> FIN-PC 192.168.40.100  (up)
+PASS  IT-PC    -> FIN-PC 192.168.40.100  (down)
+
+## 4. Internet edge: HQ-R1 203.0.113.1 seen from the internet
+PASS  open TCP ports on the internet side (top 100)  (0)
+PASS  SNMP 161/udp from the internet (silently dropped)  (open|filtered)
+
+## 5. SNMP agents (UDP 161)
+PASS  SNMP agents answering (SNMPv3 engine discovery)  (4)
+PASS  v2c community 'public' refused  (no answer)
+
+failed checks: 0
+

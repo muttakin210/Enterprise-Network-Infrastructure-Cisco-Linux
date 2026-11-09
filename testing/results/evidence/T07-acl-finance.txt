@@ -3,32 +3,32 @@ $ ip netns exec it-pc ping -c 2 -W 1 192.168.40.100
 PING 192.168.40.100 (192.168.40.100) 56(84) bytes of data.
 
 --- 192.168.40.100 ping statistics ---
-2 packets transmitted, 0 received, 100% packet loss, time 1027ms
+2 packets transmitted, 0 received, 100% packet loss, time 1029ms
 
 
 $ ip netns exec hr-pc ping -c 2 -W 1 192.168.40.100
 PING 192.168.40.100 (192.168.40.100) 56(84) bytes of data.
 
 --- 192.168.40.100 ping statistics ---
-2 packets transmitted, 0 received, 100% packet loss, time 1026ms
+2 packets transmitted, 0 received, 100% packet loss, time 1014ms
 
 
 $ ip netns exec admin-pc ping -c 2 -W 1 192.168.40.100
 PING 192.168.40.100 (192.168.40.100) 56(84) bytes of data.
-64 bytes from 192.168.40.100: icmp_seq=1 ttl=62 time=0.156 ms
-64 bytes from 192.168.40.100: icmp_seq=2 ttl=62 time=0.156 ms
+64 bytes from 192.168.40.100: icmp_seq=1 ttl=62 time=0.208 ms
+64 bytes from 192.168.40.100: icmp_seq=2 ttl=62 time=0.149 ms
 
 --- 192.168.40.100 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1023ms
-rtt min/avg/max/mdev = 0.156/0.156/0.156/0.000 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1025ms
+rtt min/avg/max/mdev = 0.149/0.178/0.208/0.029 ms
 
 $ ip netns exec br-r2 nft list chain ip cisco_acl finance_protect
 table ip cisco_acl {
 	chain finance_protect {
-		ip saddr 192.168.10.0/24 counter packets 4 bytes 336 accept
-		ip saddr 192.168.50.10 counter packets 28 bytes 7536 accept
-		ip saddr 192.168.20.0/24 counter packets 4 bytes 336 log prefix "BR-R2 FINANCE-PROTECT deny " drop
-		ip saddr 192.168.30.0/24 counter packets 4 bytes 336 log prefix "BR-R2 FINANCE-PROTECT deny " drop
+		ip saddr 192.168.10.0/24 counter packets 2053 bytes 78464 accept
+		ip saddr 192.168.50.10 counter packets 68 bytes 17232 accept
+		ip saddr 192.168.20.0/24 counter packets 28 bytes 1616 log prefix "BR-R2 FINANCE-PROTECT deny " drop
+		ip saddr 192.168.30.0/24 counter packets 12 bytes 1008 log prefix "BR-R2 FINANCE-PROTECT deny " drop
 		counter packets 0 bytes 0 accept
 	}
 }

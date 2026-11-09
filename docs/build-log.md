@@ -20,6 +20,12 @@ are the most useful part of a lab write-up.
 | LibreNMS ([install script](../monitoring/librenms/install-librenms.sh)), VM raised to 3 GB | ✅ 5/5 devices up over SNMPv3, WAN down/up events logged |
 | WireGuard remote admin VPN on HQ-R1 ([wireguard-lab.sh](../testing/emulation/wireguard-lab.sh)) | ✅ handshake, permitted routes only, VPN-FILTER blocks Finance |
 | Test plan with T16 (WireGuard) and T17 (LibreNMS) | **17/17** |
+| Zabbix 8.0 LTS ([install](../monitoring/zabbix/install-zabbix.sh), [API config](../monitoring/zabbix/zabbix-configure.py)) | ✅ 4 SNMPv3 hosts + agent, WAN problem opens/resolves |
+| NetBox 4.7.4 ([install](../ipam/netbox/install-netbox.sh), [import](../ipam/netbox/import-lab.py)) | ✅ 2 sites, 10 VLANs, 10 prefixes, 5 devices, 21 interfaces, 12 IPs, 4 cables |
+| Grafana 13 ([install](../monitoring/grafana/install-grafana.sh)) with Zabbix + LibreNMS data sources | ✅ provisioned dashboard, read-only accounts |
+| Nmap audit ([nmap-audit.sh](../testing/nmap/nmap-audit.sh)) | ✅ 16 live hosts, 0 undocumented; UFW/ACL/edge as designed |
+| Packet captures ([capture-lab.sh](../testing/capture/capture-lab.sh)), Wireshark 4.6 on the host | ✅ OSPF, DHCP relay, SNMPv3, WireGuard, Syslog |
+| Test plan with T18–T22 | first run 20/22 → after fixes 16–23, **22/22** |
 
 ## Problems found and fixed
 
@@ -42,6 +48,15 @@ are the most useful part of a lab write-up.
 | 14 | `lnms device:add`: "The --seclevel option does not exist"; no devices added | SNMPv3 options were renamed (`--security-name`, `--auth-protocol`, `--auth-password`, `--privacy-protocol`, `--privacy-password`) | Use the new names; checked with `lnms device:add --help`. |
 | 15 | T17 SQL failed: "Unknown column 'snmpver'" | LibreNMS 26.10 moved SNMP credentials out of `devices` into the encrypted `secrets` table (via `device_polling_methods`) | T17 joins those tables and checks `secret_type='snmp-v3'` and `last_check_successful=1`. |
 
+| 16 | Zabbix server would not start: "unsupported MariaDB database version (10.6.23). Must be at least (10.11.0)" | Zabbix 8.0 raised the minimum; Ubuntu 22.04 ships 10.6, shared with LibreNMS | `AllowUnsupportedDBVersions=1` (documented override) instead of upgrading the DB under LibreNMS. On a new build use Ubuntu 24.04. |
+| 17 | `zabbix-configure.py` re-run: "Incorrect method hostinterface.update" | Not in the Zabbix 8.0 API | Update interfaces through `host.update` with the `interfaceid`. |
+| 18 | Grafana Zabbix data source: "No permissions to call hostgroup.get" | Zabbix 8.0 turns API access **off** in the built-in User/Admin roles | Dedicated role `Grafana API read-only` (user type, API allow-list `*.get`). |
+| 19 | NetBox 4.7 would not install on stock 22.04 | Needs Python ≥ 3.12 and PostgreSQL ≥ 15 (22.04: 3.10 and 14) | Python 3.12 from deadsnakes, PostgreSQL 17 from PGDG. |
+| 20 | Zabbix WAN test (T18) timed out; Grafana WAN traffic "No data" | `ip link set down` (= IOS `shutdown`) makes ifAdminStatus down, the discovery filter drops the port and Zabbix 8 **disables the lost items**. Interface items are also dependent on one SNMP walk, so "check now" on them is refused | Fail the WAN from the far end (carrier loss, admin stays up) and poll the master walk item. Items re-enable on the next discovery. |
+| 21 | Nmap: SNMP on the internet side reported `open\|filtered`, the test expected `filtered` | For UDP a silent drop gives no reply, which Nmap can only call `open\|filtered` | Corrected the expectation: a closed port would answer ICMP, an open agent would answer SNMP. |
+| 22 | Grafana problems panel empty; state timeline showed "< 2" | Zabbix plugin 6.x panel id is `alexanderzobnin-zabbix-triggers-panel`, and `showProblems` sits at the top level of the query | Fixed the panel type and query; colour-only state timeline. |
+| 23 | LibreNMS events 6 h in the future in Grafana | LibreNMS stores local time; Grafana reads SQL datetimes as UTC | Format the time as text in the SQL. |
+
 ## Not done
 
-- Nothing from the guide. Next: Zabbix, Nmap, NetBox and Grafana as additions beyond the guide.
+- Nothing from the guide or the requested additions. Possible next step: real Cisco IOS devices (licensed images) polled by the same LibreNMS/Zabbix setup.

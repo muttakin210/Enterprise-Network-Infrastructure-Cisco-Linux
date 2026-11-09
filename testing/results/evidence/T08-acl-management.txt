@@ -2,35 +2,35 @@ $ ip netns exec it-pc ping -c 2 -W 1 192.168.99.2
 PING 192.168.99.2 (192.168.99.2) 56(84) bytes of data.
 
 --- 192.168.99.2 ping statistics ---
-2 packets transmitted, 0 received, 100% packet loss, time 1003ms
+2 packets transmitted, 0 received, 100% packet loss, time 1026ms
 
 
 $ ip netns exec admin-pc ping -c 2 -W 1 192.168.99.2
 PING 192.168.99.2 (192.168.99.2) 56(84) bytes of data.
-64 bytes from 192.168.99.2: icmp_seq=1 ttl=63 time=0.500 ms
-64 bytes from 192.168.99.2: icmp_seq=2 ttl=63 time=0.132 ms
+64 bytes from 192.168.99.2: icmp_seq=1 ttl=63 time=0.160 ms
+64 bytes from 192.168.99.2: icmp_seq=2 ttl=63 time=0.147 ms
 
 --- 192.168.99.2 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1024ms
-rtt min/avg/max/mdev = 0.132/0.316/0.500/0.184 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1021ms
+rtt min/avg/max/mdev = 0.147/0.153/0.160/0.006 ms
 
 $ ping -c 2 -W 1 192.168.199.2
 PING 192.168.199.2 (192.168.199.2) 56(84) bytes of data.
-64 bytes from 192.168.199.2: icmp_seq=1 ttl=62 time=0.262 ms
-64 bytes from 192.168.199.2: icmp_seq=2 ttl=62 time=0.182 ms
+64 bytes from 192.168.199.2: icmp_seq=1 ttl=62 time=0.179 ms
+64 bytes from 192.168.199.2: icmp_seq=2 ttl=62 time=0.209 ms
 
 --- 192.168.199.2 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1010ms
-rtt min/avg/max/mdev = 0.182/0.222/0.262/0.040 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1017ms
+rtt min/avg/max/mdev = 0.179/0.194/0.209/0.015 ms
 
 $ ip netns exec hq-r1 nft list chain ip cisco_acl mgmt_protect
 table ip cisco_acl {
 	chain mgmt_protect {
-		ip saddr 10.99.0.0/24 counter packets 0 bytes 0 accept
-		ip saddr 192.168.10.0/24 counter packets 4 bytes 336 accept
-		ip saddr 192.168.50.10 counter packets 1132 bytes 172250 accept
+		ip saddr 10.99.0.0/24 counter packets 8 bytes 672 accept
+		ip saddr 192.168.10.0/24 counter packets 2047 bytes 78648 accept
+		ip saddr 192.168.50.10 counter packets 7710 bytes 1432784 accept
 		ip saddr 192.168.199.0/24 counter packets 0 bytes 0 accept
-		counter packets 4 bytes 336 log prefix "HQ-R1 MGMT-PROTECT deny " drop
+		counter packets 23 bytes 1492 log prefix "HQ-R1 MGMT-PROTECT deny " drop
 	}
 }
 

@@ -1,7 +1,7 @@
 $ vtysh -N hq-r1 -c show ip ospf neighbor
 
 Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
-2.2.2.2           1 Full/DROther      39.267s 10.0.12.2       g0-1:10.0.12.1                       0     0     0
+2.2.2.2           1 Full/DROther      31.934s 10.0.12.2       g0-1:10.0.12.1                       0     0     0
 
 
 $ vtysh -N hq-r1 -c show ip route ospf
@@ -12,20 +12,20 @@ Codes: K - kernel route, C - connected, S - static, R - RIP,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-O   10.0.12.0/30 [110/10] is directly connected, g0-1, weight 1, 00:01:22
-O   10.99.0.0/24 [110/10] is directly connected, wg0, weight 1, 00:00:15
-O   192.168.10.0/24 [110/10] is directly connected, g0-0.10, weight 1, 05:09:55
-O   192.168.20.0/24 [110/10] is directly connected, g0-0.20, weight 1, 05:09:55
-O>* 192.168.30.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:01:17
-O>* 192.168.40.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:01:17
-O   192.168.50.0/24 [110/10] is directly connected, g0-0.50, weight 1, 05:09:55
-O   192.168.99.0/24 [110/10] is directly connected, g0-0.99, weight 1, 05:09:55
-O>* 192.168.199.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:01:17
+O   10.0.12.0/30 [110/10] is directly connected, g0-1, weight 1, 00:06:16
+O   10.99.0.0/24 [110/10] is directly connected, wg0, weight 1, 01:06:56
+O   192.168.10.0/24 [110/10] is directly connected, g0-0.10, weight 1, 06:16:36
+O   192.168.20.0/24 [110/10] is directly connected, g0-0.20, weight 1, 06:16:36
+O>* 192.168.30.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:06:06
+O>* 192.168.40.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:06:06
+O   192.168.50.0/24 [110/10] is directly connected, g0-0.50, weight 1, 06:16:36
+O   192.168.99.0/24 [110/10] is directly connected, g0-0.99, weight 1, 06:16:36
+O>* 192.168.199.0/24 [110/20] via 10.0.12.2, g0-1, weight 1, 00:06:06
 
 $ vtysh -N br-r2 -c show ip ospf neighbor
 
 Neighbor ID     Pri State           Dead Time Address         Interface                        RXmtL RqstL DBsmL
-1.1.1.1           1 Full/DROther      37.749s 10.0.12.1       g0-1:10.0.12.2                       0     0     0
+1.1.1.1           1 Full/DROther      30.478s 10.0.12.1       g0-1:10.0.12.2                       0     0     0
 
 
 $ vtysh -N br-r2 -c show ip route ospf
@@ -36,13 +36,13 @@ Codes: K - kernel route, C - connected, S - static, R - RIP,
        > - selected route, * - FIB route, q - queued, r - rejected, b - backup
        t - trapped, o - offload failure
 
-O   10.0.12.0/30 [110/10] is directly connected, g0-1, weight 1, 00:01:24
-O>* 10.99.0.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:00:17
-O>* 192.168.10.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:01:14
-O>* 192.168.20.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:01:14
-O   192.168.30.0/24 [110/10] is directly connected, g0-0.30, weight 1, 05:09:56
-O   192.168.40.0/24 [110/10] is directly connected, g0-0.40, weight 1, 05:09:56
-O>* 192.168.50.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:01:14
-O>* 192.168.99.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:01:14
-O   192.168.199.0/24 [110/10] is directly connected, g0-0.199, weight 1, 05:09:56
+O   10.0.12.0/30 [110/10] is directly connected, g0-1, weight 1, 00:06:17
+O>* 10.99.0.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:06:07
+O>* 192.168.10.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:06:07
+O>* 192.168.20.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:06:07
+O   192.168.30.0/24 [110/10] is directly connected, g0-0.30, weight 1, 06:16:36
+O   192.168.40.0/24 [110/10] is directly connected, g0-0.40, weight 1, 06:16:36
+O>* 192.168.50.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:06:07
+O>* 192.168.99.0/24 [110/20] via 10.0.12.1, g0-1, weight 1, 00:06:07
+O   192.168.199.0/24 [110/10] is directly connected, g0-0.199, weight 1, 06:16:36
 

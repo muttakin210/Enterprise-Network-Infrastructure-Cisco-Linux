@@ -11,7 +11,7 @@ $ ip netns exec hr-pc dig +noall +answer -x 192.168.50.10
 10.50.168.192.in-addr.arpa. 3600 IN	PTR	srv01.corp.lab.
 
 $ ip netns exec it-pc dig +short ubuntu.com
-185.125.190.29
-185.125.190.20
 185.125.190.21
+185.125.190.20
+185.125.190.29
 

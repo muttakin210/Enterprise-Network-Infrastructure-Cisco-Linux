@@ -1,0 +1,27 @@
+$ curl -s -o /dev/null -w frontend HTTP %{http_code}\n http://127.0.0.1:8081/
+frontend HTTP 200
+
+$ python3 /home/netadmin/enl-lab/monitoring/zabbix/zabbix-check.py hosts
+host             interface              type   available
+hq-r1            192.168.99.1:161       snmpv3 yes
+br-r2            192.168.199.1:161      snmpv3 yes
+hq-sw1           192.168.99.2:161       snmpv3 yes
+br-sw1           192.168.199.2:161      snmpv3 yes
+srv01.corp.lab   127.0.0.1:10050        agent  yes
+
+## WAN failure from the far end (provider/cable fault): BR-R2 g0-1 down, HQ-R1 g0-1 stays admin up
+$ python3 /home/netadmin/enl-lab/monitoring/zabbix/zabbix-check.py poll hq-r1 g0-1\(.*\): Operational status
+matched: Interface g0-1(): Operational status
+check now: Linux: SNMP walk network interfaces
+
+$ python3 /home/netadmin/enl-lab/monitoring/zabbix/zabbix-check.py problem hq-r1 g0-1 --since 1794227263 --timeout 150
+18:27:50 PROBLEM  severity=3 hq-r1: Linux: Interface g0-1(): Link down  (after 5s)
+
+## Restore: link up, poll, problem must resolve
+$ python3 /home/netadmin/enl-lab/monitoring/zabbix/zabbix-check.py poll hq-r1 g0-1\(.*\): Operational status
+matched: Interface g0-1(): Operational status
+check now: Linux: SNMP walk network interfaces
+
+$ python3 /home/netadmin/enl-lab/monitoring/zabbix/zabbix-check.py problem hq-r1 g0-1 --resolved --since 1794227263 --timeout 150
+18:27:50 RESOLVED severity=3 hq-r1: Linux: Interface g0-1(): Link down  (after 5s)
+

@@ -1,10 +1,10 @@
 # Test report
 
-Run: 2026-11-09 11:21 UTC on srv01.corp.lab — Ubuntu 22.04, FRR 8.1
+Run: 2026-11-09 12:32 UTC on srv01.corp.lab — Ubuntu 22.04, FRR 8.1
 
 Environment: namespace emulation of the guide topology (see [testing/emulation](../emulation/)).
 
-**Result: 17 passed, 0 failed**
+**Result: 22 passed, 0 failed**
 
 | ID | Test | Procedure | Expected | Result | Evidence |
 |---|---|---|---|---|---|
@@ -25,3 +25,8 @@ Environment: namespace emulation of the guide topology (see [testing/emulation](
 | T15 | Linux services | systemctl status of all server services | All active (running) | **PASS** | [T15](evidence/T15-services.txt) |
 | T16 | WireGuard remote access | Remote admin over the internet link: no VPN, VPN, permitted and denied routes | Handshake; servers + mgmt reachable via tunnel; Finance and untunnelled traffic dropped | **PASS** | [T16](evidence/T16-wireguard.txt) |
 | T17 | LibreNMS (SNMPv3) | Web UI, device inventory and port status polled over SNMPv3 authPriv | Login page 200; 5 devices up via v3; port events logged | **PASS** | [T17](evidence/T17-librenms.txt) |
+| T18 | Zabbix (SNMPv3 + agent) | Host availability; WAN carrier loss (far end down) seen on HQ-R1 | 5 hosts available; 'Link down' problem opens, then resolves | **PASS** | [T18](evidence/T18-zabbix.txt) |
+| T19 | NetBox IPAM/DCIM | Import addressing plan, devices, interfaces, IPs and cables via API | Login 200; 5 devices, 4 cables; re-run changes nothing | **PASS** | [T19](evidence/T19-netbox.txt) |
+| T20 | Grafana | Health, both data sources (read-only accounts), provisioned dashboard | Zabbix and LibreNMS data sources OK; dashboard present; anonymous 401 | **PASS** | [T20](evidence/T20-grafana.txt) |
+| T21 | Nmap audit | Sweep vs NetBox; srv01 ports per VLAN; ACLs; internet edge; SNMP | No undocumented hosts; UFW, ACLs and edge behave as designed | **PASS** | [T21](evidence/T21-nmap-audit.txt) |
+| T22 | Packet analysis (tshark/Wireshark) | Capture OSPF, DHCP relay, SNMPv3, WireGuard and Syslog during real events | OSPF LSUs; giaddr 192.168.20.1; SNMP encrypted; only UDP 51820 outside the tunnel | **PASS** | [T22](evidence/T22-packet-capture.txt) |

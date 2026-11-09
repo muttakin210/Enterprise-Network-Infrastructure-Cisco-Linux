@@ -32,6 +32,18 @@ LibreNMS on srv01 (port 8000) polls all five devices over SNMPv3 authPriv and re
 events. It needs MariaDB, PHP-FPM and about 1 GB of extra RAM (VM raised to 3 GB). Install script,
 results and screenshots: [librenms/README.md](librenms/README.md). Test: T17.
 
+## Zabbix
+
+Zabbix 8.0 LTS (port 8081) monitors the four network devices over SNMPv3 (keys in secret macros)
+and srv01 with agent 2; a WAN carrier loss opens and resolves a "Link down" problem.
+[zabbix/README.md](zabbix/README.md). Test: T18.
+
+## Grafana
+
+One provisioned dashboard on port 3000 combines Zabbix (problems, latency, WAN traffic/status) and
+LibreNMS (inventory, interface events) through read-only accounts.
+[grafana/README.md](grafana/README.md). Test: T20.
+
 ## Evidence checklist
 
 | Item | Status | Where |
@@ -41,3 +53,5 @@ results and screenshots: [librenms/README.md](librenms/README.md). Test: T17.
 | Syslog events for interface/adjacency changes | ✅ | T09, T10 |
 | Test that generated each event | ✅ | T09 procedure (shut/no shut WAN) |
 | Dashboard and event history | ✅ | LibreNMS: 5 devices up, WAN `ifOperStatus` down/up events (T17, [screenshots](../screenshots/librenms/)) |
+| Problem/alert history | ✅ | Zabbix: "Link down" opened and resolved (T18, [screenshots](../screenshots/zabbix/)) |
+| Single pane of glass | ✅ | Grafana dashboard (T20, [screenshot](../screenshots/grafana/01-enl-lab-overview.png)) |

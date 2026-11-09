@@ -263,6 +263,91 @@ else
 fi
 record T17 "LibreNMS (SNMPv3)" "Web UI, device inventory and port status polled over SNMPv3 authPriv" "Login page 200; 5 devices up via v3; port events logged" $ok T17-librenms.txt
 
+# ---------------------------------------------------------------- T18
+# Zabbix: availability over SNMPv3 / agent 2, then a WAN failure must open and close a problem
+f=$(ev T18-zabbix.txt); ok=PASS
+ZC="$REPO/monitoring/zabbix/zabbix-check.py"
+export ZABBIX_ADMIN_PASS
+capture "$f" curl -s -o /dev/null -w 'frontend HTTP %{http_code}\n' http://127.0.0.1:8081/
+capture "$f" python3 "$ZC" hosts
+python3 "$ZC" hosts >/dev/null || ok=FAIL
+# T09 shuts g0-1 administratively; Zabbix LLD then disables the "lost" interface items until the
+# next discovery. Refresh discovery first so the items are enabled again.
+python3 "$ZC" poll hq-r1 'g0-1\(.*\): Operational status' >/dev/null; sleep 15
+echo "## WAN failure from the far end (provider/cable fault): BR-R2 g0-1 down, HQ-R1 g0-1 stays admin up" >>"$f"
+t0=$(date +%s)
+n br-r2 ip link set g0-1 down
+sleep 2
+capture "$f" python3 "$ZC" poll hq-r1 'g0-1\(.*\): Operational status'
+capture "$f" python3 "$ZC" problem hq-r1 'g0-1' --since "$t0" --timeout 150
+python3 "$ZC" problem hq-r1 'g0-1' --since "$t0" --timeout 5 >/dev/null || ok=FAIL
+echo "## Restore: link up, poll, problem must resolve" >>"$f"
+n br-r2 ip link set g0-1 up
+sleep 2
+capture "$f" python3 "$ZC" poll hq-r1 'g0-1\(.*\): Operational status'
+capture "$f" python3 "$ZC" problem hq-r1 'g0-1' --resolved --since "$t0" --timeout 150
+python3 "$ZC" problem hq-r1 'g0-1' --resolved --since "$t0" --timeout 5 >/dev/null || ok=FAIL
+sleep 20   # let OSPF re-converge before the next tests
+record T18 "Zabbix (SNMPv3 + agent)" "Host availability; WAN carrier loss (far end down) seen on HQ-R1" "5 hosts available; 'Link down' problem opens, then resolves" $ok T18-zabbix.txt
+
+# ---------------------------------------------------------------- T19
+# NetBox: UI, and the import is idempotent (re-run gives the same counts)
+f=$(ev T19-netbox.txt); ok=PASS
+capture "$f" curl -s -o /dev/null -w 'login page HTTP %{http_code}\n' http://127.0.0.1:8082/login/
+[[ $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8082/login/) == 200 ]] || ok=FAIL
+echo "## Re-run the import (idempotent): object counts" >>"$f"
+capture "$f" env NETBOX_ADMIN_PASS="$NETBOX_ADMIN_PASS" python3 "$REPO/ipam/netbox/import-lab.py" "$REPO/topology/addressing-plan.csv"
+grep -qE '^dcim/devices +5$' "$f" || ok=FAIL
+grep -qE '^dcim/cables +4$' "$f" || ok=FAIL
+echo "## What NetBox documents (used by the Nmap audit)" >>"$f"
+capture "$f" env NETBOX_ADMIN_PASS="$NETBOX_ADMIN_PASS" python3 "$REPO/ipam/netbox/nb-expected.py"
+record T19 "NetBox IPAM/DCIM" "Import addressing plan, devices, interfaces, IPs and cables via API" "Login 200; 5 devices, 4 cables; re-run changes nothing" $ok T19-netbox.txt
+
+# ---------------------------------------------------------------- T20
+f=$(ev T20-grafana.txt); ok=PASS
+capture "$f" curl -s http://127.0.0.1:3000/api/health
+for ds in zabbix librenms; do
+  capture "$f" curl -s -u "admin:$GRAFANA_ADMIN_PASS" "http://127.0.0.1:3000/api/datasources/uid/$ds/health"
+  curl -s -u "admin:$GRAFANA_ADMIN_PASS" "http://127.0.0.1:3000/api/datasources/uid/$ds/health" | grep -q '"status":"OK"' || ok=FAIL
+done
+capture "$f" curl -s -u "admin:$GRAFANA_ADMIN_PASS" "http://127.0.0.1:3000/api/search?query=ENL"
+curl -s -u "admin:$GRAFANA_ADMIN_PASS" "http://127.0.0.1:3000/api/dashboards/uid/enl-lab-overview" | grep -q '"uid":"enl-lab-overview"' || ok=FAIL
+echo "## Anonymous access is refused" >>"$f"
+capture "$f" curl -s -o /dev/null -w 'anonymous dashboard API HTTP %{http_code}\n' http://127.0.0.1:3000/api/dashboards/uid/enl-lab-overview
+[[ $(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:3000/api/dashboards/uid/enl-lab-overview) == 401 ]] || ok=FAIL
+record T20 "Grafana" "Health, both data sources (read-only accounts), provisioned dashboard" "Zabbix and LibreNMS data sources OK; dashboard present; anonymous 401" $ok T20-grafana.txt
+
+# ---------------------------------------------------------------- T21
+f=$(ev T21-nmap-audit.txt); ok=PASS
+capture "$f" bash "$REPO/testing/nmap/nmap-audit.sh"
+grep -q '^failed checks: 0$' "$f" || ok=FAIL
+record T21 "Nmap audit" "Sweep vs NetBox; srv01 ports per VLAN; ACLs; internet edge; SNMP" "No undocumented hosts; UFW, ACLs and edge behave as designed" $ok T21-nmap-audit.txt
+
+# ---------------------------------------------------------------- T22
+f=$(ev T22-packet-capture.txt); ok=PASS
+P="$REPO/testing/results/pcap"
+capture "$f" bash "$REPO/testing/capture/capture-lab.sh"
+tsh() { tshark -r "$P/$1.pcap" -Y "$2" 2>/dev/null | wc -l; }
+{
+  echo "## Assertions"
+  echo "OSPF LS Update packets after the flap: $(tsh 01-ospf-adjacency 'ospf.msg == 4')"
+  echo "DHCP relayed with giaddr 192.168.20.1:  $(tsh 02-dhcp-relay 'dhcp.ip.relay == 192.168.20.1')"
+  echo "SNMPv3 encrypted PDUs:                  $(tsh 03-snmpv3-authpriv 'snmp.msgVersion == 3 && snmp.encryptedPDU')"
+  echo "SNMP replies to v2c 'public':           $(tsh 03-snmpv3-authpriv 'snmp.community && ip.src == 192.168.99.1')"
+  echo "WireGuard data packets on the internet: $(tsh 04-wireguard-outer 'wg.type == 4')"
+  echo "ICMP visible on the internet link:      $(tsh 04-wireguard-outer 'icmp')"
+  echo "ICMP inside the tunnel (wg0):           $(tsh 05-wireguard-inner 'icmp')"
+  echo "Syslog readable on the wire:            $(tsh 06-syslog-plaintext 'syslog.msg contains "LINEPROTO"')"
+} >>"$f"
+(( $(tsh 01-ospf-adjacency 'ospf.msg == 4') > 0 )) || ok=FAIL
+(( $(tsh 02-dhcp-relay 'dhcp.ip.relay == 192.168.20.1') > 0 )) || ok=FAIL
+(( $(tsh 03-snmpv3-authpriv 'snmp.msgVersion == 3 && snmp.encryptedPDU') > 0 )) || ok=FAIL
+(( $(tsh 03-snmpv3-authpriv 'snmp.community && ip.src == 192.168.99.1') == 0 )) || ok=FAIL
+(( $(tsh 04-wireguard-outer 'wg.type == 4') > 0 )) || ok=FAIL
+(( $(tsh 04-wireguard-outer 'icmp') == 0 )) || ok=FAIL
+(( $(tsh 05-wireguard-inner 'icmp') > 0 )) || ok=FAIL
+record T22 "Packet analysis (tshark/Wireshark)" "Capture OSPF, DHCP relay, SNMPv3, WireGuard and Syslog during real events" "OSPF LSUs; giaddr 192.168.20.1; SNMP encrypted; only UDP 51820 outside the tunnel" $ok T22-packet-capture.txt
+
 # ---------------------------------------------------------------- report
 {
   echo "# Test report"
@@ -277,8 +362,10 @@ record T17 "LibreNMS (SNMPv3)" "Web UI, device inventory and port status polled 
   echo "|---|---|---|---|---|---|"
   printf '%s\n' "${rows[@]}"
 } >"$REPORT"
-# never publish lab secrets: redact SNMP keys from all evidence
-sed -i "s/$SNMP_AUTH/<SNMP_AUTH>/g; s/$SNMP_PRIV/<SNMP_PRIV>/g" "$EVID"/*.txt
+# never publish lab secrets: redact every value from /root/lab-secrets.env in all evidence
+while IFS='=' read -r k v; do
+  [[ -n $k && -n $v && $k != \#* ]] && sed -i "s|$v|<$k>|g" "$EVID"/*.txt "$OUT"/nmap/*.txt "$OUT"/pcap/*.txt 2>/dev/null
+done </root/lab-secrets.env
 chown -R netadmin:netadmin "$OUT" "$REPO/automation" 2>/dev/null || true
 echo
 echo "$pass passed, $fail failed  ->  $REPORT"

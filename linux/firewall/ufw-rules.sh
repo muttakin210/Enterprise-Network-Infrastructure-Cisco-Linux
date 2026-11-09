@@ -22,10 +22,17 @@ ufw allow from "$VBOX_NAT" to any port 80 proto tcp comment 'HTTP from VirtualBo
 ufw allow from "$VPN"      to any port 22 proto tcp comment 'SSH from WireGuard admins'
 ufw allow from "$VPN"      to any port 80 proto tcp comment 'HTTP from WireGuard admins'
 
-# LibreNMS web UI (monitoring/librenms): Admin VLAN and VPN admins only
+# Monitoring / IPAM web UIs: Admin VLAN and VPN admins only
 ufw allow from "$ADMIN"    to any port 8000 proto tcp comment 'LibreNMS from Admin VLAN'
 ufw allow from "$VPN"      to any port 8000 proto tcp comment 'LibreNMS from WireGuard admins'
 ufw allow from 10.0.2.2    to any port 8000 proto tcp comment 'LibreNMS via VirtualBox NAT (host only)'
+
+# Zabbix 8081, NetBox 8082, Grafana 3000: same audience as LibreNMS
+for p in 8081:Zabbix 8082:NetBox 3000:Grafana; do
+  ufw allow from "$ADMIN"   to any port "${p%%:*}" proto tcp comment "${p#*:} from Admin VLAN"
+  ufw allow from "$VPN"     to any port "${p%%:*}" proto tcp comment "${p#*:} from WireGuard admins"
+  ufw allow from 10.0.2.2   to any port "${p%%:*}" proto tcp comment "${p#*:} via VirtualBox NAT (host only)"
+done
 
 # DNS
 for src in "$LAB" "$VBOX_NAT" "$VPN"; do

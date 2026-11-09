@@ -1,0 +1,5 @@
+# Syslog is plaintext on the wire (protect with TLS/RELP or a management VLAN)
+$ tshark -r 06-syslog-plaintext.pcap -T fields -E header=y -e ip.src -e ip.dst -e syslog.msg
+ip.src	ip.dst	syslog.msg
+192.168.50.1	192.168.50.10	1 2026-11-09T18:32:01.822712+06:00 srv01 HQ-R1 - - [timeQuality tzKnown="1" isSynced="1" syncAccuracy="127000"] %LINEPROTO-5-UPDOWN: Line protocol on Interface g0-1, changed state to down (capture test)
+

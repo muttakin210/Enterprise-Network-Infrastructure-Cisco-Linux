@@ -1,7 +1,7 @@
 $ ip netns exec admin-pc ip -4 addr show eth0
 2: eth0@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns hq-sw1
     inet 192.168.10.100/24 brd 192.168.10.255 scope global dynamic eth0
-       valid_lft 7056sec preferred_lft 7056sec
+       valid_lft 6078sec preferred_lft 6078sec
 
 $ ip netns exec admin-pc ip route
 default via 192.168.10.1 dev eth0 
@@ -14,7 +14,7 @@ search corp.lab
 $ ip netns exec it-pc ip -4 addr show eth0
 2: eth0@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns hq-sw1
     inet 192.168.20.100/24 brd 192.168.20.255 scope global dynamic eth0
-       valid_lft 7068sec preferred_lft 7068sec
+       valid_lft 6308sec preferred_lft 6308sec
 
 $ ip netns exec it-pc ip route
 default via 192.168.20.1 dev eth0 
@@ -27,7 +27,7 @@ search corp.lab
 $ ip netns exec hr-pc ip -4 addr show eth0
 2: eth0@if3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns br-sw1
     inet 192.168.30.100/24 brd 192.168.30.255 scope global dynamic eth0
-       valid_lft 6945sec preferred_lft 6945sec
+       valid_lft 5870sec preferred_lft 5870sec
 
 $ ip netns exec hr-pc ip route
 default via 192.168.30.1 dev eth0 
@@ -40,7 +40,7 @@ search corp.lab
 $ ip netns exec fin-pc ip -4 addr show eth0
 2: eth0@if4: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000 link-netns br-sw1
     inet 192.168.40.100/24 brd 192.168.40.255 scope global dynamic eth0
-       valid_lft 7091sec preferred_lft 7091sec
+       valid_lft 6475sec preferred_lft 6475sec
 
 $ ip netns exec fin-pc ip route
 default via 192.168.40.1 dev eth0 
@@ -51,12 +51,12 @@ nameserver 192.168.50.10
 search corp.lab
 
 $ tail -n 8 /var/lib/kea/kea-leases4.csv
-192.168.30.100,42:ba:e0:f2:50:78,,7200,1794230080,30,0,0,,0,
-192.168.30.100,42:ba:e0:f2:50:78,,7200,1794230080,30,0,0,,0,
-192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794230191,10,0,0,,0,
-192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794230191,10,0,0,,0,
-192.168.20.100,6e:a6:54:04:06:f5,,7200,1794230203,20,0,0,,0,
-192.168.20.100,6e:a6:54:04:06:f5,,7200,1794230203,20,0,0,,0,
-192.168.40.100,66:17:d8:88:21:ef,,7200,1794230226,40,0,0,,0,
-192.168.40.100,66:17:d8:88:21:ef,,7200,1794230226,40,0,0,,0,
+192.168.30.100,42:ba:e0:f2:50:78,,7200,1794233005,30,0,0,,0,
+192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794233213,10,0,0,,0,
+192.168.10.100,4a:4a:6a:f1:6d:65,,7200,1794233213,10,0,0,,0,
+192.168.20.100,6e:a6:54:04:06:f5,,7200,1794233443,20,0,0,,0,
+192.168.20.100,6e:a6:54:04:06:f5,,7200,1794233443,20,0,0,,0,
+192.168.40.100,66:17:d8:88:21:ef,,7200,1794233611,40,0,0,,0,
+192.168.40.100,66:17:d8:88:21:ef,,7200,1794233611,40,0,0,,0,
+192.168.20.100,6e:a6:54:04:06:f5,,7200,1794233838,20,0,0,,0,
 

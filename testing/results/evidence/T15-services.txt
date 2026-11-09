@@ -1,77 +1,78 @@
 $ systemctl --no-pager --lines=0 status ssh
 ● ssh.service - OpenBSD Secure Shell server
      Loaded: loaded (/lib/systemd/system/ssh.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:32 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 12:07:32 +06; 6h ago
        Docs: man:sshd(8)
              man:sshd_config(5)
    Main PID: 776 (sshd)
       Tasks: 1 (limit: 3421)
-     Memory: 9.4M
-        CPU: 5.389s
+     Memory: 10.7M
+        CPU: 12.976s
      CGroup: /system.slice/ssh.service
              └─776 "sshd: /usr/sbin/sshd -D [listener] 0 of 10-100 startups"
 
 $ systemctl --no-pager --lines=0 status nginx
 ● nginx.service - A high performance web server and a reverse proxy server
      Loaded: loaded (/lib/systemd/system/nginx.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:36 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 17:32:15 +06; 54min ago
        Docs: man:nginx(8)
-   Main PID: 819 (nginx)
+    Process: 67558 ExecReload=/usr/sbin/nginx -g daemon on; master_process on; -s reload (code=exited, status=0/SUCCESS)
+   Main PID: 45409 (nginx)
       Tasks: 3 (limit: 3421)
-     Memory: 8.1M
-        CPU: 900ms
+     Memory: 9.0M
+        CPU: 3.717s
      CGroup: /system.slice/nginx.service
-             ├─  819 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
-             ├─34726 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
-             └─34727 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
+             ├─45409 "nginx: master process /usr/sbin/nginx -g daemon on; master_process on;"
+             ├─67560 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
+             └─67561 "nginx: worker process" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" "" ""
 
 $ systemctl --no-pager --lines=0 status named
 ● named.service - BIND Domain Name Server
      Loaded: loaded (/lib/systemd/system/named.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:34 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 12:07:34 +06; 6h ago
        Docs: man:named(8)
    Main PID: 782 (named)
       Tasks: 8 (limit: 3421)
-     Memory: 29.9M
-        CPU: 2.104s
+     Memory: 22.2M
+        CPU: 4.033s
      CGroup: /system.slice/named.service
              └─782 /usr/sbin/named -u bind
 
 $ systemctl --no-pager --lines=0 status kea-dhcp4-server
 ● kea-dhcp4-server.service - Kea IPv4 DHCP daemon
      Loaded: loaded (/lib/systemd/system/kea-dhcp4-server.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:30 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 12:07:30 +06; 6h ago
        Docs: man:kea-dhcp4(8)
    Main PID: 716 (kea-dhcp4)
       Tasks: 5 (limit: 3421)
-     Memory: 11.3M
-        CPU: 4.272s
+     Memory: 5.2M
+        CPU: 5.112s
      CGroup: /system.slice/kea-dhcp4-server.service
              └─716 /usr/sbin/kea-dhcp4 -c /etc/kea/kea-dhcp4.conf
 
 $ systemctl --no-pager --lines=0 status rsyslog
 ● rsyslog.service - System Logging Service
      Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:31 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 12:07:31 +06; 6h ago
 TriggeredBy: ● syslog.socket
        Docs: man:rsyslogd(8)
              man:rsyslog.conf(5)
              https://www.rsyslog.com/doc/
    Main PID: 720 (rsyslogd)
       Tasks: 10 (limit: 3421)
-     Memory: 3.8M
-        CPU: 1.174s
+     Memory: 2.9M
+        CPU: 2.741s
      CGroup: /system.slice/rsyslog.service
              └─720 /usr/sbin/rsyslogd -n -iNONE
 
 $ systemctl --no-pager --lines=0 status snmpd
 ● snmpd.service - Simple Network Management Protocol (SNMP) Daemon.
      Loaded: loaded (/lib/systemd/system/snmpd.service; enabled; vendor preset: enabled)
-     Active: active (running) since Mon 2026-11-09 12:07:36 +06; 5h 13min ago
+     Active: active (running) since Mon 2026-11-09 12:07:36 +06; 6h ago
    Main PID: 725 (snmpd)
       Tasks: 1 (limit: 3421)
-     Memory: 10.8M
-        CPU: 13.212s
+     Memory: 8.0M
+        CPU: 17.463s
      CGroup: /system.slice/snmpd.service
              └─725 /usr/sbin/snmpd -LOw -u Debian-snmp -g Debian-snmp -I -smux mteTrigger mteTriggerConf -f
 

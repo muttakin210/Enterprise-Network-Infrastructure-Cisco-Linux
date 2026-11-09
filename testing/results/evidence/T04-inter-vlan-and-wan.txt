@@ -1,20 +1,20 @@
 $ ip netns exec admin-pc ping -c 2 -W 1 192.168.20.1
 PING 192.168.20.1 (192.168.20.1) 56(84) bytes of data.
-64 bytes from 192.168.20.1: icmp_seq=1 ttl=64 time=0.423 ms
-64 bytes from 192.168.20.1: icmp_seq=2 ttl=64 time=0.385 ms
+64 bytes from 192.168.20.1: icmp_seq=1 ttl=64 time=0.159 ms
+64 bytes from 192.168.20.1: icmp_seq=2 ttl=64 time=0.117 ms
 
 --- 192.168.20.1 ping statistics ---
-2 packets transmitted, 2 received, 0% packet loss, time 1019ms
-rtt min/avg/max/mdev = 0.385/0.404/0.423/0.019 ms
+2 packets transmitted, 2 received, 0% packet loss, time 1005ms
+rtt min/avg/max/mdev = 0.117/0.138/0.159/0.021 ms
 
 $ ip netns exec it-pc traceroute -I -n -w 1 -q 1 -m 5 192.168.50.10
 traceroute to 192.168.50.10 (192.168.50.10), 5 hops max, 60 byte packets
- 1  192.168.20.1  0.111 ms
- 2  192.168.50.10  1.444 ms
+ 1  192.168.20.1  0.119 ms
+ 2  192.168.50.10  0.080 ms
 
 $ ip netns exec hr-pc traceroute -I -n -w 1 -q 1 -m 5 192.168.50.10
 traceroute to 192.168.50.10 (192.168.50.10), 5 hops max, 60 byte packets
- 1  192.168.30.1  0.074 ms
- 2  10.0.12.1  0.052 ms
- 3  192.168.50.10  0.179 ms
+ 1  192.168.30.1  0.095 ms
+ 2  10.0.12.1  0.066 ms
+ 3  192.168.50.10  0.091 ms
 

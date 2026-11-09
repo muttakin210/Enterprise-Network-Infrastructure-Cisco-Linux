@@ -7,12 +7,12 @@ ok: [HQ-R1] => (item=raw)
 changed: [HQ-R1] => (item=sanitized)
 
 TASK [Read running configuration] **********************************************
-ok: [HQ-R1]
 ok: [BR-R2]
+ok: [HQ-R1]
 
 TASK [Read OSPF neighbors] *****************************************************
-ok: [BR-R2]
 ok: [HQ-R1]
+ok: [BR-R2]
 
 TASK [OSPF adjacency must be Full] *********************************************
 ok: [HQ-R1] => changed=false 
@@ -22,7 +22,7 @@ ok: [BR-R2] => changed=false
 
 TASK [Save raw backup on the controller] ***************************************
 ok: [BR-R2]
-changed: [HQ-R1]
+ok: [HQ-R1]
 
 TASK [Write sanitized copy] ****************************************************
 included: /home/netadmin/enl-lab/automation/ansible/playbooks/tasks/sanitize.yml for HQ-R1, BR-R2
@@ -42,8 +42,8 @@ ok: [HQ-SW1] => (item=raw)
 ok: [HQ-SW1] => (item=sanitized)
 
 TASK [Read VLAN membership] ****************************************************
-ok: [BR-SW1]
 ok: [HQ-SW1]
+ok: [BR-SW1]
 
 TASK [Save VLAN table] *********************************************************
 changed: [HQ-SW1]
@@ -52,14 +52,14 @@ changed: [BR-SW1]
 PLAY RECAP *********************************************************************
 BR-R2                      : ok=7    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 BR-SW1                     : ok=2    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
-HQ-R1                      : ok=8    changed=3    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+HQ-R1                      : ok=8    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 HQ-SW1                     : ok=3    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
 
 $ ls -l /home/netadmin/enl-lab/automation/ansible/backups/sanitized/
 total 16
--rw-r--r-- 1 netadmin netadmin 658 Nov  9 17:20 BR-R2.cfg
--rw-r--r-- 1 netadmin netadmin 198 Nov  9 17:20 BR-SW1-vlans.txt
--rw-r--r-- 1 netadmin netadmin 797 Nov  9 17:20 HQ-R1.cfg
--rw-r--r-- 1 netadmin netadmin 259 Nov  9 17:20 HQ-SW1-vlans.txt
+-rw-r--r-- 1 netadmin netadmin 658 Nov  9 18:26 BR-R2.cfg
+-rw-r--r-- 1 netadmin netadmin 198 Nov  9 18:27 BR-SW1-vlans.txt
+-rw-r--r-- 1 netadmin netadmin 797 Nov  9 18:26 HQ-R1.cfg
+-rw-r--r-- 1 netadmin netadmin 259 Nov  9 18:27 HQ-SW1-vlans.txt
 

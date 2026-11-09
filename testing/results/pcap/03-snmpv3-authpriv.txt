@@ -1,0 +1,9 @@
+# SNMP on the wire: v3 user name visible, PDU encrypted; v2c 'public' gets no reply
+$ tshark -r 03-snmpv3-authpriv.pcap -T fields -E header=y -e ip.src -e ip.dst -e snmp.msgVersion -e snmp.msgUserName -e snmp.msgFlags -e snmp.community -e snmp.encryptedPDU
+ip.src	ip.dst	snmp.msgVersion	snmp.msgUserName	snmp.msgFlags	snmp.community	snmp.encryptedPDU
+192.168.50.10	192.168.99.1	3		04		
+192.168.99.1	192.168.50.10	3		00		
+192.168.50.10	192.168.99.1	3	monitor	07		27efe8aa6afcd60722bfea34ea02cce81514f11c9862e2aaa97888f9e79010eb1c3d3101e88bf6427c885ec9b14b70ae266dfc6541
+192.168.99.1	192.168.50.10	3	monitor	03		02f1b080969ee997c40768f0a01ee88ce8adc7fdbe94ef5ba8272f3f71a5201e4dc7fb4ccc3edbeb347f4131f29c9186406acf47b107f38b9963
+192.168.50.10	192.168.99.1				public	
+

@@ -1,0 +1,11 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:30:22 2026 as: nmap -n -Pn -sU -p 51820,161,53 --max-retries 1 -oN /home/netadmin/enl-lab/testing/results/nmap/04-edge-udp.txt 203.0.113.1
+Nmap scan report for 203.0.113.1
+Host is up (0.000054s latency).
+
+PORT      STATE         SERVICE
+53/udp    open|filtered domain
+161/udp   open|filtered snmp
+51820/udp open|filtered unknown
+MAC Address: C2:D7:36:8B:C6:C5 (Unknown)
+
+# Nmap done at Mon Nov  9 18:30:24 2026 -- 1 IP address (1 host up) scanned in 1.41 seconds

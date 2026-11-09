@@ -1,18 +1,18 @@
 $ ls -l /var/log/remote/
-total 100
--rw-r--r-- 1 syslog syslog 42590 Nov  9 17:19 all-devices.log
+total 140
+-rw-r--r-- 1 syslog syslog 62128 Nov  9 18:26 all-devices.log
 -rw-r----- 1 syslog syslog  2233 Nov  9 04:02 BR-R2.log
--rw-r----- 1 syslog syslog 40047 Nov  9 17:19 HQ-R1.log
--rw-r----- 1 syslog syslog   310 Nov  9 03:57 srv01.log
+-rw-r----- 1 syslog syslog 59126 Nov  9 18:26 HQ-R1.log
+-rw-r----- 1 syslog syslog   769 Nov  9 18:17 srv01.log
 
 $ tail -n 5 /var/log/remote/all-devices.log
-2026-11-09T11:19:42.471131+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.436 OSPF: [SXPB9-WR7E3] default:Packet[DD]: Neighbor 2.2.2.2 state is Exchange, seq_num:0x2f9a4676, local:0x2f9a4675
-2026-11-09T11:19:42.471311+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.436 OSPF: [YPCA4-JHA8Q] default:Packet[DD]: 2.2.2.2 DB Desc send with seqnum:2f9a4676 , flags:0
-2026-11-09T11:19:42.471409+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.436 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Exchange -> Loading (ExchangeDone)
-2026-11-09T11:19:42.471493+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.438 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Loading -> Full (LoadingDone)
-2026-11-09T11:19:42.471576+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.438 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.277 OSPF: [SXPB9-WR7E3] default:Packet[DD]: Neighbor 2.2.2.2 state is Exchange, seq_num:0x4a85a186, local:0x4a85a185
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.278 OSPF: [YPCA4-JHA8Q] default:Packet[DD]: 2.2.2.2 DB Desc send with seqnum:4a85a186 , flags:0
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.278 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Exchange -> Loading (ExchangeDone)
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.280 OSPF: [H0QH3-2B67G] AdjChg: Nbr 2.2.2.2(default) on g0-1:10.0.12.1: Loading -> Full (LoadingDone)
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.280 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination
 
 $ tail -n 2 /var/log/remote/all-devices.log
-2026-11-09T11:19:42.471576+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 11:19:42.438 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination
-2026-11-09T11:19:56.646708+00:00 10.0.12.2 srv01 %LINK-3-UPDOWN BR-R2 test event: Interface GigabitEthernet0/0.40, changed state to down (controlled test)
+2026-11-09T12:26:23.463350+00:00 192.168.50.1 HQ-R1 ospfd: 2026/11/09 12:26:23.280 OSPF: [S3578-FNEB0] nsm_change_state:[2.2.2.2:default], Loading -> Full): scheduling new router-LSA origination
+2026-11-09T12:26:38.192837+00:00 10.0.12.2 srv01 %LINK-3-UPDOWN BR-R2 test event: Interface GigabitEthernet0/0.40, changed state to down (controlled test)
 

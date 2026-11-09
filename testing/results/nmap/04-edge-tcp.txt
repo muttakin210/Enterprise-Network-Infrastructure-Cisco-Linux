@@ -1,0 +1,6 @@
+# Nmap 7.80 scan initiated Mon Nov  9 18:30:01 2026 as: nmap -n -Pn -sT --top-ports 100 --max-retries 1 -oN /home/netadmin/enl-lab/testing/results/nmap/04-edge-tcp.txt 203.0.113.1
+Nmap scan report for 203.0.113.1
+Host is up.
+All 100 scanned ports on 203.0.113.1 are filtered
+
+# Nmap done at Mon Nov  9 18:30:22 2026 -- 1 IP address (1 host up) scanned in 21.61 seconds

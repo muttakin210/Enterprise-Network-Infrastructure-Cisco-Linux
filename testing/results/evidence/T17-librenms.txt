@@ -3,11 +3,11 @@ login page HTTP 200
 
 $ mysql librenms -e SELECT d.hostname, d.sysName, IF(d.status=1,'up','DOWN') AS status, s.secret_type AS snmp, m.last_check_successful AS snmp_ok, d.last_polled FROM devices d JOIN device_polling_methods m ON m.device_id=d.device_id AND m.method_type='snmp' JOIN secrets s ON s.id=m.secret_id ORDER BY d.hostname
 hostname	sysName	status	snmp	snmp_ok	last_polled
-127.0.0.1	srv01.corp.lab	up	snmp-v3	1	2026-11-09 17:20:28
-192.168.199.1	br-r2	up	snmp-v3	1	2026-11-09 17:20:27
-192.168.199.2	br-sw1	up	snmp-v3	1	2026-11-09 17:20:28
-192.168.99.1	hq-r1	up	snmp-v3	1	2026-11-09 17:20:29
-192.168.99.2	hq-sw1	up	snmp-v3	1	2026-11-09 17:20:27
+127.0.0.1	srv01.corp.lab	up	snmp-v3	1	2026-11-09 18:25:31
+192.168.199.1	br-r2	up	snmp-v3	1	2026-11-09 18:25:31
+192.168.199.2	br-sw1	up	snmp-v3	1	2026-11-09 18:25:31
+192.168.99.1	hq-r1	up	snmp-v3	1	2026-11-09 18:25:31
+192.168.99.2	hq-sw1	up	snmp-v3	1	2026-11-09 18:25:30
 
 $ mysql librenms -e SELECT d.sysName, p.ifName, p.ifOperStatus FROM ports p JOIN devices d USING(device_id) WHERE p.ifName IN ('g0-1','g0-0.50','vlan99','vlan199') ORDER BY d.sysName
 sysName	ifName	ifOperStatus

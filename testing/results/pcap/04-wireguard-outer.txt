@@ -1,0 +1,10 @@
+# Internet link: only WireGuard UDP 51820, payload encrypted
+$ tshark -r 04-wireguard-outer.pcap -T fields -E header=y -e ip.src -e ip.dst -e udp.dstport -e wg.type -e wg.receiver -e frame.len
+ip.src	ip.dst	udp.dstport	wg.type	wg.receiver	frame.len
+203.0.113.2	203.0.113.1	51820	4	0x40bddfd4	170
+203.0.113.1	203.0.113.2	37921	4	0x0894d188	170
+203.0.113.2	203.0.113.1	51820	4	0x40bddfd4	170
+203.0.113.1	203.0.113.2	37921	4	0x0894d188	170
+203.0.113.2	203.0.113.1	51820	4	0x40bddfd4	170
+203.0.113.1	203.0.113.2	37921	4	0x0894d188	170
+
